@@ -1168,15 +1168,13 @@ print(arr)
 - When to use bubble sort
   - Small datasets only or nearly sorted data(with optimization) 
 
-
-
 #### **Selection sort**
 
 ---
 
 
 
-- **Python implementation for selection sort**
+- **Python implementation for selection sort**  
 
 ```python
 arr = [1, 663, 8, 2, 4, 1, 22, 66, 20, 122]
@@ -1202,9 +1200,101 @@ print(arr)
 - Disadvantages for selection sort:
   - Inefficient for **large datasets.**
   - Comparing to bubble sort, selection sort is **not that stable**, because the **order of same elements are not preserved.** 
--  
 
+#### **Quicksort**
 
+---
+
+- The ouline of **quicksort** algorithm:
+  1. **Chooese a pivot**: Pick one element to act as the pivot.
+  2. **Partition the array**: Move all elements smaller than the pivot to one side, and all greater ones to the other side. (The pivot is now in its correct final position.)
+  3. **Recursively sort sub-arrays:** Apply the same pivot-and-partition process to the left and right parts. The recursion will end once the length of the array is equal to 1, meaning that there's no need to sort.
+  4. **Combine results**: When both sides are sorted, the whole array is sorted. 
+- What is **divide-and-conque**r(partition here) ?:
+  - **Divide and conquer** is a problem-solving strategy that breaks a l**arge problem into smaller sub-problems,** solves each sub-problem **recursively**, and then **combines** their results to form the **final solution.** 
+
+- There are **mutiple ways** to implement quick sort, this the easiest one to understand:
+
+```python
+def quick_sort(arr):
+    # 1. 递归的出口：如果数组为空或者只有一个元素，就不用排了，直接返回
+    # 这步极其重要
+    if len(arr) <= 1:
+        return arr
+    
+    # 2. 挑基准 (Pivot)。这里我们挑中间那个数，这样写代码方便
+    pivot = arr[len(arr) // 2]
+    
+    # 3. 站队（分区）
+    left = []   # 放比pivot小的
+    right = []  # 放比pivot大的
+    middle = [] # 放和pivot一样大的（处理重复元素） 
+    
+    for num in arr:
+        if num < pivot:
+            left.append(num)
+        elif num > pivot:
+            right.append(num)
+        else:
+            middle.append(num)
+    
+    # 4. 递归排序左边和右边，然后把结果拼起来
+    # quick_sort(left) 会把左边队伍排好序
+    # quick_sort(right) 会把右边队伍排好序
+    # middle 因为都和pivot相等，所以已经有序了
+    return quick_sort(left) + middle + quick_sort(right) #这是合并三个列表的过程
+
+my_list = [5, 3, 8, 4, 2]
+sorted_list = quick_sort(my_list)
+print(sorted_list) # 输出：[2, 3, 4, 5, 8]
+
+my_list2 = [64, 34, 25, 12, 22, 11, 90]
+sorted_list2 = quick_sort(my_list2)
+print(sorted_list2) # 输出：[11, 12, 22, 25, 34, 64, 90]
+```
+
+- Advantages of quick sort: 
+  - Efficient for larg datasets. The average time complexity is `O(nlogn)`.
+  - Vert little memory overhead required.
+- Disadvantages of quick sort:
+  - The time complexity is unstable comparing to merge sort. The worst time complexity of quiksort is `O(n^2)`.  
+  - Potential stackoverflow if the recursion is too deep. 
+  - Does not work well for small datasets.
+- An optimized version using **list comprehension**: 
+
+```python
+def quick_sort(arr):
+    # 1. 递归的出口：如果数组为空或者只有一个元素，就不用排了，直接返回
+    if len(arr) <= 1:
+        return arr
+    
+    # 选择基准元素（中间位置的元素）
+    pivot = arr[len(arr)//2]
+    
+    # 分区操作
+    left = [x for x in arr if x < pivot]    # 小于基准的元素
+    middle = [x for x in arr if x == pivot] # 等于基准的元素
+    right = [x for x in arr if x > pivot]   # 大于基准的元素
+    
+    # 递归排序并合并结果
+    return quick_sort(left) + middle + quick_sort(right)
+
+my_list = [5, 3, 8, 4, 2]
+sorted_list = quick_sort(my_list)
+print(sorted_list) # 输出：[2, 3, 4, 5, 8]
+
+my_list2 = [64, 34, 25, 12, 22, 11, 90]
+sorted_list2 = quick_sort(my_list2)
+print(sorted_list2) # 输出：[11, 12, 22, 25, 34, 64, 90]
+```
+
+- Explanation of the **time complexity of quick sort** under different situations: 
+  - Fast and average case:
+    - The complexity for each pass is `O(n)`, since there are nearly `logn` passes, the complexity overall is nearly `O(nlogn)`. 
+  - Worst case:
+    - 想想一下你的pivot是数组中的最大元素，这意味着sub-array的分配将会很不合理，left里有一堆，right里面没有，因为没有比pivot大的。三个列表推导的复杂度还是`O(n`, 但是由于此时没有把数组拆成两半，需要n次递归的调用才能处理完所有元素，因此时间复杂度大约是`O(n^2)`, 当pivot取了最大或最小的时候。
+  - ![截屏2025-11-18 21.40.50](/Users/michael/Library/Application Support/typora-user-images/截屏2025-11-18 21.40.50.png)
+  - 每层（pass）的复杂度是3个列表推导式 = `O(n)`，由于pivot(数组middle)每次都是区间的最大值，递归每次让长度``-1`，因此复杂度是`O(n)``, 总体的就是``O(n) * O(n) = O(n^2)``.  
 
 ## B2.4.4 Explain the fundamental concept of recursion and its applications in programming
 
