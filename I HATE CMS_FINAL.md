@@ -1,6 +1,171 @@
+# A1 Computer Fundamentals
+
+## A1.1.1 Describe the functions and interactions of the main CPU components
+
+- Input ,Process, Output and Storage model(Simple version)  
+
+```mermaid
+flowchart LR
+    B[🟩 **Input**<br/>Data]
+
+    B --> C[🟦 **Process**<br/>CPU / GPU]
+
+    C --> D[🟥 **Output**<br/>Information]
+
+    C --> E[🟧 **Storage**<br/>HDD / SSD]
+    E --> C
+
+
+```
+
+#### **Central Processing Unit (CPU)**
+
+- is the primary computational(计算的) engine of the computer, responsible for executing instructions.
+- it is a hardware component(组成部分) that performs
+  - **Arithmetic (算数，计算)**
+  - **Logical or input/output operations**, in order to process data from input devices into useful information. 
+
+- Block Diagram of CPU
+
+  - ![截屏2025-11-21 10.33.10](/Users/michael/Library/Application Support/typora-user-images/截屏2025-11-21 10.33.10.png)
+
+- **Key Components of CPU**
+
+  - Component refers to a distinct functional unit or part within the CPU that has a specific role in the processors operation.
+  - **Control Unit (CU)**
+  - **Arithematic Logic Unit (ALU)**
+  - **Registers (寄存器)**
+    - IR, PC, MAR, MDR, CIR, AC
+  - **Cache (高速缓存)**
+    - L1,L2,L3
+  - **Buses (总线)**
+    - Control Bus
+    - Data Bus
+    - Address Bus
+
+- **Control Unit**
+
+  - Responsible for orchestrating the **fetch-decode-execute cycle**. lts primary functions include **decoding and interpreting instructions fetched from** **memory** and **generating control signals** to **activate the hardware units** within the CPU. This involves **parsing(解析)** the instructions opcode (operation code), which determines the **specific action** such as reading data, writing data, performing calculations or testing logic. 
+
+- **Arithmetic Logic Unit (ALU) 算数逻辑单元**
+
+  - Performs **arithmetic and logical operations**. It is where the **actual computation happens**, such as addition, subtraction, and logical operations like AND, OR, NOT, and so on. 
+
+  - **Works with the** **Accumulator** **(ACC)** or general-purpose registers to store results. 
+
+    - ACC是累加器，作用有
+
+    - **暂存中间结果**：它专门用于**暂时存放算术逻辑单元 (ALU)** 运算的**中间结果**。
+
+      **隐含操作数**：在许多 CPU 指令中，累加器被作为运算的一个**隐含操作数**。
+
+      - **例如：** 在执行一个简单的 `ADD X`（加 X）指令时，CPU 会将内存地址 X 中的值取出，然后**与累加器 (ACC)** 中当前的值相加，并将最终的结果重新存回 **ACC** 中。
+
+  - **Receives control signals** from the Control Unit (CU) telling it which operation to do.
+
+
+
+- **Registers 寄存器 **
+  - A register is a **small-capacity, very fast storage** **location available** within the CPU, used to store data **temporarily** during the execution of programs. It is capable of **holding instructions, storage addresses or data.** 
+  - Common register includes
+    - **PC(Program Counter)**: Holds **address** for the next instruction. It is incremented automatically after each instruction is executed, pointing to the next instruction in the program's memory location. 指向了 CPU 接下来要从主内存 (RAM) 中取出的那条指令。
+    - **IR(Instruction Register)**: Holds the **current** instruction being executed. It acts as a temporary holding area for the instruction before it is decoded and executed. (decode and execute will be discussed later.)
+    - **MAR (Memory Address Register)**: 
+      - Stores the **address in memory** where **the next piece of data or instruction** is to be found or stored. 
+      - **ALU** uses the address in the MAR to **fetch(获取) the corresponding data from** **memory** for processing.
+      - **MAR** can also hold the **destination address** where processed data should be stored in the memory.
+      - To enable communication between the **MAR** and **primary memory**, a **connection via the Address Bus** is used. Bus will be discussed later. 
+    - MDR (Memory Data Register): 
+      - MDR **holds the data** **or instruction** that is being transferred **to or from** primary memory.
+      - MDR works closely with the **MAR**; the **address in the MAR** determines which data is loaded into the MDR.
+      - After processing, the **ALU places the result into the MDR**, which is then **written to the RAM** at the address specified by the MAR.
+      - The **Data Bus** enables the transfer of data between **RAM and the MDR**.
+    - **ACC(Acumulator)**: A special-purpose register used to store **intermediate results of operations**. It is often used for arithmetic and logical operations. It can also be used as a temporary storage Accumulator (AC) | location for other data. ALU的专用register.
+- **Buses 总线**
+  - A bus is a shared communication pathway which transfers data between components within a computer. 
+  - Key buses connecting a CPU with other components include the following:
+  - 和Bus有关的，就不局限于CPU，而是整个计算机主板或者外部的设备，因此之后的components就不是cpu内部的组件了
+    - Control Bus
+      - Carries **control signals (not actual data)** from the **Control Unit (CU)** to other components, managing actions and timing. 
+      - It can be unidirectional or bidirectional. 可是单向，也可以是双向。
+      - Handles commands like read/write, interrupts, timing, and acknowledgments.
+    - Data Bus 
+      - A pathway for transferring **actual data** between the CPU, memory, and other components. 
+      - Width affects speed (e.g., 32-bit vs 64-bit)
+      - Bidirectional (data flows both ways). 既可以CPU到components，也可以components到cpu
+    - Address Bus
+      - A pathway which carries **memory addresses** from the CPU to specify **where data should be read or written.** It's `where`, so the address bus carries address.
+      - Address Bus is unidirectional, only the CPU sends memory address to components.
+
+- **The interactions between these registers(this involves the fetch-decode-execute cycle, will be discussed later)**
+
+-  **1️⃣ Fetch（取指令） ** 
+
+  - **PC**：告诉 CPU 下一条指令在 RAM 哪个地址
+  - **MAR**：接收 PC 的地址 → 指示 RAM 去取指令  
+  - **MDR**：从 RAM 取出的指令暂存在这里
+  - **IR**：从 MDR 接收指令 → 准备解码
+
+  > 🔑 结果：CPU 知道要执行哪条指令
+
+  ------
+
+- **2️⃣ Decode（解码）**
+
+  - **IR**：CPU 解读当前指令
+  - CPU 确定：
+    - 是算术运算？
+    - 是访问内存？
+    - 是跳转指令？
+  - 根据指令类型，决定下一步要用哪些寄存器（MAR/MDR/ACC）
+
+  > 🔑 结果：CPU 明白该做什么
+
+  ------
+
+- **3️⃣ Execute（执行）**
+
+  - **MAR**：如果指令需要访问内存 → 地址送到 MAR
+  - **MDR**：从 RAM 取到数据或准备写入的数据
+  - **ALU + ACC**：执行运算，ACC 存中间结果
+  - **MDR**：如果需要写回 RAM → 把 ACC 或结果放入 MDR，再写入 MAR 指定地址
+
+  > 🔑 结果：运算完成，数据可能写回 RAM 或直接输出
+
+
+
+
+
+- **Types of CPU processors**
+
+- Key terms you need to know first: 
+
+- Parallel processing: A computing technique in which **multiple processors or cores** within a **single machine, or across multiple machines,** **simultaneously** execute **different parts of a task or multiple tasks to improve the overall speed and efficiency** of computation. 
+
+- Architecture:  The **design and organization** of a computer systems hardware and software components. This includes the structure and functionality to 
+
+  perform computational tasks. 
+
+  - Single-core processor:
+    - A single-core processor possess(拥有) **one processing unit (core)** integrated into a single circuit. This core is the fundamental unit that reads and executes instructions from processes. With a **singular processing path**, it handles one instruction at a time, following a **sequential execution** model.
+    - This architecture was standard in **early CPUs and older computers**, where task completion relied **on the linear processing of instructions.**
+    - Its primary limitation is in **executing parallel processing demands**. As computational tasks become more complex and **multitasking** becomes essential, single-core processors face limitations in performance, leading to potential bottlenecks(瓶颈) in processing efficiency. 
+  - Multi-core processor:
+    - A multi-core processor is a **single computing component(a single chip**) that contains **two or more independent processing cores**, each capable of **executing instructions in parallel.** 
+    - This architecture enables the processor to **handle multiple instructions at once(due to multi-core)**, significantly improving performance(faster) over single-core designs, especially for **multitasking and parallel processing tasks.**
+    - Ideal for multitasking, gaming, and servers
+    - Software must be specifically written to take advantage of the **multiple cores to see performance benefits.**
+    - They offer improved **performance and efficiency** by **distributing workloads across multiple processing units.**
+  - Co-processor:
+    - are specialized processors designed to **supplement** the main CPU, **offloading(分流) specific tasks** to optimize performance. Co-processor can be **integrated into CPU or exist as seperate entites**. Co-processors **free the main CPU** to focus on **general processing tasks.** 
+    - This is a processor with a specific job to support the main CPU. Allows tasks to **run in parallel**, enhancing overall system performance
+    - Examples include Graphics Processing Units (GPUs), audio processors, and Digital Signal Processors (DSPs). 
+    - When accomplishing these tasks, co-processors may be used:
+      - graphics rendering, mathematical calculations, or data encryption(加密)
+
 # A3 Databases
 
-## A3.1.1 Explain the features, benefits and limitations of relational databases. 
+## A3.1.1 Explain the features, benefits and limitations of relational databases.
 
 - **Features:** 
 
