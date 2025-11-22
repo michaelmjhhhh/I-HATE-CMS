@@ -15,6 +15,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../stylesheets/custom.css" rel="stylesheet"/>
 <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 </head>
 <body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
@@ -975,7 +976,7 @@ but a value of B may correspond to many A’s. If two rows have the same value o
 <li><strong>JOIN</strong></li>
 <li>There are three types of JOIN</li>
 <li><code>INNER JOIN</code> returns all the records that have matching values in both tables.</li>
-<li><code>LEFT JOIN</code>  returns all rows from the left table, and the matched rows from the right table. If there is no match, the result will still include the left table row<strong>, but the right table columns will </strong>show NULL. </li>
+<li><code>LEFT JOIN</code>  returns all rows from the left table, and the matched rows from the right table. If there is no match, the result will still include the left table row*<em>, but the right table columns will *</em>show NULL. </li>
 <li><code>RIGHT JOIN</code> returns all rows from the right table, and the matched rows from the left table. If there is no match, the left table columns will <strong>show NULL</strong>.  </li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="o">#</span><span class="w"> </span><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span>
@@ -1495,7 +1496,7 @@ but a value of B may correspond to many A’s. If two rows have the same value o
 <ul>
 <li><strong>Stack</strong> is a ADT(abstract data types) which defines a collection of elements with <strong>LIFO (Last In, First Out)</strong> behavior.</li>
 <li><strong>Stack is a linear data structure that follows the Last in, First out rule. The last elements pushed into the stack will be first one removed from the stack.</strong></li>
-<li><strong>Being an ADT means that a stack </strong>specifies what operations are allowed and how they behave, <strong>but does not dictate how it is implemented</strong>. You could use arrays, linked lists, or other structures to implement stack. </li>
+<li><strong>Being an ADT means that a stack *<em>specifies what operations are allowed and how they behave, *</em>but does not dictate how it is implemented</strong>. You could use arrays, linked lists, or other structures to implement stack. </li>
 <li>Common Stack Methods:</li>
 <li><img alt="截屏2025-10-25 19.51.02" src="../typora-user-images/%E6%88%AA%E5%B1%8F2025-10-25%2019.51.02.png"/></li>
 <li>This will help you understand it more clearly:</li>
@@ -1527,7 +1528,7 @@ but a value of B may correspond to many A’s. If two rows have the same value o
 <li><strong>Queue</strong> is also a ADT(abstract data types) which defines a collection of elements <strong>with FIFO (First In, First Out) behavior.</strong></li>
 <li><strong>Queue is a linear data structure that follows the First in, First out rule. The first element enqueue into the queue will be first one removed from the queue.</strong> </li>
 <li>
-<p><strong>Being an ADT means that a queue </strong>specifies what operations are allowed and how they behave, <strong>but does not dictate how it is implemented</strong>. You could use multiple ways to implement queue.</p>
+<p><strong>Being an ADT means that a queue *<em>specifies what operations are allowed and how they behave, *</em>but does not dictate how it is implemented</strong>. You could use multiple ways to implement queue.</p>
 </li>
 <li>
 <p>A diagram to help understand FIFO:</p>
@@ -1706,7 +1707,7 @@ but a value of B may correspond to many A’s. If two rows have the same value o
 <li>Advantages of bubble sort</li>
 <li>Simple to <strong>understand and implement</strong>.</li>
 <li>In-place(原地), <strong>minimal memory usage.</strong></li>
-<li>Stable(稳定性), <strong>preserves order of same elements. </strong>(the sequence of elements won't change if they are the same(no swap)). </li>
+<li>Stable(稳定性), *<em>preserves order of same elements. *</em>(the sequence of elements won't change if they are the same(no swap)). </li>
 <li>Disadvantages of bubble sort</li>
 <li>Very slow for large datasets, most cases the time complexity is <span class="arithmatex">\(O(n^2)\)</span>， 慢的要死，你写python无脑用sort()就行。<ul>
 <li>在任何case下，inner loop都必须被完成，哪怕是已经sort好的，inner loop都要跑一遍才可以break。每一次pass(outer loop)都要进行<span class="arithmatex">\(&gt;=\)</span>​1次的operation。<strong>内层循环必须完整执行</strong>。并且每一次inner loop的迭代都有可能有多次swap，这也是在most cases中比selection sort慢一些的原因。</li>
