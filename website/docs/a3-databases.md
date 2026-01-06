@@ -664,6 +664,7 @@ SELECT SUM(attribute) FROM TABLE_NAME WHERE condition;
 
 
 
+
 # B2 Programming
 
 ## B2.1.1 Construct and trace programs using a range of global and local variables of various data types
