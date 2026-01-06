@@ -1,4 +1,7 @@
-[TOC]
+---
+sidebar_position: 1
+title: Computer Fundamentals
+---
 
 # A1 Computer Fundamentals
 
