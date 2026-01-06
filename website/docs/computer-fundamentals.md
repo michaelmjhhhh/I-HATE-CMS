@@ -1050,7 +1050,6 @@ Key Characteristics of PaaS:
 
 - **Entity relationship diagrams (ERDs)** show the entities (tables), attributes (fields), and relationships within a relational database. 
 - ***Chen Notation Sytle*** 
-  - <img src="/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.13.46.png" alt="截屏2025-10-25 15.13.46" style="zoom:80%;" />
 - Steps to construct an ERD:  
   - Step1: Identify the level of ERD required (conceptual, logical or physical). This will determine the detail required. 
   - Step2: Identify the entities involved and, if required, the attributes and data types. 
@@ -1070,7 +1069,6 @@ Key Characteristics of PaaS:
   - For ***ENUM***, you must choose on value from the predefined list, often used for status fields or user roles. 
   - For ***SET***, you can choose zero or multiple records from the predefined list, often used for user skills/interests or multiple tags/categories. 
 - Numeric data types:
-  - <img src="/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.20.28.png" alt="截屏2025-10-25 15.20.28" style="zoom:150%;" />
   - ***BIT*** stores bit-field values where each bit can be 0 or 1. Often used to store boolean values(True/False,Open/Shut down), or permission flags. 
   - ***BOOL*** is best used for boolean flags, toggle(开关) settings, and status indicator. (Zero means false, non-zero means true).
   - ***INT*** can only store a whole number. Best used for primary keys(foreign keys), quantities or IDs(without character).
@@ -2154,11 +2152,11 @@ print(arr)
 ```
 
 - Features of selection sort: 
-  - Time complextiy: Always $O(n^2)$. But **slight quicker than bubble sort, because only <=1 operation(swap) needed each pass.** 
+  - Time complextiy: Always $O(n^2)$. But **slight quicker than bubble sort, because only ≤1 operation(swap) needed each pass.** 
 - Advantages of selection sort:
   - Works well and easy to implement **on small datasets.**
   - **No addiional storage needed** as elements are being **swapped in place**(原地交换，不需要额外数组空间).
-  - Comparing to bubble sort, the **number of swaps** required each pass **is minimized**(<=1 time).
+  - Comparing to bubble sort, the **number of swaps** required each pass **is minimized**(≤1 time).
     - 每轮最多进行一次交换 
 - Disadvantages for selection sort:
   - Inefficient for **large datasets.**
