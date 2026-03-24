@@ -15,7 +15,7 @@
 
 - Block Diagram of CPU
 
-  - ![截屏2025-11-21 10.33.10](/Users/michael/Library/Application Support/typora-user-images/截屏2025-11-21 10.33.10.png)
+  - ![截屏2025-11-21 10.33.10](./typora-user-images/截屏2025-11-21 10.33.10.png)
 
 - **Key Components of CPU**
 
@@ -1026,7 +1026,7 @@ Key Characteristics of PaaS:
 
   - **The difference between these two keys:** 
 
-    - ![截屏2025-11-04 10.59.46](/Users/michael/Library/Application Support/typora-user-images/截屏2025-11-04 10.59.46.png)
+    - ![截屏2025-11-04 10.59.46](./typora-user-images/截屏2025-11-04 10.59.46.png)
 
       
 
@@ -1035,19 +1035,19 @@ Key Characteristics of PaaS:
 
 - ***Database schema***:  is a blueprint of the database that identifies the different entities (tables), attributes (fields) and relationships (links) within the database, including the restraints on the data. 
   - ***Conceptual schema:*** identifies all the entities within the database and the relationship between these entities. This model does not contain specific details such as the attributes within the entities nor information about the restraints on the data, but does identify the types of relationships between the data.  
-  - ![截屏2025-10-25 15.08.16](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.08.16.png)
+  - ![截屏2025-10-25 15.08.16](./typora-user-images/截屏2025-10-25 15.08.16.png)
 
 - ***Logical Schema***: This model of the database identifies the different attributes within each of the entities. This will include the primary keys and foreign keys which create the relationships between the entities. Primary key is bold, foreign key is represented by "*". 
-  - ![截屏2025-10-25 15.10.05](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.10.05.png)
+  - ![截屏2025-10-25 15.10.05](./typora-user-images/截屏2025-10-25 15.10.05.png)
 
   - ***Physical Schema***: This model of the databases identifies the different attributes and their data types as well as the primary key and foreign key link that will create the relationships between entities. 
-- ![截屏2025-10-25 15.11.44](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.11.44.png)
+- ![截屏2025-10-25 15.11.44](./typora-user-images/截屏2025-10-25 15.11.44.png)
 
 ## A3.2.2 Construct ERDs
 
 - **Entity relationship diagrams (ERDs)** show the entities (tables), attributes (fields), and relationships within a relational database. 
 - ***Chen Notation Sytle*** 
-  - <img src="/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.13.46.png" alt="截屏2025-10-25 15.13.46" style="zoom:80%;" />
+  - <img src="./typora-user-images/截屏2025-10-25 15.13.46.png" alt="截屏2025-10-25 15.13.46" style="zoom:80%;" />
 - Steps to construct an ERD:  
   - Step1: Identify the level of ERD required (conceptual, logical or physical). This will determine the detail required. 
   - Step2: Identify the entities involved and, if required, the attributes and data types. 
@@ -1058,7 +1058,7 @@ Key Characteristics of PaaS:
 ## A3.2.3 Outline the different data types used in relational databases
 
 - String data types: 
-  - ![截屏2025-10-25 15.20.12](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.20.12.png)
+  - ![截屏2025-10-25 15.20.12](./typora-user-images/截屏2025-10-25 15.20.12.png)
   - ***Char*** is a fixed length. The length is defined by **CHAR(7)**, also includes spaces. If you insert a character less than 7 characters, Mysql will use spaces to replenish. Often used for fixed length ID, password, country code or status flags. 
   - ***VARCHAR*** is a variable length. Often used for names, emails, description. 
   - ***TEXT*** is a longer text, often used for blog posts, articles, or comments&product reviews.
@@ -1067,17 +1067,17 @@ Key Characteristics of PaaS:
   - For ***ENUM***, you must choose on value from the predefined list, often used for status fields or user roles. 
   - For ***SET***, you can choose zero or multiple records from the predefined list, often used for user skills/interests or multiple tags/categories. 
 - Numeric data types:
-  - <img src="/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.20.28.png" alt="截屏2025-10-25 15.20.28" style="zoom:150%;" />
+  - <img src="./typora-user-images/截屏2025-10-25 15.20.28.png" alt="截屏2025-10-25 15.20.28" style="zoom:150%;" />
   - ***BIT*** stores bit-field values where each bit can be 0 or 1. Often used to store boolean values(True/False,Open/Shut down), or permission flags. 
   - ***BOOL*** is best used for boolean flags, toggle(开关) settings, and status indicator. (Zero means false, non-zero means true).
   - ***INT*** can only store a whole number. Best used for primary keys(foreign keys), quantities or IDs(without character).
   - REMEBER, use ***FLOAT*** directly. If you want to add contraints on the decimal places of the number, use ***DECIMAL(a,b)***. The first argument a is the length of the whole number, b is the number of decimal places. 
 - Date/time data types: 
-  - ![截屏2025-10-25 15.38.09](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 15.38.09.png)
+  - ![截屏2025-10-25 15.38.09](./typora-user-images/截屏2025-10-25 15.38.09.png)
 
 ## A3.2.4 Construct tables for relational databases
 
-- ![截屏2025-10-25 16.09.41](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 16.09.41.png)
+- ![截屏2025-10-25 16.09.41](./typora-user-images/截屏2025-10-25 16.09.41.png)
 
 ## A3.2.5 Explain the difference between normal forms
 
@@ -1117,9 +1117,9 @@ Key Characteristics of PaaS:
     - Repeating groups identified using indentation(缩进)
       - Repeating groups are the new data that needs to be added when a new entry is created.
       - Atomic的意思是每一个cell都只有一个值，没有重复，repeated group指的是一个单元格存了多个值，或者未来可能需要存多个值(potentially possible)。这是1NF需要确保的。 
-  - ![截屏2025-10-28 16.27.59](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-28 16.27.59.png)
-  - ![截屏2025-10-28 16.28.08](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-28 16.28.08.png)
-  - ![截屏2025-10-28 16.28.16](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-28 16.28.16.png)
+  - ![截屏2025-10-28 16.27.59](./typora-user-images/截屏2025-10-28 16.27.59.png)
+  - ![截屏2025-10-28 16.28.08](./typora-user-images/截屏2025-10-28 16.28.08.png)
+  - ![截屏2025-10-28 16.28.16](./typora-user-images/截屏2025-10-28 16.28.16.png)
 
 > Here are some key terms that you must know when normalizing:
 
@@ -1162,11 +1162,11 @@ Key Characteristics of PaaS:
 
     - 然后，判断哪些是partial dependent的，列出来, 这些再次拆分成子表。A partial dependent on B，那么把B这个attribute留在原表作为FK，新的表的PK就是这个attribute。新的表的另外一个attribute就是A。
 
-    - ![截屏2025-10-28 20.30.24](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-28 20.30.24.png)
+    - ![截屏2025-10-28 20.30.24](./typora-user-images/截屏2025-10-28 20.30.24.png)
 
-    - ![截屏2025-10-28 20.30.33](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-28 20.30.33.png)
+    - ![截屏2025-10-28 20.30.33](./typora-user-images/截屏2025-10-28 20.30.33.png)
 
-    - ![截屏2025-10-28 20.30.38](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-28 20.30.38.png)
+    - ![截屏2025-10-28 20.30.38](./typora-user-images/截屏2025-10-28 20.30.38.png)
 
       
 
@@ -1188,7 +1188,7 @@ Key Characteristics of PaaS:
 
 ## A3.3.1 Outline the difference between data language types within structured query language (SQL)
 
-- ![截屏2025-10-25 16.14.22](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 16.14.22.png)
+- ![截屏2025-10-25 16.14.22](./typora-user-images/截屏2025-10-25 16.14.22.png)
 
 - ***Data definition language(DDL)***
   - is used to create the database structures. 
@@ -1203,7 +1203,7 @@ Key Characteristics of PaaS:
 
 - ***Data manipulation language(DML)***
   - is used to access the data within the database and to manipulate the data within the database. For example, querying the table for information, updating records, and deleting records. 
-  - ![截屏2025-10-25 16.20.39](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 16.20.39.png)
+  - ![截屏2025-10-25 16.20.39](./typora-user-images/截屏2025-10-25 16.20.39.png)
 
 - **Data control language(DCL)**
   - is used to control access to the database. The DCL helps to maintain security in the database as it allows user to have access to the database or it can revoke data from the database. 
@@ -1220,7 +1220,7 @@ Key Characteristics of PaaS:
 
 - **Transaction control language(TCL)**
   - is used to complete the changes in a database. 
-  - ![截屏2025-10-25 16.30.00](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 16.30.00.png)
+  - ![截屏2025-10-25 16.30.00](./typora-user-images/截屏2025-10-25 16.30.00.png)
   - 一个 transaction（事务）就是一组要么全部成功、要么全部失败的操作。
   - E.g.
     START TRANSACTION;
@@ -1613,7 +1613,7 @@ SELECT SUM(attribute) FROM TABLE_NAME WHERE condition;
 
 - A variable is a space in memory used to store data, referenced by a unique identifier. In python, variable is a **named reference** that points to the memory location where the object is stored, allow the program to **get access and manipulate** that object through the variable. 
 - Data types in python
-  - ![截屏2025-10-25 18.18.58](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 18.18.58.png)
+  - ![截屏2025-10-25 18.18.58](./typora-user-images/截屏2025-10-25 18.18.58.png)
 - **Global and Local variable** in python
   - Global variables:  
     - Defined **outside functions**.
@@ -1649,7 +1649,7 @@ print(x)  # Output: 10 (global unchanged)
 
 ## B2.1.2 Construct programs that can extract and manipulate substrings
 
-- ![截屏2025-10-25 18.24.59](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 18.24.59.png)
+- ![截屏2025-10-25 18.24.59](./typora-user-images/截屏2025-10-25 18.24.59.png)
 - **Negative Indexing** for subtring:
   - In Python, **negative indices** allow you to access elements from the **end of a list/string**. 
   - `-1` refers to the **last element**, `-2` to the **second last**, and so on.
@@ -1725,7 +1725,7 @@ except Exception as e:
 ```
 
 - **Common Python Exceptions**
-  - ![截屏2025-10-25 18.37.21](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 18.37.21.png)
+  - ![截屏2025-10-25 18.37.21](./typora-user-images/截屏2025-10-25 18.37.21.png)
 
 ## B2.1.4 Construct and use common debugging techniques
 
@@ -1927,17 +1927,17 @@ print(original)  # Output: [[1, 2], [3, 4]]
 - **Stack is a linear data structure that follows the Last in, First out rule. The last elements pushed into the stack will be first one removed from the stack.**
 - **Being an ADT means that a stack **specifies what operations are allowed and how they behave, **but does not dictate how it is implemented**. You could use arrays, linked lists, or other structures to implement stack. 
 - Common Stack Methods:
-  - ![截屏2025-10-25 19.51.02](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 19.51.02.png)
+  - ![截屏2025-10-25 19.51.02](./typora-user-images/截屏2025-10-25 19.51.02.png)
 - This will help you understand it more clearly:
-  - ![截屏2025-10-25 19.51.32](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 19.51.32.png)
+  - ![截屏2025-10-25 19.51.32](./typora-user-images/截屏2025-10-25 19.51.32.png)
 - Overflow and underflow:
-  - ![截屏2025-10-25 19.53.00](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 19.53.00.png)
+  - ![截屏2025-10-25 19.53.00](./typora-user-images/截屏2025-10-25 19.53.00.png)
 - Applications of stack in computing:
   - Function call management (Call Stack) : Stacks are essential in recursive algorithms. Every time a recursive call is made the current state is pushed onto the stack. Once the base case is resolved the pop method is used to resolve the calls.  
-    - ![截屏2025-10-25 20.05.42](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 20.05.42.png)
+    - ![截屏2025-10-25 20.05.42](./typora-user-images/截屏2025-10-25 20.05.42.png)
   - Undo/Redo in text editors
   - Parsing: A stack is used to ensure that all of the brackets are closed. For example, in Java if the bracket `{}` are closed, every time an open bracket `{ `is read it is pushed onto the stack and every time a closed bracket ``}`` is read it is popped from the stack.  An empty stack means the correct number of brackets. 
-    - ![截屏2025-10-25 20.07.00](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 20.07.00.png)
+    - ![截屏2025-10-25 20.07.00](./typora-user-images/截屏2025-10-25 20.07.00.png)
   - Undo functions: A stack is used to keep a track of the operations completed by a user of a program. Every operation is pushed onto a stack. Each time they undo an action, the last action is popped from the stack and reversed. 
   - Expression evaluation (postfix, infix)
   - Syntax parsing (like checking parentheses in code)
@@ -1946,7 +1946,7 @@ print(original)  # Output: [[1, 2], [3, 4]]
 - Applications of stack outside computing
   - Pile of dishes, Tower of boxes,Undo history in drawing
 - When are stack and queue suitable
-  - ![截屏2025-10-25 19.56.12](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 19.56.12.png)
+  - ![截屏2025-10-25 19.56.12](./typora-user-images/截屏2025-10-25 19.56.12.png)
 
 ## B2.2.4 Explain the concept of a queue as a “first in, first out” (FIFO) data structure (HL Only)
 
@@ -1958,13 +1958,13 @@ print(original)  # Output: [[1, 2], [3, 4]]
 
 - A diagram to help understand FIFO:
 
-  - ![截屏2025-10-25 20.10.56](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 20.10.56.png)
+  - ![截屏2025-10-25 20.10.56](./typora-user-images/截屏2025-10-25 20.10.56.png)
 
     - **Here, notice that the left is the rear(队尾)，the right is the head(队头), you can also do it reversly.**
 
   - Common Methods for Queue:
 
-    - ![截屏2025-10-25 20.12.05](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 20.12.05.png)
+    - ![截屏2025-10-25 20.12.05](./typora-user-images/截屏2025-10-25 20.12.05.png)
 
   - Applications of queue in computing:
 
@@ -1982,7 +1982,7 @@ print(original)  # Output: [[1, 2], [3, 4]]
 
   - When are stack and queue most suitable?
 
-    - ![截屏2025-10-25 20.14.50](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 20.14.50.png)
+    - ![截屏2025-10-25 20.14.50](./typora-user-images/截屏2025-10-25 20.14.50.png)
 
     
 
@@ -1990,7 +1990,7 @@ print(original)  # Output: [[1, 2], [3, 4]]
 
 ---
 
-- ![截屏2025-10-25 20.15.51](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 20.15.51.png)
+- ![截屏2025-10-25 20.15.51](./typora-user-images/截屏2025-10-25 20.15.51.png)
 
 ## B2.3.2 Construct programs utilizing appropriate selection structures
 
@@ -1999,7 +1999,7 @@ print(original)  # Output: [[1, 2], [3, 4]]
 ## B2.4.2 Construct and trace algorithms to implement a linear search and binary search for data retrieval (HL Only)
 
 - Big O notation: Time complextity:
-  - ![截屏2025-10-25 20.20.35](/Users/michael/Library/Application Support/typora-user-images/截屏2025-10-25 20.20.35.png)
+  - ![截屏2025-10-25 20.20.35](./typora-user-images/截屏2025-10-25 20.20.35.png)
 
 - **Calculate Time complexity**
   - To calculate Big O complexity, consider how the number of operations of the algorithm changes with the size of the input. Follow these steps.
@@ -2253,7 +2253,7 @@ print(sorted_list2) # 输出：[11, 12, 22, 25, 34, 64, 90]
     - The complexity for each pass is `O(n)`, since there are nearly `logn` passes, the complexity overall is nearly `O(nlogn)`. 
   - Worst case:
     - 想想一下你的pivot是数组中的最大元素，这意味着sub-array的分配将会很不合理，left里有一堆，right里面没有，因为没有比pivot大的。三个列表推导的复杂度还是`O(n`, 但是由于此时没有把数组拆成两半，需要n次递归的调用才能处理完所有元素，因此时间复杂度大约是`O(n^2)`, 当pivot取了最大或最小的时候。
-  - ![截屏2025-11-18 21.40.50](/Users/michael/Library/Application Support/typora-user-images/截屏2025-11-18 21.40.50.png)
+  - ![截屏2025-11-18 21.40.50](./typora-user-images/截屏2025-11-18 21.40.50.png)
   - 每层（pass）的复杂度是3个列表推导式 = `O(n)`，由于pivot(数组middle)每次都是区间的最大值，递归每次让长度``-1`，因此复杂度是`O(n)``, 总体的就是``O(n) * O(n) = O(n^2)``.  
 
 ## B2.4.4 Explain the fundamental concept of recursion and its applications in programming
