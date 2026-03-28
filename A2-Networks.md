@@ -557,6 +557,7 @@
   >**DHCP automatically assigns IP addresses and network settings to devices. It reduces manual configuration and prevents address conflicts.**
 
 ## A2.1.5 Describes the function of the TCP/IP Model
+--- 
 
 - Why TCP/IP Model?
   -  网络非常复杂（devices + protocols + media）
