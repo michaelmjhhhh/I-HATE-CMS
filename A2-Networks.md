@@ -643,31 +643,24 @@
 
 ### Simplified version of the 8 steps
 
-- Client creates an HTTP request.  
-  客户端创建 HTTP 请求。
+- **Application Layer (Client) – User Requests a Web Page**  
+  The user enters a URL, and the browser constructs an HTTP GET request according to the HTTP protocol. The request is passed to the transport layer.
+- **Transport Layer – Preparing the Request for Transmission**  
+  The request is converted into a TCP segment with sequence numbers, port numbers (e.g., port 80), and a checksum. A TCP connection is established using the three-way handshake (SYN → SYN-ACK → ACK).
+- **Internet Layer – Preparing the Segment for Routing**  
+  The TCP segment is encapsulated into an IP packet with source and destination IP addresses, protocol type, TTL, and checksum. A next-hop address is assigned.
+- **Network Interface Layer – Encapsulation and Transmission**  
+  The IP packet is encapsulated into an Ethernet frame with MAC addresses and a frame checksum. It is converted into signals and transmitted through the network.
+- **Network Interface Layer (Server) – Receiving the Request**  
+  The server receives the signals and reconstructs the frame. The checksum is verified, and if valid, the IP packet is extracted and passed up the layers(extracting the IP packet is done in the Internet layer). 
+- **Application Layer (Server) – Generating a Response**  
+  The server processes the request and creates an HTTP response. The response travels down through all layers and is sent back to the client.
+- **Application Layer (Client) – Displaying the Web Page**  
+  The client receives the response, processes it through the layers, and the browser renders the web page.
+- **Transport Layer – Connection Termination**  
+  The TCP connection is closed using FIN and ACK packets, ensuring a graceful termination of communication.
 
-- Request is segmented and TCP connection is established.  
-  请求被分段并建立 TCP 连接。
-
-- Data is encapsulated into IP packets.  
-  数据被封装为 IP 数据包。
-
-- Packets are framed and transmitted as signals.  
-  数据被封装为帧并转换为信号发送。
-
-- Data travels through routers to the server.  
-  数据通过路由器传输到服务器。
-
-- Server processes the request and generates a response.  
-  服务器处理请求并生成响应。
-
-- Response is sent back and reassembled at the client.  
-  响应被发送回客户端并重组。
-
-- TCP connection is terminated.  
-  TCP 连接被关闭。
-
-
+**客户端把请求一层层往下发到网络(from application layer to network interface layer)→传到服务器→服务器一层层往上处理并生成响应from network interface layer to application layer)→再一层层往下发回→客户端再一层层往上接收显示。** 
 
 
 
