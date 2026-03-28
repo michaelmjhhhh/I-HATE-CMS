@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCP/IP Model — IBDP Computer Science</title>
+<style>
+  /* ===== DESIGN SYSTEM ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: rgba(255,255,255,0.08);
+    --text: #e8eaf0;
+    --muted: #8892a4;
+
+    /* Layer colors */
+    --app:    #00d4aa;
+    --trans:  #4f9eff;
+    --inet:   #a78bfa;
+    --net:    #fb7185;
+
+    --app-dim:   rgba(0,212,170,0.12);
+    --trans-dim: rgba(79,158,255,0.12);
+    --inet-dim:  rgba(167,139,250,0.12);
+    --net-dim:   rgba(251,113,133,0.12);
+
+    --radius: 16px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index: 100;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 clamp(16px, 5vw, 48px);
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--app), var(--trans));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+  .nav-links { display:flex; gap:8px; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    padding: 6px 14px; border-radius: 8px; transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--surface2); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 80px clamp(16px, 5vw, 64px) 48px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 50%, rgba(0,212,170,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(79,158,255,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 50% 80%, rgba(167,139,250,0.06) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 100px; padding: 6px 16px;
+    font-size: 0.78rem; color: var(--muted); letter-spacing: 0.5px;
+    margin-bottom: 32px;
+  }
+  .hero-badge span { color: var(--app); }
+  h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    line-height: 1.05; letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  h1 em { font-style: normal; color: var(--app); }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted); max-width: 600px; margin: 0 auto 40px;
+  }
+  .hero-ctas { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; text-decoration: none; border: none; transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--app); color: #0a0e1a;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,170,0.35); }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--surface2); }
+
+  /* ===== SECTION WRAPPER ===== */
+  section { padding: clamp(48px, 8vw, 96px) clamp(16px, 5vw, 64px); }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 2px; color: var(--app);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    letter-spacing: -0.5px; margin-bottom: 16px;
+  }
+  .section-desc { color: var(--muted); max-width: 600px; margin-bottom: 48px; }
+
+  /* ===== ANALOGY CARD ===== */
+  .analogy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 680px) { .analogy-grid { grid-template-columns: 1fr; } }
+  .analogy-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px;
+  }
+  .analogy-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; margin-bottom: 12px; }
+  .analogy-card p { color: var(--muted); font-size: 0.9rem; }
+  .analogy-icon { font-size: 2rem; margin-bottom: 12px; }
+
+  /* ===== LAYERS SECTION ===== */
+  .layers-stack { display: flex; flex-direction: column; gap: 12px; }
+
+  .layer-card {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .layer-card:hover { box-shadow: var(--shadow); }
+
+  .layer-card[data-layer="app"]   { --lc: var(--app);  --lbg: var(--app-dim); }
+  .layer-card[data-layer="trans"] { --lc: var(--trans); --lbg: var(--trans-dim); }
+  .layer-card[data-layer="inet"]  { --lc: var(--inet);  --lbg: var(--inet-dim); }
+  .layer-card[data-layer="net"]   { --lc: var(--net);   --lbg: var(--net-dim); }
+
+  .layer-card.open { border-color: var(--lc); box-shadow: 0 0 0 1px var(--lc), var(--shadow); }
+
+  .layer-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 24px; cursor: pointer;
+    background: var(--surface);
+    user-select: none;
+  }
+  .layer-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--lbg); border: 1px solid rgba(255,255,255,0.08);
+    display: grid; place-items: center; font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .layer-header-text { flex: 1; }
+  .layer-number {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    color: var(--lc); letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .layer-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; }
+  .layer-protocols { display:flex; gap:6px; flex-wrap:wrap; margin-top: 6px; }
+  .proto-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.67rem;
+    background: var(--lbg); color: var(--lc);
+    padding: 2px 8px; border-radius: 4px; border: 1px solid var(--lc);
+    opacity: 0.8;
+  }
+  .layer-chevron { color: var(--muted); transition: transform 0.3s; }
+  .layer-card.open .layer-chevron { transform: rotate(180deg); }
+
+  .layer-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--lbg);
+  }
+  .layer-card.open .layer-body { max-height: 800px; }
+  .layer-body-inner { padding: 24px; }
+  .layer-body-inner p { color: var(--muted); font-size: 0.92rem; margin-bottom: 16px; }
+  .layer-functions { display: flex; flex-direction: column; gap: 8px; }
+  .layer-fn {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: rgba(0,0,0,0.2); border-radius: 8px;
+    padding: 10px 14px; font-size: 0.88rem;
+  }
+  .layer-fn-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--lc); flex-shrink:0; margin-top: 7px;
+  }
+
+  /* ===== ANIMATION SECTION ===== */
+  #animation { background: var(--surface); }
+  .anim-controls { display:flex; gap:12px; margin-bottom: 32px; flex-wrap:wrap; }
+  .btn-send { background: var(--app); color: #0a0e1a; }
+  .btn-recv { background: var(--trans); color: #0a0e1a; }
+  .btn-reset { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-send:hover { box-shadow: 0 0 20px rgba(0,212,170,0.4); transform:translateY(-1px); }
+  .btn-recv:hover { box-shadow: 0 0 20px rgba(79,158,255,0.4); transform:translateY(-1px); }
+
+  .anim-stage {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  @media(max-width:700px) {
+    .anim-stage { grid-template-columns: 1fr; }
+    .anim-middle { display: none; }
+  }
+
+  .anim-column { display: flex; flex-direction: column; gap: 10px; }
+  .anim-col-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4px; text-align: center;
+  }
+
+  .anim-layer {
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    transition: all 0.4s ease;
+    position: relative; overflow: hidden;
+    min-height: 60px;
+  }
+  .anim-layer[data-l="app"]   { border-left: 3px solid var(--app); }
+  .anim-layer[data-l="trans"] { border-left: 3px solid var(--trans); }
+  .anim-layer[data-l="inet"]  { border-left: 3px solid var(--inet); }
+  .anim-layer[data-l="net"]   { border-left: 3px solid var(--net); }
+
+  .anim-layer.active {
+    background: var(--surface2);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 4px 20px rgba(0,0,0,0.3);
+    transform: scale(1.01);
+  }
+  .anim-layer-name {
+    font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.82rem;
+  }
+  .anim-layer-desc {
+    font-size: 0.75rem; color: var(--muted); margin-top: 2px;
+  }
+  .anim-packet {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    background: rgba(0,0,0,0.3); border-radius: 6px;
+    padding: 4px 10px; margin-top: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
+    opacity: 0; transition: opacity 0.3s 0.2s;
+  }
+  .anim-layer.active .anim-packet { opacity: 1; }
+  .packet-label { color: var(--lc, #888); font-weight: 600; }
+
+  .anim-middle {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding-top: 30px; gap: 80px;
+  }
+  .anim-arrow {
+    font-size: 1.5rem; opacity: 0.3; transition: opacity 0.4s, transform 0.4s;
+  }
+  .anim-arrow.lit { opacity: 1; animation: bounce 0.8s infinite alternate; }
+  @keyframes bounce { from {transform:translateY(-4px)} to {transform:translateY(4px)} }
+
+  .anim-status {
+    margin-top: 24px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 20px;
+    font-size: 0.88rem; color: var(--muted);
+    min-height: 56px;
+  }
+  .anim-status strong { color: var(--text); }
+
+  /* ===== STEPS SECTION ===== */
+  .steps-grid { display:flex; flex-direction:column; gap:12px; }
+  .step-item {
+    display:flex; gap:16px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .step-item:hover { border-color: rgba(255,255,255,0.15); }
+  .step-num {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.8rem;
+    color: rgba(255,255,255,0.07); line-height: 1; flex-shrink:0; width:40px;
+  }
+  .step-content h4 { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; margin-bottom:6px; }
+  .step-content p { font-size:0.87rem; color:var(--muted); }
+  .step-badge {
+    display:inline-block; font-size:0.68rem; font-family:'JetBrains Mono',monospace;
+    padding:2px 8px; border-radius:4px; margin-bottom:6px;
+  }
+  .step-badge.app   { background:var(--app-dim); color:var(--app); }
+  .step-badge.trans { background:var(--trans-dim); color:var(--trans); }
+  .step-badge.inet  { background:var(--inet-dim); color:var(--inet); }
+  .step-badge.net   { background:var(--net-dim); color:var(--net); }
+
+  /* ===== TOOLTIP ===== */
+  [data-tip] { position:relative; cursor:help; border-bottom:1px dashed var(--muted); }
+  [data-tip]::after {
+    content: attr(data-tip);
+    position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+    background: #1e2a3a; color: var(--text); font-size:0.78rem;
+    padding: 8px 12px; border-radius:8px; border:1px solid var(--border);
+    white-space:nowrap; pointer-events:none; opacity:0;
+    transition: opacity 0.2s; z-index:10;
+    font-family:'DM Sans',sans-serif; font-style:normal;
+  }
+  [data-tip]:hover::after { opacity:1; }
+
+  /* ===== QUIZ SECTION ===== */
+  #quiz { background: var(--surface); }
+  .quiz-box {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: clamp(24px,4vw,40px);
+  }
+  .quiz-progress-bar {
+    height: 4px; background: var(--surface2); border-radius: 2px; margin-bottom: 28px; overflow:hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%; background: var(--app); border-radius: 2px;
+    transition: width 0.4s ease; width: 0%;
+  }
+  .quiz-q { font-family:'Syne',sans-serif; font-size: 1.05rem; font-weight:600; margin-bottom: 20px; }
+  .quiz-options { display:flex; flex-direction:column; gap:10px; }
+  .quiz-opt {
+    display:flex; align-items:center; gap:12px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px; cursor:pointer;
+    transition: all 0.2s; font-size: 0.9rem;
+  }
+  .quiz-opt:hover { border-color: rgba(255,255,255,0.2); background: var(--surface2); }
+  .quiz-opt.correct { border-color: var(--app); background: var(--app-dim); color: var(--app); }
+  .quiz-opt.wrong   { border-color: var(--net); background: var(--net-dim); color: var(--net); }
+  .quiz-opt .opt-letter {
+    width:26px;height:26px; border-radius:6px; border:1px solid var(--border);
+    display:grid;place-items:center; font-size:0.75rem; font-weight:700;
+    flex-shrink:0; font-family:'JetBrains Mono',monospace;
+  }
+  .quiz-feedback { margin-top:16px; font-size:0.88rem; min-height:22px; color:var(--muted); }
+  .quiz-footer { display:flex; justify-content:space-between; align-items:center; margin-top:24px; }
+  .quiz-counter { font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--muted); }
+
+  .quiz-result {
+    text-align:center; padding: 32px 16px;
+    display:none;
+  }
+  .quiz-score-circle {
+    width:120px; height:120px; border-radius:50%; margin:0 auto 24px;
+    border:4px solid var(--app);
+    display:grid; place-items:center;
+    font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--app);
+  }
+  .quiz-result p { color:var(--muted); max-width:400px; margin:0 auto 24px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align:center; padding:32px; color:var(--muted);
+    font-size:0.82rem; border-top:1px solid var(--border);
+  }
+
+  /* ===== SCROLL REVEAL ===== */
+  .reveal { opacity:0; transform:translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  /* ===== KEYWORD HIGHLIGHT ===== */
+  .kw { color:var(--app); font-weight:500; }
+  .kw-blue { color:var(--trans); font-weight:500; }
+  .kw-purple { color:var(--inet); font-weight:500; }
+  .kw-red { color:var(--net); font-weight:500; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">TCP/IP Explorer</div>
+  <div class="nav-links">
+    <a href="#intro">Intro</a>
+    <a href="#layers">Layers</a>
+    <a href="#animation">Simulate</a>
+    <a href="#steps">Steps</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="intro">
+  <div class="hero-bg"></div>
+  <div class="hero-badge">📚 <span>IBDP Computer Science</span> — A2.1.5</div>
+  <h1>The <em>TCP/IP</em><br>Model</h1>
+  <p class="hero-sub">An interactive guide to understanding how data travels across the internet — from your browser to a web server and back.</p>
+  <div class="hero-ctas">
+    <a href="#layers" class="btn btn-primary">Explore Layers →</a>
+    <a href="#animation" class="btn btn-ghost">▶ Simulate Data Flow</a>
+  </div>
+</section>
+
+<!-- INTRO / ANALOGY -->
+<section id="analogy">
+  <div class="container">
+    <div class="section-label">What is it?</div>
+    <h2>A Conceptual Framework for Networks</h2>
+    <p class="section-desc">Digital networks are complex, interdependent systems. The TCP/IP model is a conceptual framework used to aid understanding, characterizing, troubleshooting, and standardizing network operations.</p>
+
+    <div class="analogy-grid reveal">
+      <div class="analogy-card">
+        <div class="analogy-icon">📦</div>
+        <h3>Real-World Analogy</h3>
+        <p>Think of sending a parcel. You write a letter (Application), put it in an envelope with a tracking number (Transport), address the envelope (Internet), and hand it to a courier with physical delivery instructions (Network Interface). Each step wraps the previous one.</p>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-icon">🔄</div>
+        <h3>Layered Approach</h3>
+        <p>Each layer handles a specific task. Data flows <strong>top → bottom</strong> when sending (encapsulation) and <strong>bottom → top</strong> when receiving (decapsulation). Each layer only needs to talk to the layers directly above and below it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYERS -->
+<section id="layers">
+  <div class="container">
+    <div class="section-label">The Model</div>
+    <h2>Four Layers of TCP/IP</h2>
+    <p class="section-desc">Click each layer to expand details about its role, key protocols, and functions.</p>
+
+    <div class="layers-stack">
+
+      <!-- Application -->
+      <div class="layer-card" data-layer="app" id="lc-app">
+        <div class="layer-header" onclick="toggleLayer('app')">
+          <div class="layer-icon">🌐</div>
+          <div class="layer-header-text">
+            <div class="layer-number">Layer 4 · Top Layer</div>
+            <div class="layer-name">Application Layer</div>
+            <div class="layer-protocols">
+              <span class="proto-tag">HTTP</span>
+              <span class="proto-tag">SMTP</span>
+              <span class="proto-tag">DNS</span>
+              <span class="proto-tag">DHCP</span>
+              <span class="proto-tag">SNMP</span>
+            </div>
+          </div>
+          <svg class="layer-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="layer-body-inner">
+            <p>The Application layer is the <span class="kw">interface between applications on a computer and the network</span>. It defines protocols that applications use to exchange data over the network.</p>
+            <p>This is the only layer the end user directly interacts with. Protocols here dictate how data is formatted and presented for human-readable services like web browsing and email.</p>
+            <div class="layer-functions">
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>HTTP / HTTPS</strong> — Defines how web browsers request and receive web pages</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>SMTP</strong> — Simple Mail Transfer Protocol; handles outgoing email</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>DNS</strong> — Domain Name System; translates domain names (e.g. google.com) to IP addresses</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>DHCP</strong> — Dynamically assigns IP addresses to devices on a network</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>SNMP</strong> — Simple Network Management Protocol; used for managing and monitoring network devices</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transport -->
+      <div class="layer-card" data-layer="trans" id="lc-trans">
+        <div class="layer-header" onclick="toggleLayer('trans')">
+          <div class="layer-icon">🚚</div>
+          <div class="layer-header-text">
+            <div class="layer-number">Layer 3</div>
+            <div class="layer-name">Transport Layer</div>
+            <div class="layer-protocols">
+              <span class="proto-tag">TCP</span>
+              <span class="proto-tag">UDP</span>
+            </div>
+          </div>
+          <svg class="layer-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="layer-body-inner">
+            <p>The Transport layer <span class="kw-blue">facilitates direct communication services for application processes across various hosts</span>. It breaks data into segments and ensures reliable delivery.</p>
+            <p>The three-way handshake (<span data-tip="SYN: Client says 'I want to connect'">SYN</span> → <span data-tip="SYN-ACK: Server says 'OK, I'm ready'">SYN-ACK</span> → <span data-tip="ACK: Client says 'Great, let's go!'">ACK</span>) establishes a reliable TCP connection before data is sent.</p>
+            <div class="layer-functions">
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Segmentation</strong> — Breaks application data into smaller TCP segments</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Sequencing</strong> — Numbers each segment so receiver can reassemble in correct order</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Error checking</strong> — Uses checksums to detect corruption; requests retransmission if needed</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Port numbers</strong> — Directs data to correct application (port 80 = HTTP, port 443 = HTTPS)</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>TCP vs UDP</strong> — TCP: reliable, ordered. UDP: faster but no guarantee of delivery</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Internet -->
+      <div class="layer-card" data-layer="inet" id="lc-inet">
+        <div class="layer-header" onclick="toggleLayer('inet')">
+          <div class="layer-icon">🗺️</div>
+          <div class="layer-header-text">
+            <div class="layer-number">Layer 2</div>
+            <div class="layer-name">Internet Layer</div>
+            <div class="layer-protocols">
+              <span class="proto-tag">IP</span>
+              <span class="proto-tag">ICMP</span>
+              <span class="proto-tag">ARP</span>
+            </div>
+          </div>
+          <svg class="layer-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="layer-body-inner">
+            <p>The Internet layer <span class="kw-purple">handles packetization, addressing, and routing of data across different networks</span> to ensure it reaches its intended destination.</p>
+            <p>The primary protocol here is <span data-tip="Internet Protocol: defines IP addresses that uniquely identify each device">IP</span>. Each TCP segment is wrapped in an IP packet containing source and destination IP addresses.</p>
+            <div class="layer-functions">
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>IP Addressing</strong> — Assigns logical addresses (IPv4/IPv6) to uniquely identify devices</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Routing</strong> — Determines the best path for packets across multiple networks</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Packetization</strong> — Encapsulates TCP segments into IP packets with headers</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>TTL (Time to Live)</strong> — Prevents packets from circulating indefinitely on the network</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Header checksum</strong> — Error detection for the IP header itself</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Network Interface -->
+      <div class="layer-card" data-layer="net" id="lc-net">
+        <div class="layer-header" onclick="toggleLayer('net')">
+          <div class="layer-icon">🔌</div>
+          <div class="layer-header-text">
+            <div class="layer-number">Layer 1 · Bottom Layer</div>
+            <div class="layer-name">Network Interface Layer</div>
+            <div class="layer-protocols">
+              <span class="proto-tag">Ethernet 802.3</span>
+              <span class="proto-tag">Wi-Fi 802.11</span>
+              <span class="proto-tag">MAC</span>
+            </div>
+          </div>
+          <svg class="layer-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="layer-body">
+          <div class="layer-body-inner">
+            <p>The Network Interface layer <span class="kw-red">concerns itself with the physical and hardware aspects of network communication</span>. This is where data actually hits the wire (or the air).</p>
+            <p>Network adapters (Ethernet cards, Wi-Fi cards) operate here, interfacing directly with the physical medium. Protocols include <span data-tip="IEEE standard for wired Ethernet networks">802.3</span> and <span data-tip="IEEE standard for wireless Wi-Fi networks">802.11</span>.</p>
+            <div class="layer-functions">
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Framing</strong> — Encapsulates IP packets into Ethernet frames with MAC addresses</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>MAC Addressing</strong> — Hardware addresses that identify devices on the local network</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Signal encoding</strong> — Converts frames into electrical signals, light pulses, or radio waves</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Physical transmission</strong> — Sends signals over copper, fibre-optic, or wireless media</div></div>
+              <div class="layer-fn"><div class="layer-fn-dot"></div><div><strong>Error detection</strong> — Frame checksum (CRC) to detect transmission errors</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ANIMATION SECTION -->
+<section id="animation">
+  <div class="container">
+    <div class="section-label">Interactive Simulation</div>
+    <h2>Data Flow Visualizer</h2>
+    <p class="section-desc">Simulate sending or receiving data to see how each layer processes and wraps (or unwraps) the data packet.</p>
+
+    <div class="anim-controls">
+      <button class="btn btn-send" onclick="startSend()">📤 Send Data</button>
+      <button class="btn btn-recv" onclick="startReceive()">📥 Receive Data</button>
+      <button class="btn btn-reset" onclick="resetAnim()">↺ Reset</button>
+    </div>
+
+    <div class="anim-stage">
+      <!-- SENDER -->
+      <div class="anim-column" id="sender-col">
+        <div class="anim-col-label">🖥️ Your Computer (Sender)</div>
+        <div class="anim-layer" data-l="app" id="s-app">
+          <div class="anim-layer-name" style="color:var(--app)">Application Layer</div>
+          <div class="anim-layer-desc">Prepares HTTP GET request</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--app)">DATA</span>: HTTP GET /index.html</div>
+        </div>
+        <div class="anim-layer" data-l="trans" id="s-trans">
+          <div class="anim-layer-name" style="color:var(--trans)">Transport Layer</div>
+          <div class="anim-layer-desc">Adds TCP header + port numbers</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--trans)">SEGMENT</span>: [TCP HDR | DATA]</div>
+        </div>
+        <div class="anim-layer" data-l="inet" id="s-inet">
+          <div class="anim-layer-name" style="color:var(--inet)">Internet Layer</div>
+          <div class="anim-layer-desc">Adds IP header + addresses</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--inet)">PACKET</span>: [IP HDR | SEG]</div>
+        </div>
+        <div class="anim-layer" data-l="net" id="s-net">
+          <div class="anim-layer-name" style="color:var(--net)">Network Interface</div>
+          <div class="anim-layer-desc">Creates frame → electrical signal</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--net)">FRAME</span>: [MAC | PKT | FCS]</div>
+        </div>
+      </div>
+
+      <!-- MIDDLE ARROWS -->
+      <div class="anim-middle">
+        <div class="anim-arrow" id="arr-up" title="Data flows up (receiving)">⬆️</div>
+        <div class="anim-arrow" id="arr-dn" title="Data flows down (sending)">⬇️</div>
+      </div>
+
+      <!-- RECEIVER -->
+      <div class="anim-column" id="receiver-col">
+        <div class="anim-col-label">🖥️ Web Server (Receiver)</div>
+        <div class="anim-layer" data-l="app" id="r-app">
+          <div class="anim-layer-name" style="color:var(--app)">Application Layer</div>
+          <div class="anim-layer-desc">Receives HTTP request</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--app)">DATA</span>: HTTP GET /index.html ✓</div>
+        </div>
+        <div class="anim-layer" data-l="trans" id="r-trans">
+          <div class="anim-layer-name" style="color:var(--trans)">Transport Layer</div>
+          <div class="anim-layer-desc">Checks checksum, reassembles</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--trans)">SEGMENT</span>: checksum ✓ reorder ✓</div>
+        </div>
+        <div class="anim-layer" data-l="inet" id="r-inet">
+          <div class="anim-layer-name" style="color:var(--inet)">Internet Layer</div>
+          <div class="anim-layer-desc">Verifies destination IP</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--inet)">PACKET</span>: dest IP matches ✓</div>
+        </div>
+        <div class="anim-layer" data-l="net" id="r-net">
+          <div class="anim-layer-name" style="color:var(--net)">Network Interface</div>
+          <div class="anim-layer-desc">Receives signal → Ethernet frame</div>
+          <div class="anim-packet"><span class="packet-label" style="color:var(--net)">FRAME</span>: MAC match ✓ CRC ✓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="anim-status" id="anim-status">
+      Press <strong>Send Data</strong> to simulate encapsulation or <strong>Receive Data</strong> for decapsulation.
+    </div>
+  </div>
+</section>
+
+<!-- STEPS SECTION -->
+<section id="steps">
+  <div class="container">
+    <div class="section-label">Step-by-Step</div>
+    <h2>Fetching a Web Page: All 8 Steps</h2>
+    <p class="section-desc">A detailed walkthrough of what happens when you type a URL and press Enter.</p>
+
+    <div class="steps-grid reveal">
+
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-badge app">Application Layer</div>
+          <h4>User Requests a Web Page</h4>
+          <p>The user enters a URL. The web browser (application) constructs an <strong>HTTP GET request</strong> according to the HTTP protocol. This request is passed down to the Transport layer.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-badge trans">Transport Layer</div>
+          <h4>Preparing the Request for Transmission</h4>
+          <p>The HTTP request becomes a <strong>TCP segment</strong> with a header containing sequencing info, source/destination port numbers (port 80 for HTTP), and a checksum. A three-way handshake (SYN → SYN-ACK → ACK) establishes a reliable connection before data transfer.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-badge inet">Internet Layer</div>
+          <h4>Preparing the Segment for Routing</h4>
+          <p>The TCP segment is encapsulated into an <strong>IP packet</strong> with source IP, destination IP, protocol type, <span data-tip="Time To Live: prevents packets looping forever">TTL</span>, and header checksum. A next-hop address (usually your router) is assigned.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-badge net">Network Interface Layer</div>
+          <h4>Final Encapsulation & Converting to Signal</h4>
+          <p>The IP packet is wrapped in an <strong>Ethernet frame</strong> with destination <span data-tip="Media Access Control: hardware address of the NIC">MAC address</span>, source MAC, and a frame checksum (FCS). The NIC converts this into electrical signals or radio waves and transmits over the physical medium.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-badge net">Network Interface Layer (Server)</div>
+          <h4>Receiving the Request on the Server</h4>
+          <p>The server's NIC receives signals and converts them back to an Ethernet frame. The frame checksum is verified. If the destination MAC matches, the Ethernet header is stripped and the IP packet is passed up. The frame is processed bottom-up through all layers.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-badge app">Application Layer (Server)</div>
+          <h4>Server Responds with the Web Page</h4>
+          <p>The web server generates an <strong>HTTP response</strong> with the requested HTML. This travels back down through all four layers — Application → Transport → Internet → Network Interface — then is transmitted back to the client.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <div class="step-badge app">Application Layer (Client)</div>
+          <h4>User Receives the Web Page</h4>
+          <p>The response travels up through the client's layers. The application layer's web browser interprets the <strong>HTML content</strong> and renders the web page for the user.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <div class="step-badge trans">Transport Layer</div>
+          <h4>Connection Termination</h4>
+          <p>The TCP connection is gracefully closed via a <strong>FIN / ACK</strong> exchange. A FIN packet signals that the sender has finished; an ACK confirms receipt. This cleanly terminates the connection in both directions.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="container">
+    <div class="section-label">Knowledge Check</div>
+    <h2>Test Your Understanding</h2>
+    <p class="section-desc">7 questions — IBDP examination style. Select an answer and see instant feedback.</p>
+
+    <div class="quiz-box">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="qpf"></div></div>
+
+      <div id="quiz-content">
+        <div class="quiz-q" id="qq"></div>
+        <div class="quiz-options" id="qopts"></div>
+        <div class="quiz-feedback" id="qfb"></div>
+        <div class="quiz-footer">
+          <span class="quiz-counter" id="qcount"></span>
+          <button class="btn btn-primary" id="qnext" onclick="nextQuestion()" style="display:none">Next →</button>
+        </div>
+      </div>
+
+      <div class="quiz-result" id="quiz-result">
+        <div class="quiz-score-circle" id="qscore"></div>
+        <h3 style="font-family:'Syne',sans-serif;margin-bottom:12px">Quiz Complete!</h3>
+        <p id="qresult-msg"></p>
+        <button class="btn btn-primary" onclick="restartQuiz()">↺ Try Again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>TCP/IP Model Interactive Guide · IBDP Computer Science A2.1.5 · Built for educational purposes</p>
+</footer>
+
+<script>
+/* ===== LAYER TOGGLE ===== */
+function toggleLayer(id) {
+  const card = document.getElementById('lc-' + id);
+  card.classList.toggle('open');
+}
+
+/* ===== SCROLL REVEAL ===== */
+const revealEls = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+revealEls.forEach(el => ro.observe(el));
+
+// Also reveal step items
+document.querySelectorAll('.step-item').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = `opacity 0.5s ${i * 0.07}s ease, transform 0.5s ${i * 0.07}s ease`;
+  ro.observe(el);
+});
+const ro2 = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.step-item').forEach(el => ro2.observe(el));
+
+/* ===== ANIMATION ===== */
+let animRunning = false;
+
+const sIds = ['s-app','s-trans','s-inet','s-net'];
+const rIds = ['r-app','r-trans','r-inet','r-net'];
+
+const sendMessages = [
+  '🌐 <strong>Application Layer:</strong> Web browser constructs HTTP GET request. Data is prepared.',
+  '🚚 <strong>Transport Layer:</strong> HTTP request wrapped in TCP segment. Sequence numbers and port 80 added. Three-way handshake: SYN → SYN-ACK → ACK.',
+  '🗺️ <strong>Internet Layer:</strong> TCP segment encapsulated in IP packet. Source/destination IPs attached. Next hop (router) assigned.',
+  '🔌 <strong>Network Interface Layer:</strong> IP packet wrapped in Ethernet frame with MAC addresses. NIC converts to electrical signal and transmits. 📡 Signal travels across the internet to the server...',
+];
+const recvMessages = [
+  '🔌 <strong>Network Interface (Server):</strong> Server NIC receives signal → converts to Ethernet frame. CRC checksum verified. MAC address matches → frame passed up.',
+  '🗺️ <strong>Internet Layer (Server):</strong> IP header examined. Destination IP matches server. Header checksum verified. IP header stripped → TCP segment exposed.',
+  '🚚 <strong>Transport Layer (Server):</strong> Destination port (80) identified → directed to HTTP process. Sequence numbers used to reassemble data. Checksum verified. HTTP GET handed up.',
+  '🌐 <strong>Application Layer (Server):</strong> HTTP GET request received! Web server generates HTTP response with HTML content. Response travels back down the layers...',
+];
+
+function clearAnim() {
+  [...sIds, ...rIds].forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById('arr-up').classList.remove('lit');
+  document.getElementById('arr-dn').classList.remove('lit');
+}
+
+async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function startSend() {
+  if (animRunning) return;
+  animRunning = true;
+  clearAnim();
+  document.getElementById('arr-dn').classList.add('lit');
+  const status = document.getElementById('anim-status');
+
+  for (let i = 0; i < 4; i++) {
+    document.getElementById(sIds[i]).classList.add('active');
+    status.innerHTML = sendMessages[i];
+    await sleep(1800);
+  }
+
+  // Now receiver gets it (bottom to top)
+  document.getElementById('arr-dn').classList.remove('lit');
+  document.getElementById('arr-up').classList.add('lit');
+  for (let i = 3; i >= 0; i--) {
+    document.getElementById(rIds[i]).classList.add('active');
+    status.innerHTML = recvMessages[3 - i];
+    await sleep(1800);
+  }
+
+  status.innerHTML = '✅ <strong>Done!</strong> The HTTP GET request has been successfully delivered to the web server across all 4 TCP/IP layers.';
+  animRunning = false;
+}
+
+async function startReceive() {
+  if (animRunning) return;
+  animRunning = true;
+  clearAnim();
+  document.getElementById('arr-up').classList.add('lit');
+  const status = document.getElementById('anim-status');
+
+  const recvFirst = [
+    '🔌 <strong>Network Interface (Your PC):</strong> NIC receives incoming signal from the internet, converts to Ethernet frame, verifies CRC.',
+    '🗺️ <strong>Internet Layer (Your PC):</strong> IP header checked — destination IP is your device. Header stripped, TCP segment passed up.',
+    '🚚 <strong>Transport Layer (Your PC):</strong> TCP checksum verified. Segments reassembled in sequence order. Data handed up to application.',
+    '🌐 <strong>Application Layer (Your PC):</strong> Browser receives the HTTP response. HTML is parsed and the web page is rendered! 🎉',
+  ];
+
+  for (let i = 3; i >= 0; i--) {
+    document.getElementById(rIds[i]).classList.add('active');
+    status.innerHTML = recvFirst[3 - i];
+    await sleep(1800);
+  }
+
+  status.innerHTML = '✅ <strong>Done!</strong> The web page has been fully received and rendered — decapsulation complete across all 4 TCP/IP layers.';
+  animRunning = false;
+}
+
+function resetAnim() {
+  animRunning = false;
+  clearAnim();
+  document.getElementById('anim-status').innerHTML = 'Press <strong>Send Data</strong> to simulate encapsulation or <strong>Receive Data</strong> for decapsulation.';
+}
+
+/* ===== QUIZ ===== */
+const questions = [
+  {
+    q: "Which layer of the TCP/IP model is responsible for translating domain names (like google.com) into IP addresses?",
+    opts: ["Transport Layer", "Internet Layer", "Application Layer", "Network Interface Layer"],
+    ans: 2,
+    exp: "DNS (Domain Name System) operates at the Application Layer. It translates human-readable domain names into numerical IP addresses."
+  },
+  {
+    q: "What is the purpose of the three-way handshake in the Transport Layer?",
+    opts: ["To assign MAC addresses to devices", "To establish a reliable TCP connection before data transfer", "To route packets across different networks", "To convert data into electrical signals"],
+    ans: 1,
+    exp: "The three-way handshake (SYN → SYN-ACK → ACK) establishes a reliable TCP connection, ensuring both client and server are ready to communicate before data is sent."
+  },
+  {
+    q: "A TCP segment is encapsulated into which data unit at the Internet Layer?",
+    opts: ["Frame", "Datagram", "IP Packet", "Signal"],
+    ans: 2,
+    exp: "At the Internet Layer, TCP segments are encapsulated into IP Packets, which include source and destination IP addresses for routing."
+  },
+  {
+    q: "Which of the following protocols operates at the Network Interface Layer?",
+    opts: ["HTTP", "TCP", "IP", "Ethernet (802.3)"],
+    ans: 3,
+    exp: "Ethernet (802.3) and Wi-Fi (802.11) operate at the Network Interface Layer, handling the physical transmission of data frames."
+  },
+  {
+    q: "What does TTL (Time to Live) in an IP packet prevent?",
+    opts: ["Data corruption during transmission", "Packets from circulating indefinitely on the network", "Unauthorized access to packets", "Duplicate acknowledgements"],
+    ans: 1,
+    exp: "TTL is a counter that decrements at each router hop. When it reaches zero, the packet is discarded, preventing packets from looping forever on the network."
+  },
+  {
+    q: "During decapsulation on the receiving server, in what order are the headers processed?",
+    opts: [
+      "Application → Transport → Internet → Network Interface",
+      "Network Interface → Internet → Transport → Application",
+      "Transport → Internet → Network Interface → Application",
+      "Internet → Network Interface → Transport → Application"
+    ],
+    ans: 1,
+    exp: "Decapsulation processes layers from bottom to top: Network Interface first (removes frame), then Internet (removes IP header), then Transport (removes TCP header), then Application receives the data."
+  },
+  {
+    q: "How does the reliability of the TCP/IP model come from its layered approach?",
+    opts: [
+      "Each layer independently encrypts data",
+      "All layers share the same protocol",
+      "Each layer's specific protocols precisely handle data encapsulation, error-checking, and acknowledgements",
+      "The internet layer verifies every packet twice"
+    ],
+    ans: 2,
+    exp: "Reliability comes from each layer's specific protocols precisely dictating how data is handled, encapsulated, transmitted, and received — including error-checking, checksums, sequencing, and acknowledgements."
+  }
+];
+
+let qIdx = 0, score = 0, answered = false;
+
+function loadQuestion() {
+  answered = false;
+  const q = questions[qIdx];
+  document.getElementById('qq').textContent = `Q${qIdx+1}. ${q.q}`;
+  document.getElementById('qcount').textContent = `${qIdx+1} / ${questions.length}`;
+  document.getElementById('qpf').style.width = `${((qIdx) / questions.length) * 100}%`;
+  document.getElementById('qfb').textContent = '';
+  document.getElementById('qnext').style.display = 'none';
+
+  const letters = ['A','B','C','D'];
+  const optsDiv = document.getElementById('qopts');
+  optsDiv.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'quiz-opt';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span> ${opt}`;
+    btn.onclick = () => selectAnswer(i, btn);
+    optsDiv.appendChild(btn);
+  });
+}
+
+function selectAnswer(i, el) {
+  if (answered) return;
+  answered = true;
+  const q = questions[qIdx];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+
+  if (i === q.ans) {
+    el.classList.add('correct');
+    score++;
+    document.getElementById('qfb').innerHTML = `✅ Correct! ${q.exp}`;
+    document.getElementById('qfb').style.color = 'var(--app)';
+  } else {
+    el.classList.add('wrong');
+    opts[q.ans].classList.add('correct');
+    document.getElementById('qfb').innerHTML = `❌ Not quite. ${q.exp}`;
+    document.getElementById('qfb').style.color = 'var(--net)';
+  }
+
+  if (qIdx < questions.length - 1) {
+    document.getElementById('qnext').style.display = 'inline-flex';
+  } else {
+    setTimeout(showResult, 1200);
+  }
+}
+
+function nextQuestion() {
+  qIdx++;
+  loadQuestion();
+}
+
+function showResult() {
+  document.getElementById('quiz-content').style.display = 'none';
+  const res = document.getElementById('quiz-result');
+  res.style.display = 'block';
+  document.getElementById('qscore').textContent = `${score}/${questions.length}`;
+  document.getElementById('qpf').style.width = '100%';
+
+  const pct = score / questions.length;
+  let msg = '';
+  if (pct === 1) msg = "Perfect score! Outstanding understanding of the TCP/IP model. You're ready for the IBDP exam.";
+  else if (pct >= 0.7) msg = "Great work! You have a solid grasp of the TCP/IP model. Review the layers you found tricky.";
+  else if (pct >= 0.5) msg = "Good effort. Revisit the layer descriptions and the step-by-step walkthrough to reinforce your knowledge.";
+  else msg = "Keep studying! Read through each layer section carefully and try the simulation tool to visualise how data flows.";
+  document.getElementById('qresult-msg').textContent = msg;
+}
+
+function restartQuiz() {
+  qIdx = 0; score = 0; answered = false;
+  document.getElementById('quiz-content').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  loadQuestion();
+}
+
+// Init
+loadQuestion();
+</script>
+</body>
+</html>

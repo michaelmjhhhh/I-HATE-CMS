@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gateway — IBDP Computer Science Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f3ff;
+  --card: #ffffff;
+  --indigo: #4f46e5;
+  --indigo2: #3730a3;
+  --indigo-light: #eef2ff;
+  --violet: #7c3aed;
+  --violet-light: #ede9fe;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --orange: #ea580c;
+  --orange-light: #fff7ed;
+  --yellow: #ca8a04;
+  --yellow-light: #fef9c3;
+  --navy: #1e1b4b;
+  --text: #1e1b4b;
+  --muted: #6b7280;
+  --border: #c7d2fe;
+  --font: 'Nunito', sans-serif;
+  --font-d: 'Fredoka One', cursive;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); overflow-x:hidden; }
+
+/* ══ HERO ══ */
+.hero {
+  background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 45%, #4f46e5 80%, #7c3aed 100%);
+  position: relative; overflow: hidden;
+  min-height: 55vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.hero-bg-circles span {
+  position:absolute; border-radius:50%;
+  background:rgba(255,255,255,0.05); pointer-events:none;
+}
+.hero-bg-circles span:nth-child(1){width:420px;height:420px;top:-100px;right:-80px;}
+.hero-bg-circles span:nth-child(2){width:260px;height:260px;bottom:80px;left:-60px;}
+.hero-bg-circles span:nth-child(3){width:190px;height:190px;top:35%;left:28%;}
+.hero-content { position:relative; z-index:10; padding:3rem 2rem 4rem; text-align:center; }
+.hero-badge { display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:rgba(255,255,255,0.92); font-size:0.74rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; padding:0.3rem 1.1rem; border-radius:999px; margin-bottom:1rem; backdrop-filter:blur(4px); }
+.hero h1 { font-family:var(--font-d); font-size:clamp(3rem,8vw,5.5rem); color:#fff; text-shadow:0 4px 24px rgba(0,0,0,0.35); margin-bottom:0.5rem; line-height:1; }
+.hero-sub { font-size:1.1rem; color:rgba(255,255,255,0.82); font-weight:700; margin-bottom:1.8rem; max-width:500px; margin-left:auto; margin-right:auto; }
+.hero-chips { display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; }
+.chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:0.3rem 1rem; border-radius:999px; font-size:0.78rem; font-weight:800; backdrop-filter:blur(4px); }
+
+svg.wave { display:block; width:100%; background:transparent; margin-top:-2px; }
+
+/* ══ LAYOUT ══ */
+.container { max-width:1080px; margin:0 auto; padding:0 1.5rem; }
+.section { padding:3rem 0; }
+.sec-head { text-align:center; margin-bottom:2rem; }
+.sec-emoji { font-size:2.4rem; display:block; margin-bottom:0.4rem; }
+.sec-title { font-family:var(--font-d); font-size:2rem; color:var(--navy); margin-bottom:0.3rem; }
+.sec-sub { color:var(--muted); font-size:0.95rem; font-weight:700; }
+
+/* ══ DEFINITION BOX ══ */
+.def-box { background:linear-gradient(135deg,#3730a3,#4f46e5); border-radius:20px; padding:2rem 2.2rem; display:flex; gap:1.4rem; align-items:flex-start; box-shadow:0 10px 35px rgba(79,70,229,0.3); }
+.def-icon-wrap { width:58px; height:58px; border-radius:14px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
+.def-label { font-family:var(--font-d); font-size:0.8rem; color:rgba(255,255,255,0.55); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:0.4rem; }
+.def-text { font-size:1.05rem; color:#fff; font-weight:700; line-height:1.75; }
+.def-text strong { color:#c4b5fd; }
+
+/* ══ ANALOGY ══ */
+.analogy-card { background:linear-gradient(135deg,#eef2ff,#ede9fe); border:2px solid #c7d2fe; border-radius:20px; padding:2rem; display:flex; gap:1.6rem; align-items:flex-start; box-shadow:0 8px 28px rgba(79,70,229,0.15); }
+.analogy-bounce { font-size:4rem; flex-shrink:0; animation:bounce 3s ease-in-out infinite; line-height:1; }
+@keyframes bounce { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-10px) rotate(3deg);} }
+.analogy-title { font-family:var(--font-d); font-size:1.4rem; color:var(--indigo2); margin-bottom:0.5rem; }
+.analogy-body { font-size:0.97rem; color:#312e81; line-height:1.8; font-weight:600; }
+.analogy-body strong { color:#1e1b4b; }
+
+/* ══ FEATURES TABLE ══ */
+.feat-wrap { overflow-x:auto; border-radius:18px; box-shadow:0 6px 28px rgba(0,0,0,0.08); }
+.feat-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+.feat-table thead th { padding:1rem 1.3rem; text-align:left; font-family:var(--font-d); font-weight:400; font-size:1rem; }
+.feat-table thead th:first-child { background:var(--navy); color:#fff; width:32%; }
+.feat-table thead th:last-child { background:var(--indigo); color:#fff; }
+.feat-table td { padding:0.85rem 1.3rem; border-bottom:1px solid var(--border); font-weight:600; line-height:1.55; vertical-align:top; }
+.feat-table tr:last-child td { border-bottom:none; }
+.feat-table tbody tr:nth-child(even) td { background:#f9f8ff; }
+.feat-table tbody tr:hover td { background:var(--indigo-light); }
+.feat-name { font-weight:800; color:var(--navy); }
+.feat-tag { display:inline-block; font-size:0.65rem; font-weight:900; letter-spacing:0.07em; text-transform:uppercase; padding:1px 8px; border-radius:999px; background:var(--indigo-light); color:var(--indigo2); margin-right:0.4rem; vertical-align:middle; }
+
+/* ══ CHARACTERISTICS ══ */
+.chars-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.1rem; }
+.char-card { background:var(--card); border-radius:16px; padding:1.3rem; border:2px solid var(--border); display:flex; gap:0.9rem; align-items:flex-start; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform .25s, border-color .25s; }
+.char-card:hover { transform:translateY(-4px); border-color:var(--indigo); }
+.char-icon-box { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--indigo-light); border:2px solid #c7d2fe; }
+.char-title { font-family:var(--font-d); font-size:0.97rem; color:var(--navy); margin-bottom:0.2rem; }
+.char-desc { font-size:0.8rem; color:var(--muted); line-height:1.55; font-weight:600; }
+
+/* ══ HOW IT WORKS INTERACTIVE ══ */
+.hiw-progress { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:1.8rem; }
+.hiw-pill { width:34px; height:34px; border-radius:50%; background:#e7e5e4; color:var(--muted); display:flex; align-items:center; justify-content:center; font-family:var(--font-d); font-size:0.95rem; border:2px solid #d6d3d1; transition:all .35s; flex-shrink:0; }
+.hiw-pill.active { background:var(--indigo); color:#fff; border-color:var(--indigo); box-shadow:0 0 0 4px rgba(79,70,229,0.2); transform:scale(1.18); }
+.hiw-pill.done { background:var(--green); color:#fff; border-color:var(--green); }
+.hiw-pill-line { flex:1; height:3px; background:#e7e5e4; border-radius:999px; min-width:20px; max-width:80px; transition:background .35s; }
+.hiw-pill-line.done { background:var(--green); }
+.hiw-canvas-wrap { background:linear-gradient(180deg,#eef2ff 0%,#ede9fe 100%); border-radius:16px; padding:1.2rem 0.5rem; border:2px solid var(--border); margin-bottom:1.5rem; overflow:hidden; }
+.hiw-explain { background:linear-gradient(135deg,#eef2ff,#ede9fe); border:2px solid #c7d2fe; border-radius:16px; padding:1.4rem 1.6rem; display:flex; gap:1rem; align-items:flex-start; margin-bottom:1.5rem; min-height:100px; }
+.hiw-explain-icon { font-size:2.6rem; flex-shrink:0; animation:bounce 2s ease-in-out infinite; }
+.hiw-explain-title { font-family:var(--font-d); font-size:1.15rem; color:var(--indigo2); margin-bottom:0.4rem; }
+.hiw-explain-body { font-size:0.93rem; color:#312e81; line-height:1.75; font-weight:600; }
+.hiw-controls { display:flex; align-items:center; justify-content:center; gap:1rem; }
+.hiw-step-label { font-family:var(--font-d); font-size:1rem; color:var(--muted); min-width:90px; text-align:center; }
+.hiw-btn { padding:0.6rem 1.5rem; border-radius:999px; font-size:0.9rem; font-weight:800; cursor:pointer; font-family:var(--font); border:2px solid transparent; transition:all .2s; }
+.hiw-btn.primary { background:var(--indigo); color:#fff; border-color:var(--indigo); }
+.hiw-btn.primary:hover { background:var(--indigo2); transform:scale(1.05); }
+.hiw-btn.secondary { background:#fff; color:var(--navy); border-color:var(--border); }
+.hiw-btn.secondary:hover:not(:disabled) { border-color:var(--indigo); color:var(--indigo); transform:scale(1.05); }
+.hiw-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.hiw-restart { background:none; border:2px solid var(--border); color:var(--muted); padding:0.4rem 1.2rem; border-radius:999px; font-size:0.82rem; font-weight:800; cursor:pointer; font-family:var(--font); transition:all .2s; }
+.hiw-restart:hover { border-color:var(--indigo); color:var(--indigo); }
+
+/* ══ PROS & CONS ══ */
+.pc-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.pc-card { border-radius:18px; padding:1.6rem; }
+.pc-card.pros { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; }
+.pc-card.cons { background:linear-gradient(135deg,#fff7ed,#ffedd5); border:2px solid #fdba74; }
+.pc-head { font-family:var(--font-d); font-size:1.25rem; margin-bottom:1rem; }
+.pc-card.pros .pc-head { color:#166534; }
+.pc-card.cons .pc-head { color:#9a3412; }
+.pc-item { display:flex; gap:0.6rem; margin-bottom:0.75rem; font-size:0.9rem; line-height:1.55; font-weight:600; }
+.pc-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; flex-shrink:0; margin-top:1px; font-weight:900; }
+.pc-card.pros .pc-dot { background:#bbf7d0; color:#166534; }
+.pc-card.cons .pc-dot { background:#fed7aa; color:#9a3412; }
+.pc-card.pros .pc-txt { color:#14532d; }
+.pc-card.cons .pc-txt { color:#7c2d12; }
+
+/* ══ QUIZ ══ */
+.quiz-wrap { background:linear-gradient(135deg,#1e1b4b,#3730a3,#4f46e5); padding:3.5rem 0; position:relative; overflow:hidden; }
+.quiz-wrap::before { content:'🖧'; position:absolute; font-size:18rem; top:-3rem; right:-2rem; opacity:0.05; pointer-events:none; }
+.quiz-title { font-family:var(--font-d); font-size:2rem; color:#fff; text-align:center; margin-bottom:0.3rem; }
+.quiz-sub { color:rgba(255,255,255,0.65); text-align:center; font-size:0.95rem; font-weight:700; margin-bottom:2rem; }
+.quiz-card { background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:2rem; max-width:700px; margin:0 auto; }
+.q-num { font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:700; margin-bottom:0.4rem; }
+.q-text { font-size:1.08rem; font-weight:800; color:#fff; margin-bottom:1.2rem; line-height:1.5; min-height:3rem; }
+.q-opts { display:flex; flex-direction:column; gap:0.55rem; margin-bottom:1rem; }
+.q-opt { background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.15); color:#fff; padding:0.72rem 1.2rem; border-radius:12px; font-size:0.88rem; font-weight:700; cursor:pointer; text-align:left; transition:all .2s; font-family:var(--font); }
+.q-opt:hover { background:rgba(255,255,255,0.18); transform:translateX(4px); }
+.q-opt.correct { background:rgba(22,163,74,0.35); border-color:#16a34a; }
+.q-opt.wrong { background:rgba(220,38,38,0.35); border-color:#dc2626; }
+.q-opt:disabled { cursor:default; }
+.q-opt.correct::after { content:'  ✓'; }
+.q-opt.wrong::after { content:'  ✗'; }
+.q-fb { min-height:2.5rem; border-radius:10px; padding:0.6rem 1rem; font-size:0.87rem; font-weight:700; text-align:center; opacity:0; transition:opacity .3s; }
+.q-fb.show { opacity:1; }
+.q-fb.good { background:rgba(22,163,74,0.25); color:#a7f3d0; }
+.q-fb.bad { background:rgba(220,38,38,0.25); color:#fca5a5; }
+.q-nav { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; }
+.q-btn { background:#fff; color:var(--navy); border:none; padding:0.6rem 1.5rem; border-radius:999px; font-size:0.88rem; font-weight:900; cursor:pointer; font-family:var(--font); transition:transform .15s,box-shadow .15s; }
+.q-btn:hover { transform:scale(1.05); box-shadow:0 4px 16px rgba(0,0,0,0.2); }
+.q-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+.q-score { font-family:var(--font-d); font-size:1rem; color:rgba(255,255,255,0.7); }
+
+/* ══ SUMMARY ══ */
+.summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
+.sum-card { padding:1.1rem 1.2rem; border-radius:14px; }
+.sum-card.a { background:var(--indigo-light); border-left:4px solid var(--indigo); }
+.sum-card.b { background:var(--violet-light); border-left:4px solid var(--violet); }
+.sum-card.c { background:var(--yellow-light); border-left:4px solid var(--yellow); }
+.sum-card strong { color:var(--navy); font-size:0.95rem; }
+.sum-card p { font-size:0.85rem; color:var(--muted); margin-top:0.3rem; font-weight:600; line-height:1.55; }
+
+footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:1.5rem; font-size:0.8rem; font-weight:700; letter-spacing:0.05em; }
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+
+@media(max-width:640px){
+  .pc-grid { grid-template-columns:1fr; }
+  .analogy-card { flex-direction:column; }
+  .counters-row { grid-template-columns:1fr; }
+  .def-box { flex-direction:column; }
+  .gw-row { flex-direction:column; }
+  .gw-track { transform:rotate(90deg); }
+  .feat-table { font-size:0.78rem; }
+  .feat-table th,.feat-table td { padding:0.6rem 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg-circles"><span></span><span></span><span></span></div>
+  <div class="hero-content">
+    <div class="hero-badge">🎓 IBDP · Computer Science · Network Devices</div>
+    <div style="font-size:5.5rem;margin-bottom:0.8rem;display:block;animation:bounce 4s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(167,139,250,0.5));">🖧</div>
+    <h1>The Gateway</h1>
+    <p class="hero-sub">🌉 The ultimate network translator — bridging completely different worlds!</p>
+    <div class="hero-chips">
+      <span class="chip">🌐 Networking</span>
+      <span class="chip">💻 Computer Science</span>
+      <span class="chip">🎮 Interactive</span>
+      <span class="chip">🔄 Protocol Translation</span>
+    </div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,30 C500,70 900,0 1440,30 L1440,60 L0,60 Z" fill="#f5f3ff"/>
+</svg>
+
+<div class="container">
+
+  <!-- 1. DEFINITION -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📖</span>
+      <h2 class="sec-title">What is a Gateway?</h2>
+      <p class="sec-sub">A clear definition to kick things off</p>
+    </div>
+    <div class="def-box">
+      <div class="def-icon-wrap">📖</div>
+      <div>
+        <div class="def-label">Definition</div>
+        <p class="def-text">
+          A <strong>gateway</strong> is a network node that connects two networks which use
+          <strong>completely different protocols</strong>. It acts as a <strong>translator</strong>,
+          converting data from one format into another so the two networks can communicate —
+          operating at <strong>all layers</strong> of the OSI model. It is the single entry
+          and exit point — the "gate" — between two different network worlds.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ANALOGY -->
+  <section class="section" style="padding-top:0;">
+    <div class="sec-head">
+      <span class="sec-emoji">💡</span>
+      <h2 class="sec-title">Real-World Analogy</h2>
+      <p class="sec-sub">Connect the idea to something you already know 🧠</p>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-bounce">🛂</div>
+      <div>
+        <div class="analogy-title">🛂 Think of it like an Airport Customs Officer!</div>
+        <p class="analogy-body">
+          When you travel from one country 🇬🇧 to another 🇯🇵, you pass through
+          <strong>customs and passport control</strong>. The officer checks your documents,
+          verifies you follow the rules of the new country, and processes you
+          so you can enter — even though both countries have completely different laws and systems.
+          <br><br>
+          A <strong>Gateway</strong> does exactly this for data! 📦
+          When data travels from one network that speaks <em>"Protocol A"</em>
+          (e.g. your school network using IPv4/TCP) to another that speaks
+          <em>"Protocol B"</em> (e.g. a cloud service using IPv6/HTTP),
+          the gateway acts as the <strong>translator and checkpoint</strong> —
+          <strong>converting the data</strong> into the right format so both networks
+          can understand each other perfectly. 🌍
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="container">
+
+  <!-- 3. FEATURES -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚙️</span>
+      <h2 class="sec-title">Key Features of a Gateway</h2>
+      <p class="sec-sub">What a gateway can do — explained in plain English 🔍</p>
+    </div>
+    <div class="feat-wrap">
+      <table class="feat-table">
+        <thead>
+          <tr>
+            <th>🔧 Feature</th>
+            <th>📝 What It Does — Simply Explained</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🔄 Protocol Translation</td>
+            <td>Converts data packets from one protocol format (e.g. IPv4/TCP) into another (e.g. IPv6/HTTP) — the gateway's most important job. Think of it as a real-time language translator between two systems.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🌉 Network Bridging</td>
+            <td>Connects two networks with completely different architectures. Without a gateway, these networks could not communicate at all — it's the only door between them.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🧠 All-Layer Operation</td>
+            <td>Unlike a router (Layer 3) or switch (Layer 2), a gateway can operate at <strong>all 7 layers</strong> of the OSI model — from physical signals all the way up to application-level data.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Security</span>🛡️ Traffic Inspection</td>
+            <td>Because all data must pass through the gateway, it can inspect, filter, and log every packet — adding a strong security checkpoint between two networks.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Control</span>📋 Central Management</td>
+            <td>Acts as a single control point for all cross-network traffic. Admins can apply rules, monitor activity, and manage bandwidth from one place.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Enterprise</span>☁️ Cloud Connectivity</td>
+            <td>Used by businesses to connect their private internal network to cloud services (like AWS, Azure, or Google Cloud) that use different protocols and addressing schemes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. CHARACTERISTICS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🧬</span>
+      <h2 class="sec-title">Characteristics of a Gateway</h2>
+      <p class="sec-sub">The key properties that define what a gateway is 🔎</p>
+    </div>
+    <div class="chars-grid">
+      <div class="char-card">
+        <div class="char-icon-box">🔄</div>
+        <div>
+          <div class="char-title">Protocol Converter</div>
+          <p class="char-desc">A gateway <strong>converts data between completely different protocols</strong> — like translating between two different languages so two incompatible systems can talk.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🔢</div>
+        <div>
+          <div class="char-title">Works at All OSI Layers</div>
+          <p class="char-desc">Unlike routers (Layer 3) or switches (Layer 2), a gateway can work at <strong>any layer</strong> — physical, data link, network, transport, all the way to application level.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🚪</div>
+        <div>
+          <div class="char-title">Single Entry/Exit Point</div>
+          <p class="char-desc">All traffic between two connected networks <strong>must pass through the gateway</strong> — making it the sole gate between them. This gives total control but creates a single point of failure.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">📦</div>
+        <div>
+          <div class="char-title">Repackages Data</div>
+          <p class="char-desc">The gateway <strong>strips the old protocol headers</strong> from a packet and <strong>re-wraps it</strong> in the new protocol format — like re-packaging a parcel for a different postal system.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🏢</div>
+        <div>
+          <div class="char-title">Enterprise & Cloud Use</div>
+          <p class="char-desc">Gateways are common in businesses that need to connect their <strong>private internal network</strong> to external cloud services, partner networks, or the internet with different protocols.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🧠</div>
+        <div>
+          <div class="char-title">More Complex than a Router</div>
+          <p class="char-desc">A <strong>router</strong> simply forwards packets between similar networks using IP. A gateway goes further — it <strong>translates</strong> the data itself, making it far more powerful but also more complex.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. HOW IT WORKS — INTERACTIVE -->
+  <section class="section" id="howItWorksSection" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:1rem;border:2px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,0.06);">
+    <div class="sec-head">
+      <span class="sec-emoji">🔄</span>
+      <h2 class="sec-title">How Does a Gateway Work?</h2>
+      <p class="sec-sub">Press <strong>Next Step</strong> to walk through a data translation — step by step 👇</p>
+    </div>
+
+    <div class="hiw-progress">
+      <div class="hiw-pill active" id="pill0">1</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill1">2</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill2">3</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill3">4</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill4">5</div>
+    </div>
+
+    <div class="hiw-canvas-wrap">
+      <svg id="hiwSvg" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+        <!-- Road -->
+        <rect x="0" y="90" width="700" height="40" rx="8" fill="#1e1b4b"/>
+        <!-- Dashed line -->
+        <line x1="0" y1="110" x2="700" y2="110" stroke="#818cf8" stroke-width="2.5" stroke-dasharray="18,14" opacity="0.6">
+          <animate attributeName="stroke-dashoffset" from="0" to="-64" dur="1.2s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- Node: Network A -->
+        <g id="nodeNetA">
+          <rect x="10" y="62" width="100" height="96" rx="14" fill="#eef2ff" stroke="#c7d2fe" stroke-width="2.5"/>
+          <text x="60" y="95" text-anchor="middle" font-size="26">🏫</text>
+          <text x="60" y="118" text-anchor="middle" font-size="9" font-weight="800" fill="#3730a3">NETWORK A</text>
+          <text x="60" y="131" text-anchor="middle" font-size="8" fill="#6b7280">IPv4 / TCP</text>
+          <text x="60" y="148" text-anchor="middle" font-size="8" fill="#818cf8">💻 PC-01</text>
+        </g>
+
+        <!-- Node: Gateway -->
+        <g id="nodeGateway">
+          <rect x="300" y="55" width="100" height="110" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
+          <text x="350" y="95" text-anchor="middle" font-size="28">🖧</text>
+          <text x="350" y="120" text-anchor="middle" font-size="9" font-weight="800" fill="#3730a3">GATEWAY</text>
+          <text x="350" y="133" text-anchor="middle" font-size="8" fill="#7c3aed">TRANSLATING</text>
+          <text x="350" y="155" text-anchor="middle" font-size="8" fill="#6b7280">ALL LAYERS</text>
+        </g>
+
+        <!-- Node: Network B -->
+        <g id="nodeNetB">
+          <rect x="590" y="62" width="100" height="96" rx="14" fill="#ccfbf1" stroke="#99f6e4" stroke-width="2.5"/>
+          <text x="640" y="95" text-anchor="middle" font-size="26">☁️</text>
+          <text x="640" y="118" text-anchor="middle" font-size="9" font-weight="800" fill="#0f766e">NETWORK B</text>
+          <text x="640" y="131" text-anchor="middle" font-size="8" fill="#6b7280">IPv6 / HTTP</text>
+          <text x="640" y="148" text-anchor="middle" font-size="8" fill="#0d9488">☁️ Cloud App</text>
+        </g>
+
+        <!-- Conversion popup (hidden) -->
+        <g id="conversionPopup" opacity="0">
+          <rect x="272" y="0" width="156" height="50" rx="10" fill="#1e1b4b" stroke="#7c3aed" stroke-width="2"/>
+          <text x="350" y="16" text-anchor="middle" font-size="9" font-weight="800" fill="#fbbf24">🔄 TRANSLATING…</text>
+          <text x="285" y="29" font-size="8" fill="#818cf8">IN:  IPv4/TCP headers</text>
+          <text x="285" y="41" font-size="8" fill="#2dd4bf">OUT: IPv6/HTTP format</text>
+        </g>
+
+        <!-- Data packet A (IPv4) -->
+        <g id="packetA" opacity="0">
+          <rect x="-30" y="96" width="60" height="28" rx="8" fill="#4f46e5" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="115" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">📦 IPv4</text>
+        </g>
+
+        <!-- Data packet B (IPv6 — converted) -->
+        <g id="packetB" opacity="0">
+          <rect x="-30" y="96" width="60" height="28" rx="8" fill="#0d9488" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="115" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">📦 IPv6</text>
+        </g>
+
+        <!-- Protocol label -->
+        <g id="protoLabel" opacity="0">
+          <rect x="14" y="163" width="100" height="28" rx="8" fill="#1e1b4b"/>
+          <text x="64" y="175" text-anchor="middle" font-size="8" font-weight="800" fill="#818cf8">Protocol:</text>
+          <text x="64" y="185" text-anchor="middle" font-size="8" fill="#a5b4fc">IPv4 / TCP</text>
+        </g>
+
+        <!-- Success checkmark -->
+        <g id="successCheck" opacity="0">
+          <circle cx="640" cy="62" r="14" fill="#16a34a"/>
+          <text x="640" y="67" text-anchor="middle" font-size="14">✅</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hiw-explain" id="hiwExplain">
+      <div class="hiw-explain-icon" id="hiwIcon">💻</div>
+      <div>
+        <div class="hiw-explain-title" id="hiwTitle">Step 1 — Data is Sent from Network A</div>
+        <div class="hiw-explain-body" id="hiwBody">A computer (PC-01) on <strong>Network A</strong> 🏫 sends a data request — for example, trying to access a cloud application. The data is packaged as an <strong>IPv4/TCP packet</strong> 📦 (the protocol used by Network A) and sent toward the gateway.</div>
+      </div>
+    </div>
+
+    <div class="hiw-controls">
+      <button class="hiw-btn secondary" id="hiwPrev" onclick="hiwStep(-1)" disabled>← Back</button>
+      <div class="hiw-step-label" id="hiwStepLabel">Step 1 of 5</div>
+      <button class="hiw-btn primary" id="hiwNext" onclick="hiwStep(1)">Next Step →</button>
+    </div>
+    <div style="text-align:center;margin-top:0.8rem;">
+      <button class="hiw-restart" id="hiwRestart" onclick="hiwReset()" style="display:none;">🔄 Replay from Start</button>
+    </div>
+  </section>
+
+  <!-- 7. ADVANTAGES & DISADVANTAGES -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚖️</span>
+      <h2 class="sec-title">Advantages &amp; Disadvantages</h2>
+      <p class="sec-sub">Every device has strengths and weaknesses 🤔</p>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card pros">
+        <div class="pc-head">👍 Advantages</div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🔄 <strong>Connects incompatible networks</strong> — enables communication between networks with completely different protocols and architectures that could not otherwise talk.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🧠 <strong>Works at all layers</strong> — unlike routers, gateways can translate at any OSI layer, from physical signals to full application-level data.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">📋 <strong>Central management point</strong> — all traffic passes through it, making it easy to monitor, log, and control cross-network activity.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🛡️ <strong>Security filtering</strong> — can inspect and block data as it crosses between networks, adding a strong layer of security.</span></div>
+      </div>
+      <div class="pc-card cons">
+        <div class="pc-head">👎 Disadvantages</div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🔧 <strong>High complexity</strong> — much harder to configure and maintain than basic devices like routers or switches. Requires skilled network engineers.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">⚠️ <strong>Single point of failure</strong> — if the gateway fails, ALL communication between the two networks stops completely until it is repaired.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🐌 <strong>Can be a bottleneck</strong> — protocol conversion takes processing time and can slow down traffic under heavy load.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">💰 <strong>Expensive</strong> — enterprise-grade gateways with full protocol support are costly to purchase and maintain.</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 8. QUIZ -->
+<section class="quiz-wrap">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quiz Time!</h2>
+    <p class="quiz-sub">Test your gateway knowledge — 10 questions 🎯</p>
+    <div class="quiz-card">
+      <div class="q-num" id="qNum">Question 1 of 10</div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <div class="q-nav">
+        <div class="q-score">Score: <span id="qScore">0</span> / 10</div>
+        <button class="q-btn" id="qNext" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📝</span>
+      <h2 class="sec-title">Quick Summary</h2>
+      <p class="sec-sub">Key points to remember for your exam 🎓</p>
+    </div>
+    <div style="background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div class="summary-grid">
+        <div class="sum-card a"><strong>📌 Definition</strong><p>A network node that connects two networks with different protocols, translating data between them so they can communicate. Operates at all OSI layers.</p></div>
+        <div class="sum-card b"><strong>📌 Gateway vs Router</strong><p>A router directs traffic between similar networks using IP. A gateway connects networks with completely different protocols — it is a full translator, not just a director.</p></div>
+        <div class="sum-card c"><strong>📌 Key Risk</strong><p>Because all traffic passes through it, a gateway is a single point of failure. If it breaks, communication between both networks stops completely.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>🖧 Gateway — Computer Science &nbsp;·&nbsp; Network Devices Unit &nbsp;·&nbsp; IBDP Computer Science</footer>
+
+<script>
+// ══ QUIZ ══
+const qs = [
+  { q:"What is the best real-world analogy for a gateway? 🛂", opts:["A security camera watching a building","An airport customs officer who checks and translates documents for people crossing borders","A post office sorting room that routes letters","A teacher handing back marked assignments"], ans:1, ex:"✅ Correct! Like a customs officer managing the crossing between countries, a gateway manages data crossing between different networks with different protocols." },
+  { q:"What is the key difference between a gateway and a router? 🔄", opts:["A gateway is faster than a router","A gateway only works with wireless connections","A gateway translates between completely different protocols; a router only directs traffic between similar networks","A gateway is cheaper and simpler to set up"], ans:2, ex:"✅ Right! A router moves packets between similar IP networks. A gateway goes further — it translates data between networks using completely different protocols." },
+  { q:"At how many OSI layers can a gateway operate? 🔢", opts:["Only Layer 3 — Network Layer","Only Layer 7 — Application Layer","Only Layer 2 — Data Link Layer","All layers — it is the most versatile network device"], ans:3, ex:"✅ Spot on! A gateway can work at ALL OSI layers — that's what makes it more powerful than a router (Layer 3) or switch (Layer 2)." },
+  { q:"What does a gateway do to a data packet before forwarding it? 📦", opts:["It speeds up the packet and sends it faster","It reads the destination IP and routes it unchanged","It strips the old protocol headers and re-wraps the data in the new protocol format","It encrypts the data to keep it secure"], ans:2, ex:"✅ Correct! The gateway repackages the data — removing the old protocol wrapping and rebuilding the packet in the new protocol that the destination network understands." },
+  { q:"Which is the main DISADVANTAGE of a gateway? ⚠️", opts:["It can connect networks with different protocols","It provides a central control and monitoring point","If it fails, ALL communication between the two networks stops completely","It can inspect and filter traffic for security"], ans:2, ex:"✅ Right! Because all traffic must pass through it, a gateway failure means total disconnection. This is the 'single point of failure' risk." },
+  { q:"What type of environment are gateways most commonly used in? 🏢", opts:["Home networks connecting a laptop to a printer","Classrooms connecting two computers","Businesses connecting private networks to cloud services or partner networks with different protocols","Schools sharing a Wi-Fi connection"], ans:2, ex:"✅ Great! Gateways are used in enterprise environments — connecting company networks to cloud platforms like AWS or Azure that use different protocols." },
+  { q:"How is a gateway different from a switch? 🔀", opts:["A switch connects different protocols; a gateway only connects similar networks","A gateway is slower than a switch","A switch works at Layer 2 with MAC addresses; a gateway works at all layers and translates protocols","They are exactly the same device"], ans:2, ex:"✅ Correct! A switch forwards data within one network using MAC addresses (Layer 2). A gateway translates between completely different networks at all OSI layers." },
+  { q:"Why can a gateway be a bottleneck? 🐌", opts:["Because it only has one ethernet port","Because protocol conversion requires processing time and resources","Because it uses old technology","Because it cannot handle wireless connections"], ans:1, ex:"✅ Right! Converting data between protocols takes CPU time and processing. Under heavy traffic, this translation work can slow down the flow of data through the gateway." },
+  { q:"What does it mean that a gateway 'operates at all layers'? 🧠", opts:["It is physically very tall","It can process and translate data at any level — from physical signals to full application data","It connects more than two networks at once","It requires no configuration"], ans:1, ex:"✅ Spot on! Operating at all layers means the gateway can handle translation at any point — whether the difference is in physical signals, addressing, or application-level formats." },
+  { q:"Which of these is an ADVANTAGE of using a gateway? 👍", opts:["It is simple and cheap to set up","It only works with IPv4 networks","It enables communication between networks that use completely different architectures and protocols","It removes the need for any other network devices"], ans:2, ex:"✅ Perfect! The gateway's greatest strength is enabling two completely incompatible networks to communicate — something no other single device can do on its own." },
+];
+
+let qi = 0, sc = 0, answered = false;
+
+function loadQ() {
+  const q = qs[qi];
+  document.getElementById('qNum').textContent = `Question ${qi + 1} of ${qs.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const o = document.getElementById('qOpts');
+  o.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'q-opt';
+    b.textContent = `${['A','B','C','D'][i]})  ${opt}`;
+    b.onclick = () => answerQ(i, q.ans, q.ex);
+    o.appendChild(b);
+  });
+  document.getElementById('qFb').className = 'q-fb';
+  document.getElementById('qFb').textContent = '';
+  document.getElementById('qNext').disabled = true;
+  answered = false;
+}
+
+function answerQ(c, a, ex) {
+  if (answered) return;
+  answered = true;
+  const btns = document.getElementById('qOpts').querySelectorAll('.q-opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qFb');
+  if (c === a) {
+    btns[c].classList.add('correct'); sc++;
+    document.getElementById('qScore').textContent = sc;
+    fb.textContent = ex; fb.className = 'q-fb show good';
+  } else {
+    btns[c].classList.add('wrong'); btns[a].classList.add('correct');
+    fb.textContent = 'Not quite! ' + ex; fb.className = 'q-fb show bad';
+  }
+  document.getElementById('qNext').disabled = false;
+}
+
+document.getElementById('qNext').onclick = () => {
+  qi++;
+  if (qi < qs.length) {
+    loadQ();
+  } else {
+    const pct = Math.round(sc / qs.length * 100);
+    const medal = sc===10?'🏆':sc>=7?'🎉':sc>=5?'👍':'📚';
+    const msg = sc===10?'Perfect score! You know gateways inside out! 🎓':sc>=7?'Great work! Review the ones you missed. 📖':sc>=5?'Good effort — re-read the features and characteristics. 💪':'Keep going — re-read the page and try again! 📚';
+    document.querySelector('.quiz-card').innerHTML = `<div style="text-align:center;padding:1rem 0;"><div style="font-size:4.5rem;margin-bottom:1rem;">${medal}</div><div style="font-family:var(--font-d);font-size:2.2rem;color:#fff;margin-bottom:0.5rem;">Score: ${sc} / ${qs.length}</div><div style="font-size:1rem;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:1.5rem;">${msg}</div><div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;"><div style="height:100%;width:${pct}%;background:${sc===10?'#16a34a':sc>=7?'#4f46e5':'#dc2626'};border-radius:999px;transition:width 1s;"></div></div><button class="q-btn" onclick="location.reload()">🔄 Try Again</button></div>`;
+  }
+};
+
+// Initialise quiz
+loadQ();
+
+// ══ HOW IT WORKS — HELPERS ══
+function svgFade(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.style.transition = 'opacity 0.45s'; el.style.opacity = val; }
+}
+function highlightSvgNode(id, fill, stroke) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const rect = el.querySelector('rect');
+  if (rect) { rect.setAttribute('fill', fill); rect.setAttribute('stroke', stroke); }
+}
+function movePkt(id, x, y) {
+  const pkt = document.getElementById(id);
+  if (!pkt) return;
+  const rect = pkt.querySelector('rect');
+  const txt = pkt.querySelector('text');
+  if (rect) { rect.setAttribute('x', x - 30); rect.setAttribute('y', y - 14); }
+  if (txt) { txt.setAttribute('x', x); txt.setAttribute('y', y + 4); }
+}
+function animatePkt(id, fromX, toX, y, delay) {
+  svgFade(id, 1);
+  let start = null;
+  const dur = 650;
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    movePkt(id, fromX + (toX - fromX) * e, y);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  setTimeout(() => requestAnimationFrame(step), delay || 0);
+}
+function resetSvgNodes() {
+  svgFade('packetA', 0); svgFade('packetB', 0);
+  svgFade('conversionPopup', 0); svgFade('protoLabel', 0); svgFade('successCheck', 0);
+  highlightSvgNode('nodeNetA',    '#eef2ff', '#c7d2fe');
+  highlightSvgNode('nodeGateway', '#ede9fe', '#7c3aed');
+  highlightSvgNode('nodeNetB',    '#ccfbf1', '#99f6e4');
+}
+
+// ══ HOW IT WORKS — STEPS ══
+const hiwSteps = [
+  {
+    icon: '💻',
+    title: 'Step 1 — Data Sent from Network A',
+    body: 'PC-01 on <strong>Network A</strong> 🏫 sends a request to a Cloud App on Network B. The data is packaged as an <strong>IPv4/TCP packet</strong> 📦 — the protocol Network A uses. It travels toward the gateway, the only exit point from Network A.',
+    animate() {
+      highlightSvgNode('nodeNetA', '#c7d2fe', '#4f46e5');
+      svgFade('protoLabel', 1); movePkt('packetA', 60, 110);
+      svgFade('packetA', 1);
+    }
+  },
+  {
+    icon: '🖧',
+    title: 'Step 2 — Gateway Receives the Packet',
+    body: 'The <strong>IPv4/TCP packet</strong> arrives at the gateway 🖧. The gateway is sitting at the boundary between Network A and Network B. It intercepts the packet and begins to read its content and identify the protocol format.',
+    animate() {
+      highlightSvgNode('nodeNetA', '#eef2ff', '#c7d2fe');
+      highlightSvgNode('nodeGateway', '#ddd6fe', '#4f46e5');
+      animatePkt('packetA', 60, 350, 110, 0);
+    }
+  },
+  {
+    icon: '🔄',
+    title: 'Step 3 — Gateway Translates the Protocol',
+    body: 'The gateway <strong>strips the IPv4/TCP headers</strong> from the packet and reads the raw data. It then <strong>re-wraps the data</strong> in the IPv6/HTTP format that Network B understands — like re-packing a parcel for an international postal service 📦✈️.',
+    animate() {
+      svgFade('packetA', 0);
+      svgFade('conversionPopup', 1);
+      highlightSvgNode('nodeGateway', '#fef3c7', '#d97706');
+      movePkt('packetB', 350, 110); svgFade('packetB', 0);
+    }
+  },
+  {
+    icon: '📤',
+    title: 'Step 4 — Converted Packet Forwarded to Network B',
+    body: 'The gateway forwards the <strong>newly converted IPv6/HTTP packet</strong> 📦 into Network B. The data is now in the right language for the Cloud App to understand. Watch it travel from the gateway to Network B!',
+    animate() {
+      svgFade('conversionPopup', 0);
+      highlightSvgNode('nodeGateway', '#ede9fe', '#7c3aed');
+      highlightSvgNode('nodeNetB', '#99f6e4', '#0d9488');
+      svgFade('packetB', 1); movePkt('packetB', 350, 110);
+      animatePkt('packetB', 350, 640, 110, 0);
+    }
+  },
+  {
+    icon: '✅',
+    title: 'Step 5 — Data Arrives at Network B! ✅',
+    body: 'The Cloud App on <strong>Network B</strong> ☁️ receives the packet in <strong>IPv6/HTTP format</strong> — perfectly readable! The translation was completely invisible to both the sender and receiver. Both networks communicated successfully thanks to the gateway! 🎉',
+    animate() {
+      highlightSvgNode('nodeNetB', '#bbf7d0', '#16a34a');
+      svgFade('packetB', 0);
+      svgFade('successCheck', 1);
+      svgFade('protoLabel', 0);
+    }
+  }
+];
+
+let hiwCurrent = 0;
+
+function hiwUpdateUI() {
+  const s = hiwSteps[hiwCurrent];
+  document.getElementById('hiwIcon').textContent  = s.icon;
+  document.getElementById('hiwTitle').textContent = s.title;
+  document.getElementById('hiwBody').innerHTML    = s.body;
+  document.getElementById('hiwStepLabel').textContent = `Step ${hiwCurrent + 1} of ${hiwSteps.length}`;
+
+  hiwSteps.forEach((_, i) => {
+    const pill = document.getElementById('pill' + i);
+    const lines = document.querySelectorAll('.hiw-pill-line');
+    if (!pill) return;
+    pill.classList.remove('active','done');
+    if (i < hiwCurrent)        { pill.classList.add('done');   if (lines[i]) lines[i].classList.add('done'); }
+    else if (i === hiwCurrent) { pill.classList.add('active'); if (lines[i]) lines[i].classList.remove('done'); }
+    else                       { if (lines[i]) lines[i].classList.remove('done'); }
+  });
+
+  document.getElementById('hiwPrev').disabled = hiwCurrent === 0;
+  const isLast = hiwCurrent === hiwSteps.length - 1;
+  const nextBtn = document.getElementById('hiwNext');
+  nextBtn.disabled = isLast;
+  nextBtn.textContent = isLast ? 'Complete ✅' : 'Next Step →';
+  document.getElementById('hiwRestart').style.display = isLast ? 'inline-block' : 'none';
+
+  s.animate();
+}
+
+function hiwStep(dir) {
+  hiwCurrent = Math.max(0, Math.min(hiwSteps.length - 1, hiwCurrent + dir));
+  hiwUpdateUI();
+}
+
+function hiwReset() {
+  hiwCurrent = 0;
+  resetSvgNodes();
+  setTimeout(hiwUpdateUI, 100);
+}
+
+hiwUpdateUI();
+</script>
+</body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAP — Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Audiowide&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f9ff;--card:#fff;--blue:#0284c7;--blue-l:#e0f2fe;--blue-d:#075985;
+  --sky:#38bdf8;--sky-l:#f0f9ff;--purple:#7c3aed;--purple-l:#ede9fe;
+  --green:#16a34a;--green-l:#dcfce7;--red:#dc2626;--red-l:#fee2e2;
+  --orange:#ea580c;--orange-l:#fff7ed;--yellow:#ca8a04;--yellow-l:#fef9c3;
+  --text:#0c4a6e;--muted:#64748b;--border:#bae6fd;--navy:#0c4a6e;
+  --font:'Nunito',sans-serif;--font-d:'Audiowide',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:#1e293b;font-family:var(--font);overflow-x:hidden;}
+
+.hero{background:linear-gradient(135deg,#0c4a6e,#0369a1,#0ea5e9);padding:4rem 2rem 5rem;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,0.1) 0%,transparent 70%);}
+/* Wifi rings */
+.wifi-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.wifi-bg span{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.1);transform:translate(-50%,-50%);}
+.wifi-bg span:nth-child(1){width:200px;height:200px;animation:wifiRing 3s ease-out infinite;}
+.wifi-bg span:nth-child(2){width:350px;height:350px;animation:wifiRing 3s ease-out .5s infinite;}
+.wifi-bg span:nth-child(3){width:500px;height:500px;animation:wifiRing 3s ease-out 1s infinite;}
+@keyframes wifiRing{0%{opacity:.5;transform:translate(-50%,-50%) scale(0.8);}100%{opacity:0;transform:translate(-50%,-50%) scale(1.2);}}
+.hero-icon{font-size:5rem;display:block;margin-bottom:1rem;position:relative;z-index:5;animation:wifiPulse 2s ease-in-out infinite;filter:drop-shadow(0 0 25px rgba(255,255,255,0.5));}
+@keyframes wifiPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
+.hero h1{font-family:var(--font-d);font-size:clamp(1.8rem,5vw,3.5rem);color:#fff;text-shadow:0 4px 20px rgba(0,0,0,0.3);margin-bottom:0.5rem;position:relative;z-index:5;}
+.hero-tag{font-size:1.1rem;color:rgba(255,255,255,0.85);font-weight:700;margin-bottom:1.5rem;position:relative;z-index:5;}
+.chips{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:5;}
+.chip{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:0.3rem 1rem;border-radius:999px;font-size:0.8rem;font-weight:700;}
+svg.wave{display:block;width:100%;background:transparent;margin-top:-2px;}
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.section{padding:3rem 0;}
+.sec-head{text-align:center;margin-bottom:2rem;}
+.sec-emoji{font-size:2.5rem;display:block;margin-bottom:0.4rem;}
+.sec-title{font-family:var(--font-d);font-size:1.7rem;color:var(--navy);margin-bottom:0.3rem;letter-spacing:0.03em;}
+.sec-sub{color:var(--muted);font-size:0.95rem;font-weight:700;}
+
+.analogy{background:linear-gradient(135deg,#e0f2fe,#bae6fd);border:2px solid #7dd3fc;border-radius:20px;padding:2rem;display:flex;gap:1.5rem;align-items:flex-start;box-shadow:0 8px 25px rgba(2,132,199,0.15);margin-bottom:2rem;}
+.analogy-icon{font-size:3.5rem;flex-shrink:0;animation:tower 3s ease-in-out infinite;}
+@keyframes tower{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.analogy-title{font-family:var(--font-d);font-size:1.3rem;color:var(--blue-d);margin-bottom:0.5rem;letter-spacing:0.03em;}
+.analogy-text{font-size:0.97rem;color:#0369a1;line-height:1.7;font-weight:600;}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.1rem;}
+.fact{background:var(--card);border-radius:16px;padding:1.3rem;border:2px solid var(--border);box-shadow:0 4px 12px rgba(0,0,0,0.05);transition:transform .25s,border-color .25s;cursor:pointer;}
+.fact:hover{transform:translateY(-5px);}
+.fact:nth-child(1):hover{border-color:var(--blue);}
+.fact:nth-child(2):hover{border-color:var(--purple);}
+.fact:nth-child(3):hover{border-color:var(--green);}
+.fact:nth-child(4):hover{border-color:var(--orange);}
+.fact:nth-child(5):hover{border-color:var(--red);}
+.fact:nth-child(6):hover{border-color:var(--sky);}
+.fact-e{font-size:2rem;margin-bottom:0.5rem;display:block;}
+.fact-t{font-family:var(--font-d);font-size:0.9rem;color:var(--navy);margin-bottom:0.3rem;}
+.fact-d{font-size:0.82rem;color:var(--muted);line-height:1.55;font-weight:600;}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem;}
+.step{background:var(--card);border-radius:16px;padding:1.4rem 1.1rem;text-align:center;border:2px solid var(--border);box-shadow:0 4px 12px rgba(0,0,0,0.06);position:relative;transition:transform .25s,box-shadow .25s;cursor:pointer;}
+.step:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(2,132,199,0.2);border-color:var(--blue);}
+.step-n{position:absolute;top:-13px;left:50%;transform:translateX(-50%);width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-size:0.75rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.step-e{font-size:2.2rem;margin-bottom:0.5rem;display:block;}
+.step-t{font-family:var(--font-d);font-size:0.9rem;color:var(--navy);margin-bottom:0.3rem;}
+.step-d{font-size:0.82rem;color:var(--muted);line-height:1.5;font-weight:600;}
+
+/* DEMO */
+.demo-box{background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,0.07);}
+.demo-title{font-family:var(--font-d);font-size:1.2rem;color:var(--navy);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;}
+.live-dot{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;animation:p 1s ease-in-out infinite;}
+@keyframes p{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+
+/* OFFICE diagram */
+.office{background:linear-gradient(135deg,#e0f2fe,#eff6ff);border-radius:16px;padding:2rem;position:relative;overflow:hidden;margin-bottom:1.5rem;}
+.office-title{text-align:center;font-family:var(--font-d);font-size:0.95rem;color:var(--navy);margin-bottom:1.5rem;}
+
+/* Walls = dead zone */
+.zones-row{display:flex;justify-content:space-around;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
+.zone{border-radius:16px;padding:1.2rem;text-align:center;flex:1;min-width:120px;}
+.zone.dead{background:rgba(220,38,38,0.08);border:2px dashed #fca5a5;}
+.zone.covered{background:rgba(2,132,199,0.08);border:2px solid #7dd3fc;}
+.zone-label{font-size:0.7rem;font-weight:800;margin-bottom:0.8rem;padding:2px 10px;border-radius:999px;display:inline-block;}
+.zone.dead .zone-label{background:#fee2e2;color:var(--red);}
+.zone.covered .zone-label{background:#e0f2fe;color:var(--blue);}
+
+/* WAP device */
+.wap-box{display:flex;flex-direction:column;align-items:center;gap:0.4rem;margin:0 auto;}
+.wap-icon{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#0369a1,#0ea5e9);border:3px solid #38bdf8;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 4px 20px rgba(14,165,233,0.4);animation:wapGlow 2s ease-in-out infinite;}
+@keyframes wapGlow{0%,100%{box-shadow:0 4px 20px rgba(14,165,233,0.4);}50%{box-shadow:0 4px 35px rgba(14,165,233,0.7);}}
+/* signal rings */
+.signal-rings{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;}
+.sig-ring{position:absolute;border-radius:50%;border:2px solid rgba(14,165,233,0.3);animation:sigExpand 2.5s ease-out infinite;}
+.sig-ring:nth-child(1){width:80px;height:80px;animation-delay:0s;}
+.sig-ring:nth-child(2){width:140px;height:140px;animation-delay:0.6s;}
+.sig-ring:nth-child(3){width:200px;height:200px;animation-delay:1.2s;}
+@keyframes sigExpand{0%{opacity:0.6;transform:scale(0.8);}100%{opacity:0;transform:scale(1.3);}}
+
+/* device list in zone */
+.zone-devs{display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem;}
+.zone-dev{display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.5rem;border-radius:8px;font-size:0.68rem;font-weight:800;background:rgba(255,255,255,0.7);}
+.zone-dev.on{color:var(--blue);}
+.zone-dev.off{color:#9ca3af;}
+.zblink{width:5px;height:5px;border-radius:50%;background:var(--blue);animation:p 1.5s ease-in-out infinite;}
+.zblink.off{background:#d1d5db;animation:none;}
+
+/* counters */
+.counters{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+.ctr{border-radius:14px;padding:1rem;text-align:center;font-weight:800;}
+.ctr.a{background:var(--blue-l);border:2px solid #7dd3fc;}
+.ctr.b{background:var(--green-l);border:2px solid #86efac;}
+.ctr.c{background:var(--purple-l);border:2px solid #c4b5fd;}
+.ctr-n{font-family:var(--font-d);font-size:2rem;display:block;}
+.ctr.a .ctr-n{color:var(--blue);}
+.ctr.b .ctr-n{color:var(--green);}
+.ctr.c .ctr-n{color:var(--purple);}
+.ctr-l{font-size:0.75rem;color:var(--muted);font-weight:800;}
+
+/* floorplan */
+.floorplan-wrap{background:#1e293b;border-radius:16px;padding:1rem;margin-bottom:1.2rem;overflow:hidden;}
+.fp-legend{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-top:0.8rem;}
+.fp-leg-item{display:flex;align-items:center;gap:0.4rem;font-size:0.72rem;font-weight:800;color:var(--muted);}
+.fp-leg-dot{width:12px;height:12px;border-radius:50%;}
+/* device status bar */
+.dev-status-bar{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.2rem;}
+.dev-status-row{display:flex;align-items:center;gap:0.8rem;padding:0.5rem 0.9rem;border-radius:10px;font-size:0.82rem;font-weight:700;background:var(--card);border:2px solid var(--border);transition:border-color .4s,background .4s;}
+.dev-status-row.strong{border-color:#22c55e;background:#f0fdf4;}
+.dev-status-row.medium{border-color:#fbbf24;background:#fefce8;}
+.dev-status-row.weak{border-color:#f97316;background:#fff7ed;}
+.dev-status-row.dead{border-color:#fca5a5;background:#fef2f2;}
+.dsig{font-size:1.1rem;flex-shrink:0;}
+.dname{flex:1;color:var(--navy);}
+.dbars{display:flex;gap:2px;align-items:flex-end;}
+.dbar{width:5px;border-radius:2px;background:#d1d5db;transition:background .4s,height .4s;}
+.dbar.lit.s{background:#22c55e;}
+.dbar.lit.m{background:#fbbf24;}
+.dbar.lit.w{background:#f97316;}
+.dstatus{font-size:0.7rem;font-weight:900;padding:2px 8px;border-radius:999px;white-space:nowrap;}
+.dstatus.strong{background:#dcfce7;color:#166534;}
+.dstatus.medium{background:#fef9c3;color:#92400e;}
+.dstatus.weak{background:#ffedd5;color:#9a3412;}
+.dstatus.dead{background:#fee2e2;color:#991b1b;}
+
+/* PC */
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.pc{border-radius:16px;padding:1.5rem;}
+.pc.pros{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;}
+.pc.cons{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #fdba74;}
+.pc-head{font-family:var(--font-d);font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+.pc.pros .pc-head{color:#166534;}
+.pc.cons .pc-head{color:#9a3412;}
+.pc-item{display:flex;gap:0.6rem;margin-bottom:0.7rem;font-size:0.87rem;line-height:1.5;font-weight:600;}
+.pc-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;margin-top:1px;font-weight:900;}
+.pc.pros .pc-dot{background:#bbf7d0;color:#166534;}
+.pc.cons .pc-dot{background:#fed7aa;color:#9a3412;}
+.pc.pros .pc-txt{color:#14532d;}
+.pc.cons .pc-txt{color:#7c2d12;}
+
+.quiz-wrap{background:linear-gradient(135deg,#0c4a6e,#0369a1,#0284c7);padding:3.5rem 0;position:relative;overflow:hidden;}
+.quiz-wrap::before{content:'📶';position:absolute;font-size:18rem;top:-3rem;right:-2rem;opacity:0.06;pointer-events:none;}
+.quiz-title{font-family:var(--font-d);font-size:1.8rem;color:#fff;text-align:center;margin-bottom:0.4rem;}
+.quiz-sub{color:rgba(255,255,255,0.65);text-align:center;font-size:0.95rem;font-weight:700;margin-bottom:2rem;}
+.quiz-card{background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:2rem;max-width:700px;margin:0 auto;}
+.q-num{font-size:0.78rem;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:0.4rem;}
+.q-text{font-size:1.08rem;font-weight:800;color:#fff;margin-bottom:1.2rem;line-height:1.5;min-height:3rem;}
+.q-opts{display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1rem;}
+.q-opt{background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);color:#fff;padding:0.7rem 1.2rem;border-radius:12px;font-size:0.88rem;font-weight:700;cursor:pointer;text-align:left;transition:all .2s;font-family:var(--font);}
+.q-opt:hover{background:rgba(255,255,255,0.18);transform:translateX(4px);}
+.q-opt.correct{background:rgba(22,163,74,0.35);border-color:#16a34a;}
+.q-opt.wrong{background:rgba(220,38,38,0.35);border-color:#dc2626;}
+.q-opt:disabled{cursor:default;}
+.q-opt.correct::after{content:'  ✓';}
+.q-opt.wrong::after{content:'  ✗';}
+.q-fb{min-height:2.5rem;border-radius:10px;padding:0.6rem 1rem;font-size:0.87rem;font-weight:700;text-align:center;opacity:0;transition:opacity .3s;}
+.q-fb.show{opacity:1;}
+.q-fb.good{background:rgba(22,163,74,0.25);color:#a7f3d0;}
+.q-fb.bad{background:rgba(220,38,38,0.25);color:#fca5a5;}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;}
+.q-btn{background:#fff;color:var(--navy);border:none;padding:0.6rem 1.4rem;border-radius:999px;font-size:0.88rem;font-weight:900;cursor:pointer;font-family:var(--font);transition:transform .15s,box-shadow .15s;}
+.q-btn:hover{transform:scale(1.05);box-shadow:0 4px 15px rgba(0,0,0,0.2);}
+.q-btn:disabled{opacity:0.4;cursor:default;transform:none;}
+.q-score{font-family:var(--font-d);font-size:1rem;color:rgba(255,255,255,0.7);}
+.summary{background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;}
+.sum-item{padding:1rem;border-radius:12px;}
+.sum-item.a{background:var(--blue-l);border-left:4px solid var(--blue);}
+.sum-item.b{background:var(--green-l);border-left:4px solid var(--green);}
+.sum-item.c{background:var(--yellow-l);border-left:4px solid var(--yellow);}
+.sum-item strong{color:var(--navy);}
+.sum-item p{font-size:0.87rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;}
+footer{background:var(--navy);color:rgba(255,255,255,0.5);text-align:center;padding:1.5rem;font-size:0.78rem;font-weight:700;letter-spacing:0.05em;}
+@media(max-width:640px){.pc-grid{grid-template-columns:1fr;}.counters{grid-template-columns:1fr;}.analogy{flex-direction:column;}.zones-row{flex-direction:column;}}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="wifi-bg"><span></span><span></span><span></span></div>
+  <span class="hero-icon">📶</span>
+  <h1>Wireless Access Point</h1>
+  <p class="hero-tag">The Wi-Fi extender — kills dead zones for good!</p>
+  <div class="chips"><span class="chip">Computer Science</span><span class="chip">Network Devices</span><span class="chip">Interactive</span><span class="chip">Computer Science</span></div>
+</section>
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,40 C360,70 1080,10 1440,40 L1440,60 L0,60 Z" fill="#f0f9ff"/>
+</svg>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🤔</span><h2 class="sec-title">What is a WAP?</h2><p class="sec-sub">A simple real-world analogy</p></div>
+    <div class="analogy">
+      <div class="analogy-icon">📡</div>
+      <div>
+        <div class="analogy-title">Think of it like a Mobile Phone Tower for your building!</div>
+        <p class="analogy-text">
+          You know how in some rural areas, your phone has no signal? That's because the mobile tower is too far away. So phone companies put up <strong>extra towers</strong> closer to the area so everyone gets good coverage.
+          <br><br>
+          A <strong>Wireless Access Point (WAP)</strong> does exactly this for your Wi-Fi! Your router only broadcasts Wi-Fi a limited distance. A WAP is an extra device you plug into the wall (connected to the router with a cable) that <strong>broadcasts a fresh Wi-Fi signal</strong> in areas where the router can't reach — like a far classroom, upstairs floor, or large office building. 🏢
+        </p>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span class="fact-e">📡</span><div class="fact-t">Extends Wi-Fi Range</div><p class="fact-d">A WAP extends wireless coverage to areas the router's signal can't reach — eliminating "dead zones" where you get no Wi-Fi.</p></div>
+      <div class="fact"><span class="fact-e">🔌</span><div class="fact-t">Needs an Ethernet Cable</div><p class="fact-d">A WAP must be physically connected to the network via an ethernet cable — it's NOT a wireless repeater. It creates a fresh Wi-Fi signal.</p></div>
+      <div class="fact"><span class="fact-e">🏫</span><div class="fact-t">Great for Large Buildings</div><p class="fact-d">Schools, offices, and hospitals use many WAPs placed around the building so everyone gets strong Wi-Fi everywhere.</p></div>
+      <div class="fact"><span class="fact-e">👥</span><div class="fact-t">Handles Many Devices</div><p class="fact-d">WAPs are designed to handle dozens or even hundreds of devices connecting at the same time — perfect for a busy school!</p></div>
+      <div class="fact"><span class="fact-e">🌐</span><div class="fact-t">Connects to the Wired Network</div><p class="fact-d">It receives data from the wired network and broadcasts it wirelessly. It also collects Wi-Fi data and sends it back to the wired network.</p></div>
+      <div class="fact"><span class="fact-e">📻</span><div class="fact-t">Can Cause Interference</div><p class="fact-d">Multiple WAPs need careful channel planning. Too many on the same channel causes interference — like too many people talking at once!</p></div>
+    </div>
+  </section>
+
+  <section class="section" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:2rem;border:2px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,0.06);">
+    <div class="sec-head"><span class="sec-emoji">⚙️</span><h2 class="sec-title">How Does It Work?</h2><p class="sec-sub">From wired cable to wireless signal</p></div>
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><span class="step-e">🔌</span><div class="step-t">WAP is Plugged In</div><p class="step-d">The WAP is physically connected to the switch or router using an ethernet cable in your building's wall.</p></div>
+      <div class="step"><div class="step-n">2</div><span class="step-e">📡</span><div class="step-t">Broadcasts Wi-Fi Signal</div><p class="step-d">The WAP converts the wired signal into a wireless Wi-Fi signal and broadcasts it in all directions around it.</p></div>
+      <div class="step"><div class="step-n">3</div><span class="step-e">📱</span><div class="step-t">Your Device Connects</div><p class="step-d">Your phone, tablet, or laptop detects the Wi-Fi signal and connects to the WAP automatically.</p></div>
+      <div class="step"><div class="step-n">4</div><span class="step-e">🔄</span><div class="step-t">Data Flows Both Ways</div><p class="step-d">The WAP sends internet data to your device wirelessly and also receives your data and passes it back through the cable.</p></div>
+      <div class="step"><div class="step-n">5</div><span class="step-e">🚶</span><div class="step-t">You Can Roam Freely</div><p class="step-d">Walk around the building — your device automatically switches to the nearest WAP without losing connection!</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">🎮</span><h2 class="sec-title">See It In Action!</h2><p class="sec-sub">A real school floor plan — see how Wi-Fi signal fades with distance and walls</p></div>
+    <div class="demo-box">
+      <div class="demo-title">📶 Live Wi-Fi Coverage Map</div>
+
+      <!-- Realistic floor plan SVG -->
+      <div class="floorplan-wrap">
+        <svg id="floorSVG" viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:10px;">
+          <!-- Background floor -->
+          <rect width="700" height="320" fill="#0f172a"/>
+
+          <!-- Room fills -->
+          <!-- Room A: Server Room (left, near router) -->
+          <rect x="10" y="10" width="155" height="140" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+          <!-- Room B: Classroom 1 (middle-left) -->
+          <rect x="175" y="10" width="170" height="140" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+          <!-- Room C: Hall (middle) -->
+          <rect x="355" y="10" width="140" height="140" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+          <!-- Room D: Classroom 2 (far right) -->
+          <rect x="505" y="10" width="185" height="140" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+          <!-- Room E: Bottom-left -->
+          <rect x="10" y="160" width="200" height="150" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+          <!-- Room F: Bottom-middle (WAP 2 zone) -->
+          <rect x="220" y="160" width="240" height="150" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+          <!-- Room G: Bottom-right (dead zone) -->
+          <rect x="470" y="160" width="220" height="150" rx="4" fill="#1e293b" stroke="#2d1a1a" stroke-width="1.5" stroke-dasharray="6,3"/>
+
+          <!-- Room labels -->
+          <text x="87"  y="26" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace" font-weight="bold">SERVER ROOM</text>
+          <text x="260" y="26" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace" font-weight="bold">CLASSROOM 1</text>
+          <text x="425" y="26" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace" font-weight="bold">HALL</text>
+          <text x="597" y="26" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace" font-weight="bold">CLASSROOM 2</text>
+          <text x="110" y="176" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace" font-weight="bold">LIBRARY</text>
+          <text x="340" y="176" text-anchor="middle" fill="#475569" font-size="9" font-family="monospace" font-weight="bold">COMPUTER LAB</text>
+          <text x="580" y="176" text-anchor="middle" fill="#7f1d1d"  font-size="9" font-family="monospace" font-weight="bold">STORE ROOM ⚠️</text>
+
+          <!-- === ROUTER (top-left, server room) === -->
+          <!-- WAP 1 signal gradient: strong near top-left -->
+          <defs>
+            <radialGradient id="sig1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#0ea5e9" stop-opacity="0.35"/>
+              <stop offset="40%"  stop-color="#0ea5e9" stop-opacity="0.18"/>
+              <stop offset="75%"  stop-color="#0ea5e9" stop-opacity="0.07"/>
+              <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="sig2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#22c55e" stop-opacity="0.35"/>
+              <stop offset="40%"  stop-color="#22c55e" stop-opacity="0.18"/>
+              <stop offset="75%"  stop-color="#22c55e" stop-opacity="0.07"/>
+              <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Router signal coverage (top-left area only) -->
+          <ellipse cx="87" cy="80" rx="230" ry="200" fill="url(#sig1)" opacity="0.9"/>
+
+          <!-- WAP 1 signal (computer lab area) -->
+          <ellipse cx="340" cy="235" rx="210" ry="170" fill="url(#sig2)" opacity="0.9"/>
+
+          <!-- Thick walls between rooms (signal blockers) -->
+          <!-- Vertical wall between Room B and C -->
+          <rect x="343" y="10"  width="14" height="140" fill="#334155"/>
+          <!-- Vertical wall between Room C and D -->
+          <rect x="493" y="10"  width="14" height="140" fill="#334155"/>
+          <!-- Vertical wall between Room A and B -->
+          <rect x="163" y="10"  width="14" height="140" fill="#334155"/>
+          <!-- Horizontal wall top/bottom -->
+          <rect x="10"  y="148" width="680" height="14" fill="#334155"/>
+          <!-- Vertical walls bottom row -->
+          <rect x="208" y="162" width="14" height="148" fill="#334155"/>
+          <rect x="458" y="162" width="14" height="148" fill="#334155"/>
+
+          <!-- === ROUTER device === -->
+          <circle cx="87" cy="80" r="22" fill="#1e3a5f" stroke="#0ea5e9" stroke-width="2">
+            <animate attributeName="r" values="22;25;22" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <text x="87" y="76" text-anchor="middle" font-size="14">🌐</text>
+          <text x="87" y="90" text-anchor="middle" fill="#38bdf8" font-size="7" font-family="monospace" font-weight="bold">ROUTER</text>
+          <!-- Ethernet cable line to WAP1 -->
+          <line x1="87" y1="102" x2="87" y2="162" stroke="#334155" stroke-width="3" stroke-dasharray="4,3"/>
+          <line x1="87" y1="162" x2="340" y2="162" stroke="#334155" stroke-width="3" stroke-dasharray="4,3"/>
+          <line x1="340" y1="162" x2="340" y2="200" stroke="#334155" stroke-width="3" stroke-dasharray="4,3"/>
+
+          <!-- === WAP 1 device (computer lab) === -->
+          <circle cx="340" cy="215" r="20" fill="#14532d" stroke="#22c55e" stroke-width="2">
+            <animate attributeName="r" values="20;23;20" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <text x="340" y="211" text-anchor="middle" font-size="13">📶</text>
+          <text x="340" y="226" text-anchor="middle" fill="#4ade80" font-size="7" font-family="monospace" font-weight="bold">WAP-1</text>
+
+          <!-- Ethernet label -->
+          <text x="200" y="158" text-anchor="middle" fill="#475569" font-size="8" font-family="monospace">── Ethernet cable ──</text>
+
+          <!-- === DEVICES in Server Room (strong signal) === -->
+          <!-- Laptop 1 -->
+          <g id="d-laptop1">
+            <rect x="38" y="100" width="28" height="22" rx="3" fill="#1d4ed8" stroke="#3b82f6" stroke-width="1"/>
+            <text x="52" y="115" text-anchor="middle" font-size="10">💻</text>
+            <text x="52" y="128" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">192.168.1.2</text>
+            <circle cx="65" cy="100" r="3" fill="#22c55e" id="sig-d1"><animate attributeName="opacity" values="1;0.2;1" dur="1.1s" repeatCount="indefinite"/></circle>
+          </g>
+
+          <!-- === DEVICES in Classroom 1 (medium signal — behind 1 wall) === -->
+          <g id="d-phone1">
+            <text x="240" y="90" text-anchor="middle" font-size="16">📱</text>
+            <text x="240" y="103" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Phone-A</text>
+            <circle cx="255" cy="72" r="3" fill="#fbbf24" id="sig-p1"><animate attributeName="opacity" values="1;0.2;1" dur="1.3s" repeatCount="indefinite"/></circle>
+          </g>
+          <g id="d-tablet1">
+            <text x="290" y="130" text-anchor="middle" font-size="15">📟</text>
+            <text x="290" y="143" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Tablet-B</text>
+            <circle cx="305" cy="112" r="3" fill="#fbbf24"><animate attributeName="opacity" values="1;0.2;1" dur="0.9s" repeatCount="indefinite"/></circle>
+          </g>
+
+          <!-- === DEVICES in Hall (weak — 2 walls) === -->
+          <g>
+            <text x="410" y="90" text-anchor="middle" font-size="15">💻</text>
+            <text x="410" y="103" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Laptop-C</text>
+            <circle cx="425" cy="72" r="3" fill="#f97316"><animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/></circle>
+          </g>
+
+          <!-- === DEVICES in Classroom 2 (no router signal — but near WAP coverage edge) === -->
+          <g>
+            <text x="570" y="85" text-anchor="middle" font-size="16">📱</text>
+            <text x="570" y="98" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Phone-D</text>
+            <text x="570" y="108" text-anchor="middle" fill="#ef4444" font-size="7" font-family="monospace" font-weight="bold">NO SIGNAL</text>
+            <!-- X mark -->
+            <text x="590" y="72" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold">✕</text>
+          </g>
+
+          <!-- === DEVICES in Library (strong WAP-1) === -->
+          <g>
+            <text x="90"  y="240" text-anchor="middle" font-size="15">📱</text>
+            <text x="90"  y="253" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Phone-E</text>
+            <circle cx="105" cy="222" r="3" fill="#fbbf24"><animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite"/></circle>
+          </g>
+          <g>
+            <text x="140" y="275" text-anchor="middle" font-size="15">💻</text>
+            <text x="140" y="288" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Laptop-F</text>
+            <circle cx="155" cy="257" r="3" fill="#fbbf24"><animate attributeName="opacity" values="1;0.2;1" dur="0.8s" repeatCount="indefinite"/></circle>
+          </g>
+
+          <!-- === DEVICES in Computer Lab (strong WAP-1) === -->
+          <g>
+            <text x="265" y="245" text-anchor="middle" font-size="15">🖥️</text>
+            <text x="265" y="258" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">PC-Lab-1</text>
+            <circle cx="280" cy="227" r="3" fill="#22c55e"><animate attributeName="opacity" values="1;0.2;1" dur="1s" repeatCount="indefinite"/></circle>
+          </g>
+          <g>
+            <text x="390" y="260" text-anchor="middle" font-size="15">🖥️</text>
+            <text x="390" y="273" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">PC-Lab-2</text>
+            <circle cx="405" cy="242" r="3" fill="#22c55e"><animate attributeName="opacity" values="1;0.2;1" dur="1.4s" repeatCount="indefinite"/></circle>
+          </g>
+          <g>
+            <text x="440" y="245" text-anchor="middle" font-size="15">📟</text>
+            <text x="440" y="258" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Tablet-G</text>
+            <circle cx="455" cy="227" r="3" fill="#22c55e"><animate attributeName="opacity" values="1;0.2;1" dur="0.7s" repeatCount="indefinite"/></circle>
+          </g>
+
+          <!-- === DEAD ZONE — Store Room === -->
+          <g>
+            <text x="570" y="240" text-anchor="middle" font-size="15">📱</text>
+            <text x="570" y="253" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Phone-H</text>
+            <text x="570" y="263" text-anchor="middle" fill="#ef4444" font-size="7" font-family="monospace" font-weight="bold">NO SIGNAL</text>
+            <text x="595" y="225" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold">✕</text>
+          </g>
+          <g>
+            <text x="630" y="270" text-anchor="middle" font-size="15">💻</text>
+            <text x="630" y="283" text-anchor="middle" fill="#94a3b8" font-size="6" font-family="monospace">Laptop-I</text>
+            <text x="630" y="293" text-anchor="middle" fill="#ef4444" font-size="7" font-family="monospace" font-weight="bold">NO SIGNAL</text>
+            <text x="655" y="255" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold">✕</text>
+          </g>
+
+          <!-- Dead zone hatching overlay -->
+          <rect x="470" y="162" width="218" height="148" fill="rgba(220,38,38,0.04)" rx="4"/>
+          <text x="580" y="310" text-anchor="middle" fill="#7f1d1d" font-size="8" font-family="monospace">⚠ DEAD ZONE — No WAP installed</text>
+        </svg>
+
+        <!-- Legend -->
+        <div class="fp-legend">
+          <div class="fp-leg-item"><div class="fp-leg-dot" style="background:#0ea5e9;"></div>Router signal (blue)</div>
+          <div class="fp-leg-item"><div class="fp-leg-dot" style="background:#22c55e;"></div>WAP-1 signal (green)</div>
+          <div class="fp-leg-item"><div class="fp-leg-dot" style="background:#334155;width:18px;height:8px;border-radius:2px;"></div>Thick wall (blocks signal)</div>
+          <div class="fp-leg-item"><div class="fp-leg-dot" style="background:#ef4444;"></div>Dead zone (no coverage)</div>
+        </div>
+      </div>
+
+      <p style="text-align:center;font-size:0.85rem;color:var(--muted);font-weight:700;margin-bottom:1.2rem;">
+        🔵 Router covers top-left &nbsp;·&nbsp; 🟢 WAP-1 covers Computer Lab &nbsp;·&nbsp; 🔴 Store Room has no WAP — dead zone!
+      </p>
+
+      <!-- Device signal status bars -->
+      <div style="font-family:var(--font-d);font-size:0.85rem;color:var(--navy);margin-bottom:0.8rem;">📶 Live Device Signal Strength</div>
+      <div class="dev-status-bar">
+        <div class="dev-status-row strong" id="ds0">
+          <span class="dsig">💻</span>
+          <span class="dname">Laptop-1 — Server Room</span>
+          <div class="dbars">
+            <div class="dbar lit s" style="height:8px"></div>
+            <div class="dbar lit s" style="height:12px"></div>
+            <div class="dbar lit s" style="height:16px"></div>
+            <div class="dbar lit s" style="height:20px"></div>
+          </div>
+          <span class="dstatus strong" id="ss0">Excellent 🔵</span>
+        </div>
+        <div class="dev-status-row medium" id="ds1">
+          <span class="dsig">📱</span>
+          <span class="dname">Phone-A — Classroom 1 (1 wall away)</span>
+          <div class="dbars">
+            <div class="dbar lit m" style="height:8px"></div>
+            <div class="dbar lit m" style="height:12px"></div>
+            <div class="dbar lit m" style="height:16px"></div>
+            <div class="dbar" style="height:20px"></div>
+          </div>
+          <span class="dstatus medium" id="ss1">Good 🔵</span>
+        </div>
+        <div class="dev-status-row weak" id="ds2">
+          <span class="dsig">💻</span>
+          <span class="dname">Laptop-C — Hall (2 walls away)</span>
+          <div class="dbars">
+            <div class="dbar lit w" style="height:8px"></div>
+            <div class="dbar lit w" style="height:12px"></div>
+            <div class="dbar" style="height:16px"></div>
+            <div class="dbar" style="height:20px"></div>
+          </div>
+          <span class="dstatus weak" id="ss2">Weak ⚠️</span>
+        </div>
+        <div class="dev-status-row strong" id="ds3">
+          <span class="dsig">🖥️</span>
+          <span class="dname">PC-Lab-1 — Computer Lab (near WAP-1)</span>
+          <div class="dbars">
+            <div class="dbar lit s" style="height:8px"></div>
+            <div class="dbar lit s" style="height:12px"></div>
+            <div class="dbar lit s" style="height:16px"></div>
+            <div class="dbar lit s" style="height:20px"></div>
+          </div>
+          <span class="dstatus strong" id="ss3">Excellent 🟢</span>
+        </div>
+        <div class="dev-status-row dead" id="ds4">
+          <span class="dsig">📱</span>
+          <span class="dname">Phone-H — Store Room (no WAP)</span>
+          <div class="dbars">
+            <div class="dbar" style="height:8px"></div>
+            <div class="dbar" style="height:12px"></div>
+            <div class="dbar" style="height:16px"></div>
+            <div class="dbar" style="height:20px"></div>
+          </div>
+          <span class="dstatus dead" id="ss4">No Signal ❌</span>
+        </div>
+      </div>
+
+      <!-- Counters -->
+      <div class="counters">
+        <div class="ctr a"><span class="ctr-n" id="cConn">7</span><span class="ctr-l">📱 Devices Connected</span></div>
+        <div class="ctr b"><span class="ctr-n" id="cData">2</span><span class="ctr-l">❌ Dead Zone Devices</span></div>
+        <div class="ctr c"><span class="ctr-n" id="cStrength">94</span><span class="ctr-l">📶 WAP-1 Signal %</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">⚖️</span><h2 class="sec-title">Advantages & Disadvantages</h2><p class="sec-sub">The good and the not-so-good</p></div>
+    <div class="pc-grid">
+      <div class="pc pros">
+        <div class="pc-head">👍 Advantages</div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Eliminates dead zones</strong> — provides Wi-Fi in areas the main router signal can't reach.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Handles many devices</strong> — WAPs can support large numbers of simultaneous connections (great for schools!).</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Seamless roaming</strong> — devices auto-switch to the nearest WAP as you move around the building.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Scalable</strong> — just add more WAPs to cover bigger areas like an entire school campus.</span></div>
+      </div>
+      <div class="pc cons">
+        <div class="pc-head">👎 Disadvantages</div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Must be wired</strong> — a WAP needs a physical ethernet cable connection — it is NOT wireless itself.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Interference</strong> — nearby WAPs or other devices (microwaves, cordless phones) can disrupt the signal.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Needs careful setup</strong> — channels and power must be configured so WAPs don't interfere with each other.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Not a router</strong> — a WAP only broadcasts Wi-Fi; it still depends on a router and switch for internet access.</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="quiz-wrap">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quiz Time!</h2>
+    <p class="quiz-sub">Test your WAP knowledge — 5 questions</p>
+    <div class="quiz-card">
+      <div class="q-num" id="qNum">Question 1 of 5</div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <div class="q-nav"><div class="q-score">Score: <span id="qScore">0</span>/5</div><button class="q-btn" id="qNext" disabled>Next →</button></div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head"><span class="sec-emoji">📝</span><h2 class="sec-title">Quick Summary</h2><p class="sec-sub">Key points to remember</p></div>
+    <div class="summary"><div class="sum-grid">
+      <div class="sum-item a"><strong>📌 Definition:</strong><p>A device that connects to the wired network via ethernet and broadcasts a Wi-Fi signal, extending wireless coverage to areas the router can't reach.</p></div>
+      <div class="sum-item b"><strong>📌 Key Point:</strong><p>A WAP is NOT a wireless repeater — it MUST be physically connected via cable. It creates a fresh, strong Wi-Fi signal, not a weaker repeated one.</p></div>
+      <div class="sum-item c"><strong>📌 Remember:</strong><p>WAPs are used in schools, offices, and hospitals where many people need strong Wi-Fi everywhere. They work together with routers and switches.</p></div>
+    </div></div>
+  </section>
+</div>
+<footer>📶 Wireless Access Point (WAP) — Computer Science · Network Devices Unit</footer>
+
+<script>
+// Gently fluctuate WAP-1 signal strength counter
+setInterval(() => {
+  document.getElementById('cStrength').textContent = Math.floor(88 + Math.random() * 10);
+}, 2000);
+
+const qs=[
+  {q:"What is the best real-world analogy for a WAP?",opts:["A security guard at the entrance","A mobile phone tower added to cover areas with no signal","A post office sorting room","A key that unlocks the internet"],ans:1,ex:"✅ Right! Just like extra towers extend phone signal, a WAP extends Wi-Fi to dead zones."},
+  {q:"How does a WAP connect to the network?",opts:["Wirelessly through Bluetooth","Using a physical ethernet cable to the switch or router","Via satellite","Through the power socket"],ans:1,ex:"✅ Correct! A WAP MUST be physically connected with an ethernet cable — it's not wireless itself!"},
+  {q:"What problem does a WAP solve?",opts:["Slow internet speed from the ISP","Wi-Fi dead zones in large buildings","Running out of IP addresses","Computer viruses"],ans:1,ex:"✅ Spot on! WAPs eliminate dead zones by extending Wi-Fi coverage to areas the router can't reach."},
+  {q:"Which is an ADVANTAGE of using multiple WAPs in a school?",opts:["Students can connect without a password","Devices automatically switch to the nearest WAP as students move around","WAPs replace the need for a router","WAPs block inappropriate websites"],ans:1,ex:"✅ Great! Seamless roaming means your device always connects to the strongest nearby WAP automatically."},
+  {q:"Which is a DISADVANTAGE of a WAP?",opts:["It provides Wi-Fi coverage","It can handle many devices","It must be connected via ethernet cable and can suffer interference","It works with phones and laptops"],ans:2,ex:"✅ Correct! A WAP needs a physical cable AND can be disrupted by interference from nearby electronics."},
+];
+let qi=0,sc=0,done=false;
+function loadQ(){
+  const q=qs[qi];
+  document.getElementById('qNum').textContent=`Question ${qi+1} of ${qs.length}`;
+  document.getElementById('qText').textContent=q.q;
+  const o=document.getElementById('qOpts');o.innerHTML='';
+  q.opts.forEach((opt,i)=>{const b=document.createElement('button');b.className='q-opt';b.textContent=`${['A','B','C','D'][i]})  ${opt}`;b.onclick=()=>ans(i,q.ans,q.ex);o.appendChild(b);});
+  document.getElementById('qFb').className='q-fb';document.getElementById('qFb').textContent='';
+  document.getElementById('qNext').disabled=true;done=false;
+}
+function ans(c,a,ex){
+  if(done)return;done=true;
+  document.querySelectorAll('.q-opt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('qFb');
+  if(c===a){document.querySelectorAll('.q-opt')[c].classList.add('correct');sc++;document.getElementById('qScore').textContent=sc;fb.textContent=ex;fb.className='q-fb show good';}
+  else{document.querySelectorAll('.q-opt')[c].classList.add('wrong');document.querySelectorAll('.q-opt')[a].classList.add('correct');fb.textContent='Not quite! '+ex;fb.className='q-fb show bad';}
+  document.getElementById('qNext').disabled=false;
+}
+document.getElementById('qNext').onclick=()=>{
+  qi++;
+  if(qi<qs.length){loadQ();}
+  else{const pct=Math.round(sc/qs.length*100);document.querySelector('.quiz-card').innerHTML=`<div style="text-align:center;padding:1rem 0;"><div style="font-size:4rem;margin-bottom:1rem;">${sc===5?'🏆':sc>=3?'🎉':'📚'}</div><div style="font-family:var(--font-d);font-size:2rem;color:#fff;margin-bottom:0.5rem;">Score: ${sc} / ${qs.length}</div><div style="font-size:1rem;color:rgba(255,255,255,0.75);font-weight:700;margin-bottom:1.5rem;">${sc===5?'🏆 Perfect! You know your WAPs!':sc>=3?'🎉 Good effort! Review the ones you missed.':'📚 Keep going — you\'ve got this!'}</div><div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;"><div style="height:100%;width:${pct}%;background:${sc===5?'#16a34a':sc>=3?'#0284c7':'#dc2626'};border-radius:999px;"></div></div><button class="q-btn" onclick="location.reload()">🔄 Try Again</button></div>`;}
+};
+loadQ();
+</script>
+</body>
+</html>

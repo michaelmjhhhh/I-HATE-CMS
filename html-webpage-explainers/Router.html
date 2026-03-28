@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Router — IBDP Computer Science Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fdf6ee;
+  --card: #ffffff;
+  --orange: #f97316;
+  --orange2: #ea580c;
+  --orange-dark: #9a3412;
+  --orange-light: #ffedd5;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --yellow: #d97706;
+  --yellow-light: #fef3c7;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --navy: #1e1b4b;
+  --text: #1c1917;
+  --muted: #78716c;
+  --border: #e7e5e4;
+  --font: 'Nunito', sans-serif;
+  --font-d: 'Fredoka One', cursive;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); overflow-x:hidden; }
+
+/* ══ HERO ══ */
+.hero {
+  background: linear-gradient(135deg, #431407 0%, #9a3412 35%, #ea580c 70%, #fb923c 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.hero-bg-circles span {
+  position:absolute; border-radius:50%;
+  background:rgba(255,255,255,0.05); pointer-events:none;
+}
+.hero-bg-circles span:nth-child(1){width:420px;height:420px;top:-100px;right:-80px;}
+.hero-bg-circles span:nth-child(2){width:260px;height:260px;bottom:80px;left:-60px;}
+.hero-bg-circles span:nth-child(3){width:190px;height:190px;top:38%;left:28%;}
+
+.hero-image-wrap {
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.hero-router-img {
+  width:clamp(240px,36vw,460px); height:auto; object-fit:contain;
+  filter:drop-shadow(0 20px 50px rgba(0,0,0,0.55)) drop-shadow(0 0 60px rgba(251,146,60,0.35));
+  animation:floatImg 5s ease-in-out infinite;
+  position:relative; z-index:2;
+}
+@keyframes floatImg { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-14px) scale(1.02);} }
+
+.signal-ring {
+  position:absolute; border-radius:50%;
+  border:2px solid rgba(251,146,60,0.22);
+  animation:ringPulse 3s ease-out infinite; pointer-events:none; z-index:1;
+}
+.signal-ring:nth-child(1){width:310px;height:310px;animation-delay:0s;}
+.signal-ring:nth-child(2){width:460px;height:460px;animation-delay:0.9s;}
+.signal-ring:nth-child(3){width:610px;height:610px;animation-delay:1.8s;}
+@keyframes ringPulse { 0%{opacity:0;transform:scale(0.7);} 50%{opacity:1;} 100%{opacity:0;transform:scale(1.2);} }
+
+.hero-content {
+  position:relative; z-index:10;
+  padding:3rem 2rem 4rem; text-align:center;
+}
+.hero-badge {
+  display:inline-block; background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.3); color:rgba(255,255,255,0.92);
+  font-size:0.74rem; font-weight:800; letter-spacing:0.18em;
+  text-transform:uppercase; padding:0.3rem 1.1rem; border-radius:999px;
+  margin-bottom:1rem; backdrop-filter:blur(4px);
+}
+.hero h1 {
+  font-family:var(--font-d); font-size:clamp(3rem,8vw,5.5rem);
+  color:#fff; text-shadow:0 4px 24px rgba(0,0,0,0.35);
+  margin-bottom:0.5rem; line-height:1;
+}
+.hero-sub {
+  font-size:1.1rem; color:rgba(255,255,255,0.82); font-weight:700;
+  margin-bottom:1.8rem; max-width:500px; margin-left:auto; margin-right:auto;
+}
+.hero-chips { display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; }
+.chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:0.3rem 1rem; border-radius:999px; font-size:0.78rem; font-weight:800; backdrop-filter:blur(4px); }
+
+svg.wave { display:block; width:100%; background:transparent; margin-top:-2px; }
+
+/* ══ LAYOUT ══ */
+.container { max-width:1080px; margin:0 auto; padding:0 1.5rem; }
+.section { padding:3rem 0; }
+.sec-head { text-align:center; margin-bottom:2rem; }
+.sec-emoji { font-size:2.4rem; display:block; margin-bottom:0.4rem; }
+.sec-title { font-family:var(--font-d); font-size:2rem; color:var(--navy); margin-bottom:0.3rem; }
+.sec-sub { color:var(--muted); font-size:0.95rem; font-weight:700; }
+
+/* ══ DEFINITION BOX ══ */
+.def-box {
+  background:linear-gradient(135deg,#9a3412,#ea580c);
+  border-radius:20px; padding:2rem 2.2rem;
+  display:flex; gap:1.4rem; align-items:flex-start;
+  box-shadow:0 10px 35px rgba(234,88,12,0.3);
+}
+.def-icon-wrap { width:58px; height:58px; border-radius:14px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
+.def-label { font-family:var(--font-d); font-size:0.8rem; color:rgba(255,255,255,0.55); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:0.4rem; }
+.def-text { font-size:1.05rem; color:#fff; font-weight:700; line-height:1.75; }
+.def-text strong { color:#fed7aa; }
+
+/* ══ ANALOGY ══ */
+.analogy-card {
+  background:linear-gradient(135deg,#fff7ed,#ffedd5);
+  border:2px solid #fed7aa; border-radius:20px; padding:2rem;
+  display:flex; gap:1.6rem; align-items:flex-start;
+  box-shadow:0 8px 28px rgba(249,115,22,0.15);
+}
+.analogy-bounce { font-size:4rem; flex-shrink:0; animation:bounce 3s ease-in-out infinite; line-height:1; }
+@keyframes bounce { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-10px) rotate(3deg);} }
+.analogy-title { font-family:var(--font-d); font-size:1.4rem; color:#9a3412; margin-bottom:0.5rem; }
+.analogy-body { font-size:0.97rem; color:#7c2d12; line-height:1.8; font-weight:600; }
+.analogy-body strong { color:#431407; }
+
+/* ══ LIVE ACTIVITY ══ */
+.live-box { background:var(--card); border-radius:20px; padding:2rem; border:2px solid var(--border); box-shadow:0 8px 28px rgba(0,0,0,0.07); }
+.live-header { display:flex; align-items:center; gap:0.7rem; margin-bottom:1.5rem; }
+.live-title { font-family:var(--font-d); font-size:1.35rem; color:var(--navy); }
+.live-badge { background:var(--red); color:#fff; font-size:0.62rem; font-weight:900; padding:2px 9px; border-radius:999px; letter-spacing:0.1em; animation:livePulse 1.2s ease-in-out infinite; }
+@keyframes livePulse { 0%,100%{opacity:1;} 50%{opacity:0.45;} }
+
+.net-diagram {
+  background:linear-gradient(180deg,#e0f2fe 0%,#f0fdf4 100%);
+  border-radius:16px; padding:1.5rem; position:relative; overflow:hidden;
+  min-height:160px; display:flex; align-items:center;
+  justify-content:space-between; gap:0.5rem; margin-bottom:1.4rem;
+}
+.net-diagram::before { content:''; position:absolute; top:50%; left:0; right:0; height:48px; background:#334155; transform:translateY(-50%); z-index:0; }
+.net-diagram::after { content:''; position:absolute; top:50%; left:0; right:0; height:3px; background:repeating-linear-gradient(90deg,#f97316 0,#f97316 28px,transparent 28px,transparent 56px); transform:translateY(-50%); z-index:1; animation:roadAnim 1.8s linear infinite; }
+@keyframes roadAnim { from{background-position:0 0;} to{background-position:56px 0;} }
+
+.net-node { position:relative; z-index:10; text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.4rem; }
+.net-icon { width:68px; height:68px; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:2rem; border:3px solid #fff; box-shadow:0 4px 14px rgba(0,0,0,0.18); }
+.net-icon.internet { background:linear-gradient(135deg,#dbeafe,#bfdbfe); }
+.net-icon.router-n { background:linear-gradient(135deg,#fff7ed,#fed7aa); border-color:var(--orange); animation:routerPulse 1.8s ease-in-out infinite; }
+.net-icon.devices  { background:linear-gradient(135deg,#dcfce7,#bbf7d0); }
+@keyframes routerPulse { 0%,100%{box-shadow:0 4px 14px rgba(0,0,0,0.18),0 0 0 0 rgba(249,115,22,0.5);} 50%{box-shadow:0 4px 14px rgba(0,0,0,0.18),0 0 0 12px rgba(249,115,22,0);} }
+.net-label { background:#fff; border-radius:8px; padding:2px 10px; font-size:0.72rem; font-weight:800; color:var(--navy); box-shadow:0 2px 6px rgba(0,0,0,0.1); white-space:nowrap; }
+
+.packet { position:absolute; top:50%; font-size:1.4rem; z-index:20; transform:translateY(-50%); }
+.pkt1{animation:pktFly 3.5s linear infinite;}
+.pkt2{animation:pktFly 3.5s linear 1.4s infinite;}
+.pkt3{animation:pktFly 3.5s linear 2.8s infinite;}
+@keyframes pktFly { 0%{left:6%;opacity:0;} 5%{opacity:1;} 47%{left:45%;} 53%{left:53%;} 95%{left:89%;opacity:1;} 100%{left:91%;opacity:0;} }
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+
+.counters-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.4rem; }
+.ctr-pill { border-radius:14px; padding:0.9rem 0.5rem; text-align:center; font-weight:800; }
+.ctr-pill.a{background:#fff7ed;border:2px solid #fed7aa;}
+.ctr-pill.b{background:var(--green-light);border:2px solid #86efac;}
+.ctr-pill.c{background:var(--blue-light);border:2px solid #93c5fd;}
+.ctr-num { font-family:var(--font-d); font-size:2rem; display:block; line-height:1.1; }
+.ctr-pill.a .ctr-num{color:var(--orange);}
+.ctr-pill.b .ctr-num{color:var(--green);}
+.ctr-pill.c .ctr-num{color:var(--blue);}
+.ctr-lbl { font-size:0.72rem; color:var(--muted); font-weight:800; }
+
+.rlog { border-radius:12px; overflow:hidden; border:2px solid var(--border); }
+.rlog-head { background:var(--navy); padding:0.6rem 1rem; display:flex; justify-content:space-between; align-items:center; }
+.rlog-head span { color:rgba(255,255,255,0.7); font-size:0.78rem; font-weight:700; }
+.rlog-body { max-height:200px; overflow:hidden; }
+.rlog-row { display:flex; align-items:center; gap:0.7rem; padding:0.5rem 1rem; border-bottom:1px solid var(--border); font-size:0.82rem; font-weight:700; animation:slideIn .35s ease both; }
+.rlog-row:hover{background:#fafaf9;}
+@keyframes slideIn { from{opacity:0;transform:translateX(-12px);background:#fff7ed;} to{opacity:1;transform:translateX(0);background:transparent;} }
+.rlog-icon{font-size:1.1rem;flex-shrink:0;}
+.rlog-src{color:var(--muted);flex:1;font-size:0.75rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rlog-dst{color:var(--text);font-size:0.8rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rlog-path{font-size:0.7rem;color:var(--orange);font-weight:800;white-space:nowrap;}
+
+/* ══ FEATURES TABLE ══ */
+.feat-wrap { overflow-x:auto; border-radius:18px; box-shadow:0 6px 28px rgba(0,0,0,0.08); }
+.feat-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+.feat-table thead th { padding:1rem 1.3rem; text-align:left; font-family:var(--font-d); font-weight:400; font-size:1rem; }
+.feat-table thead th:first-child { background:var(--navy); color:#fff; width:32%; }
+.feat-table thead th:last-child  { background:#ea580c; color:#fff; }
+.feat-table td { padding:0.85rem 1.3rem; border-bottom:1px solid var(--border); font-weight:600; line-height:1.55; vertical-align:top; }
+.feat-table tr:last-child td{border-bottom:none;}
+.feat-table tbody tr:nth-child(even) td{background:#fffbf7;}
+.feat-table tbody tr:hover td{background:var(--orange-light);}
+.feat-name{font-weight:800;color:var(--navy);}
+.feat-tag{display:inline-block;font-size:0.65rem;font-weight:900;letter-spacing:0.07em;text-transform:uppercase;padding:1px 8px;border-radius:999px;background:var(--orange-light);color:var(--orange-dark);margin-right:0.4rem;vertical-align:middle;}
+
+/* ══ CHARACTERISTICS ══ */
+.chars-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.1rem; }
+.char-card { background:var(--card); border-radius:16px; padding:1.3rem; border:2px solid var(--border); display:flex; gap:0.9rem; align-items:flex-start; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform .25s, border-color .25s; }
+.char-card:hover{transform:translateY(-4px);border-color:var(--orange);}
+.char-icon-box { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--orange-light); border:2px solid #fed7aa; }
+.char-title{font-family:var(--font-d);font-size:0.97rem;color:var(--navy);margin-bottom:0.2rem;}
+.char-desc{font-size:0.8rem;color:var(--muted);line-height:1.55;font-weight:600;}
+
+/* ══ HOW IT WORKS ══ */
+.steps-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:1.2rem; }
+.step-card { background:var(--card); border-radius:16px; padding:1.4rem 1.1rem; text-align:center; border:2px solid var(--border); box-shadow:0 4px 12px rgba(0,0,0,0.06); position:relative; transition:transform .25s,box-shadow .25s; cursor:default; }
+.step-card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(249,115,22,0.18);border-color:var(--orange);}
+.step-num{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;font-size:0.78rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.step-emoji{font-size:2.2rem;margin-bottom:0.5rem;display:block;}
+.step-title{font-family:var(--font-d);font-size:1rem;color:var(--navy);margin-bottom:0.3rem;}
+.step-desc{font-size:0.82rem;color:var(--muted);line-height:1.5;font-weight:600;}
+
+/* ══ PROS & CONS ══ */
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.pc-card{border-radius:18px;padding:1.6rem;}
+.pc-card.pros{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;}
+.pc-card.cons{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #fdba74;}
+.pc-head{font-family:var(--font-d);font-size:1.25rem;margin-bottom:1rem;}
+.pc-card.pros .pc-head{color:#166534;}
+.pc-card.cons .pc-head{color:#9a3412;}
+.pc-item{display:flex;gap:0.6rem;margin-bottom:0.75rem;font-size:0.9rem;line-height:1.55;font-weight:600;}
+.pc-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0;margin-top:1px;font-weight:900;}
+.pc-card.pros .pc-dot{background:#bbf7d0;color:#166534;}
+.pc-card.cons .pc-dot{background:#fed7aa;color:#9a3412;}
+.pc-card.pros .pc-txt{color:#14532d;}
+.pc-card.cons .pc-txt{color:#7c2d12;}
+
+/* ══ QUIZ ══ */
+.quiz-wrap{background:linear-gradient(135deg,#431407,#9a3412,#ea580c);padding:3.5rem 0;position:relative;overflow:hidden;}
+.quiz-wrap::before{content:'🔀';position:absolute;font-size:18rem;top:-3rem;right:-2rem;opacity:0.05;pointer-events:none;}
+.quiz-title{font-family:var(--font-d);font-size:2rem;color:#fff;text-align:center;margin-bottom:0.3rem;}
+.quiz-sub{color:rgba(255,255,255,0.65);text-align:center;font-size:0.95rem;font-weight:700;margin-bottom:2rem;}
+.quiz-card{background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:2rem;max-width:700px;margin:0 auto;}
+.q-num{font-size:0.78rem;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:0.4rem;}
+.q-text{font-size:1.08rem;font-weight:800;color:#fff;margin-bottom:1.2rem;line-height:1.5;min-height:3rem;}
+.q-opts{display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1rem;}
+.q-opt{background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);color:#fff;padding:0.72rem 1.2rem;border-radius:12px;font-size:0.88rem;font-weight:700;cursor:pointer;text-align:left;transition:all .2s;font-family:var(--font);}
+.q-opt:hover{background:rgba(255,255,255,0.18);transform:translateX(4px);}
+.q-opt.correct{background:rgba(22,163,74,0.35);border-color:#16a34a;}
+.q-opt.wrong{background:rgba(220,38,38,0.35);border-color:#dc2626;}
+.q-opt:disabled{cursor:default;}
+.q-opt.correct::after{content:'  ✓';}
+.q-opt.wrong::after{content:'  ✗';}
+.q-fb{min-height:2.5rem;border-radius:10px;padding:0.6rem 1rem;font-size:0.87rem;font-weight:700;text-align:center;opacity:0;transition:opacity .3s;}
+.q-fb.show{opacity:1;}
+.q-fb.good{background:rgba(22,163,74,0.25);color:#a7f3d0;}
+.q-fb.bad{background:rgba(220,38,38,0.25);color:#fca5a5;}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;}
+.q-btn{background:#fff;color:var(--navy);border:none;padding:0.6rem 1.5rem;border-radius:999px;font-size:0.88rem;font-weight:900;cursor:pointer;font-family:var(--font);transition:transform .15s,box-shadow .15s;}
+.q-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+.q-btn:disabled{opacity:0.4;cursor:default;transform:none;}
+.q-score{font-family:var(--font-d);font-size:1rem;color:rgba(255,255,255,0.7);}
+
+/* ══ SUMMARY ══ */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;}
+.sum-card{padding:1.1rem 1.2rem;border-radius:14px;}
+.sum-card.a{background:#fff7ed;border-left:4px solid var(--orange);}
+.sum-card.b{background:var(--green-light);border-left:4px solid var(--green);}
+.sum-card.c{background:var(--yellow-light);border-left:4px solid var(--yellow);}
+.sum-card strong{color:var(--navy);font-size:0.95rem;}
+.sum-card p{font-size:0.85rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.55;}
+
+footer{background:var(--navy);color:rgba(255,255,255,0.5);text-align:center;padding:1.5rem;font-size:0.8rem;font-weight:700;letter-spacing:0.05em;}
+
+@media(max-width:640px){
+  .pc-grid{grid-template-columns:1fr;}
+  .analogy-card{flex-direction:column;}
+  .counters-row{grid-template-columns:1fr;}
+  .def-box{flex-direction:column;}
+  .feat-table{font-size:0.78rem;}
+  .feat-table th,.feat-table td{padding:0.6rem 0.8rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg-circles"><span></span><span></span><span></span></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">🎓 IBDP · Computer Science · Network Devices</div>
+    <div style="font-size:5.5rem;margin-bottom:0.8rem;display:block;animation:floatImg 4s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(255,255,255,0.3));">🔀</div>
+    <h1>The Router</h1>
+    <p class="hero-sub">📡 The internet's traffic director — connecting your world!</p>
+    <div class="hero-chips">
+      <span class="chip">🌐 Networking</span>
+      <span class="chip">💻 Computer Science</span>
+      <span class="chip">🎮 Interactive</span>
+      <span class="chip">📶 Wi-Fi &amp; LAN</span>
+    </div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,30 C480,70 960,0 1440,30 L1440,60 L0,60 Z" fill="#fdf6ee"/>
+</svg>
+
+<div class="container">
+
+  <!-- 1. DEFINITION -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📖</span>
+      <h2 class="sec-title">What is a Router?</h2>
+      <p class="sec-sub">A clear definition to kick things off</p>
+    </div>
+    <div class="def-box">
+      <div class="def-icon-wrap">📖</div>
+      <div>
+        <div class="def-label">Definition</div>
+        <p class="def-text">
+          A <strong>router</strong> is a networking device that <strong>receives data packets</strong> and
+          <strong>forwards them</strong> to the correct destination by reading each packet's
+          <strong>IP address</strong>. It connects your home or school network
+          (called a <strong>LAN — Local Area Network</strong>) to the wider internet
+          (called the <strong>WAN — Wide Area Network</strong>),
+          acting as the gateway between the two.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ANALOGY -->
+  <section class="section" style="padding-top:0;">
+    <div class="sec-head">
+      <span class="sec-emoji">💡</span>
+      <h2 class="sec-title">Real-World Analogy</h2>
+      <p class="sec-sub">Connect the idea to something you already know 🧠</p>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-bounce">🏤</div>
+      <div>
+        <div class="analogy-title">🏤 Think of it like a Post Office Sorting Room!</div>
+        <p class="analogy-body">
+          Imagine a post office 📮 receives hundreds of letters every single day.
+          Workers look at the <strong>address on each envelope</strong> and figure out the
+          <strong>best route</strong> to deliver it — which van 🚐, which road 🛣️, which town 🏘️.
+          <br><br>
+          A <strong>Router</strong> does <em>exactly</em> the same thing for your data! 🌐
+          Every time you stream a YouTube video 📺 or send a WhatsApp message 💬,
+          your data is broken into small pieces called <strong>"packets."</strong>
+          The router reads the <strong>destination IP address</strong> on each packet —
+          just like an address on an envelope — and chooses the <strong>best path</strong>
+          to send it to the right device 📱💻 or even halfway around the world 🌍!
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 3. LIVE ACTIVITY -->
+<section style="background:white;padding:3rem 0;border-top:2px solid var(--border);border-bottom:2px solid var(--border);">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-emoji">🎮</span>
+      <h2 class="sec-title">Live Activity — See Your Router in Action!</h2>
+      <p class="sec-sub">Watch data packets being routed to your devices in real time 👀</p>
+    </div>
+    <div class="live-box">
+      <div class="live-header">
+        <span style="font-size:1.5rem;">🔀</span>
+        <div class="live-title">Network Traffic Monitor</div>
+        <span class="live-badge">● LIVE</span>
+      </div>
+
+      <div class="net-diagram">
+        <div class="net-node">
+          <div class="net-icon internet">🌐</div>
+          <div class="net-label">🌍 Internet</div>
+        </div>
+        <div class="packet pkt1">📦</div>
+        <div class="packet pkt2">📧</div>
+        <div class="packet pkt3">🎵</div>
+        <div class="net-node">
+          <div class="net-icon router-n">🔀</div>
+          <div class="net-label">📡 Your Router</div>
+        </div>
+        <div class="net-node">
+          <div class="net-icon devices">🖥️</div>
+          <div class="net-label">💻 Your Devices</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-top:0.4rem;">
+            <div style="display:flex;align-items:center;gap:4px;background:#dcfce7;border:1px solid #86efac;border-radius:8px;padding:3px 7px;font-size:0.68rem;font-weight:800;color:#166534;"><div style="width:6px;height:6px;border-radius:50%;background:#16a34a;animation:pulse 1.5s ease-in-out infinite;flex-shrink:0;"></div>📱 Phone</div>
+            <div style="display:flex;align-items:center;gap:4px;background:#dcfce7;border:1px solid #86efac;border-radius:8px;padding:3px 7px;font-size:0.68rem;font-weight:800;color:#166534;"><div style="width:6px;height:6px;border-radius:50%;background:#16a34a;animation:pulse 1.5s ease-in-out 0.3s infinite;flex-shrink:0;"></div>💻 Laptop</div>
+            <div style="display:flex;align-items:center;gap:4px;background:#dcfce7;border:1px solid #86efac;border-radius:8px;padding:3px 7px;font-size:0.68rem;font-weight:800;color:#166534;"><div style="width:6px;height:6px;border-radius:50%;background:#16a34a;animation:pulse 1.5s ease-in-out 0.6s infinite;flex-shrink:0;"></div>📺 Smart TV</div>
+            <div style="display:flex;align-items:center;gap:4px;background:#dcfce7;border:1px solid #86efac;border-radius:8px;padding:3px 7px;font-size:0.68rem;font-weight:800;color:#166634;"><div style="width:6px;height:6px;border-radius:50%;background:#16a34a;animation:pulse 1.5s ease-in-out 0.9s infinite;flex-shrink:0;"></div>🎮 Console</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="text-align:center;font-size:0.82rem;color:var(--muted);font-weight:700;margin-bottom:1.2rem;">
+        📦 Data packets travel: 🌍 Internet → 🔀 Router → the correct device on your network
+      </p>
+
+      <div class="counters-row">
+        <div class="ctr-pill a"><span class="ctr-num" id="cTotal">0</span><span class="ctr-lbl">📦 Packets Routed</span></div>
+        <div class="ctr-pill b"><span class="ctr-num" id="cDev">4</span><span class="ctr-lbl">📱 Devices Connected</span></div>
+        <div class="ctr-pill c"><span class="ctr-num" id="cSpeed">0</span><span class="ctr-lbl">⚡ Mbps Speed</span></div>
+      </div>
+
+      <div class="rlog">
+        <div class="rlog-head">
+          <span>🗺️ Live Routing Log</span>
+          <span style="color:#fbbf24;font-weight:800;">● Recording...</span>
+        </div>
+        <div class="rlog-body" id="rlogBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- 4. FEATURES -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚙️</span>
+      <h2 class="sec-title">Key Features of a Router</h2>
+      <p class="sec-sub">What a router can do — explained in plain English 🔍</p>
+    </div>
+    <div class="feat-wrap">
+      <table class="feat-table">
+        <thead>
+          <tr>
+            <th>🔧 Feature</th>
+            <th>📝 What It Does — Simply Explained</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🗺️ IP Routing</td>
+            <td>Reads the destination IP address (like a postal address) on every data packet and sends it in the right direction to reach its target device or network.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🔒 NAT</td>
+            <td><strong>Network Address Translation</strong> — lets ALL your home devices (phone, laptop, TV) share just <strong>one public internet address</strong>, keeping your private device addresses hidden from the outside world.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>📋 DHCP</td>
+            <td>Automatically gives each new device that joins your network its own unique IP address — no manual setup needed! Think of it as handing out name badges at an event 🪪.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Security</span>🛡️ Basic Firewall</td>
+            <td>Blocks unwanted traffic from the internet reaching your devices. Provides basic protection, but a dedicated hardware firewall gives much stronger security.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Speed</span>⚡ QoS</td>
+            <td><strong>Quality of Service</strong> — gives priority to important traffic like video calls 📹 and gaming 🎮 so they stay smooth, even when others on the network are downloading large files.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Wireless</span>📶 Wi-Fi</td>
+            <td>Most home routers include a built-in wireless access point, letting phones 📱, tablets and laptops connect without cables — using radio waves to carry data through the air.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. CHARACTERISTICS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🧬</span>
+      <h2 class="sec-title">Characteristics of a Router</h2>
+      <p class="sec-sub">The key properties that define what a router is 🔎</p>
+    </div>
+    <div class="chars-grid">
+      <div class="char-card">
+        <div class="char-icon-box">🔢</div>
+        <div>
+          <div class="char-title">Works at Network Layer (Layer 3)</div>
+          <p class="char-desc">Routers operate at <strong>Layer 3</strong> of the OSI model. They understand IP addresses — making them smarter than switches, which only use MAC addresses.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🌐</div>
+        <div>
+          <div class="char-title">Connects Two Different Networks</div>
+          <p class="char-desc">A router bridges your <strong>local network (LAN)</strong> to the <strong>internet (WAN)</strong>. Without it, your devices could not reach the internet at all.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🗺️</div>
+        <div>
+          <div class="char-title">Uses a Routing Table</div>
+          <p class="char-desc">The router keeps a <strong>"map" of known network paths</strong>. Every time a packet arrives, it checks this map to decide the best direction to send it next.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">📦</div>
+        <div>
+          <div class="char-title">Forwards Data in Packets</div>
+          <p class="char-desc">Data is broken into small pieces called <strong>packets</strong>. Each packet is forwarded individually and may even travel different routes before being reassembled!</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">📡</div>
+        <div>
+          <div class="char-title">Supports Wired &amp; Wireless</div>
+          <p class="char-desc">Modern routers include both <strong>ethernet ports</strong> (wired, using cables 🔌) and a <strong>built-in Wi-Fi antenna</strong> (wireless 📶), serving all device types at once.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🧠</div>
+        <div>
+          <div class="char-title">Intelligent Path Selection</div>
+          <p class="char-desc">Routers automatically choose the <strong>best available path</strong> for data. If one route is congested or broken, they re-route traffic another way — like GPS re-routing 🗺️.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. HOW IT WORKS — INTERACTIVE -->
+  <section class="section" id="howItWorksSection" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:1rem;border:2px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,0.06);">
+    <div class="sec-head">
+      <span class="sec-emoji">🔄</span>
+      <h2 class="sec-title">How Does a Router Work?</h2>
+      <p class="sec-sub">Press <strong>Next Step</strong> to walk through the journey of a data packet 👇</p>
+    </div>
+
+    <!-- Step progress pills -->
+    <div class="hiw-progress">
+      <div class="hiw-pill active" id="pill0">1</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill1">2</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill2">3</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill3">4</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill4">5</div>
+    </div>
+
+    <!-- SVG animation canvas -->
+    <div class="hiw-canvas-wrap">
+      <svg id="hiwSvg" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+        <!-- Road / path background -->
+        <rect x="0" y="90" width="700" height="40" rx="8" fill="#334155"/>
+        <!-- Dashed centre line -->
+        <line x1="0" y1="110" x2="700" y2="110" stroke="#f97316" stroke-width="2.5" stroke-dasharray="18,14" opacity="0.7">
+          <animate attributeName="stroke-dashoffset" from="0" to="-64" dur="1.2s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- Node: Phone -->
+        <g id="nodePhone">
+          <rect x="18" y="68" width="76" height="84" rx="14" fill="#fff7ed" stroke="#fed7aa" stroke-width="2.5"/>
+          <text x="56" y="103" text-anchor="middle" font-size="28">📱</text>
+          <text x="56" y="140" text-anchor="middle" font-size="10" font-weight="800" fill="#9a3412">YOUR</text>
+          <text x="56" y="152" text-anchor="middle" font-size="10" font-weight="800" fill="#9a3412">DEVICE</text>
+        </g>
+
+        <!-- Node: Router -->
+        <g id="nodeRouter">
+          <rect x="306" y="60" width="88" height="100" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="3"/>
+          <text x="350" y="102" text-anchor="middle" font-size="32">🔀</text>
+          <text x="350" y="143" text-anchor="middle" font-size="10" font-weight="800" fill="#9a3412">ROUTER</text>
+          <text x="350" y="155" text-anchor="middle" font-size="9" fill="#c2410c">192.168.1.1</text>
+        </g>
+
+        <!-- Node: Internet cloud -->
+        <g id="nodeInternet">
+          <rect x="546" y="68" width="136" height="84" rx="14" fill="#dbeafe" stroke="#93c5fd" stroke-width="2.5"/>
+          <text x="614" y="103" text-anchor="middle" font-size="28">🌐</text>
+          <text x="614" y="140" text-anchor="middle" font-size="10" font-weight="800" fill="#1e40af">INTERNET</text>
+          <text x="614" y="152" text-anchor="middle" font-size="9" fill="#1e40af">youtube.com</text>
+        </g>
+
+        <!-- Routing table popup (hidden by default) -->
+        <g id="routingTable" opacity="0">
+          <rect x="270" y="0" width="160" height="54" rx="10" fill="#1e1b4b" stroke="#f97316" stroke-width="2"/>
+          <text x="350" y="17" text-anchor="middle" font-size="9" font-weight="800" fill="#fbbf24">🗺️ ROUTING TABLE</text>
+          <text x="283" y="30" font-size="8" fill="#a7f3d0">172.16.0.0 → via WAN</text>
+          <text x="283" y="41" font-size="8" fill="#a7f3d0">192.168.1.x → via LAN</text>
+          <text x="283" y="52" font-size="8" fill="#fed7aa">0.0.0.0/0 → Internet ✓</text>
+          <animate id="rtAnim" attributeName="opacity" from="0" to="0" dur="0.01s" fill="freeze"/>
+        </g>
+
+        <!-- Data packet (animated) -->
+        <g id="packet" opacity="0">
+          <rect x="-28" y="96" width="56" height="28" rx="8" fill="#f97316" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="115" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">📦 DATA</text>
+        </g>
+
+        <!-- Checkmark on router (step 3) -->
+        <g id="routerCheck" opacity="0">
+          <circle cx="388" cy="62" r="12" fill="#16a34a"/>
+          <text x="388" y="67" text-anchor="middle" font-size="13">✓</text>
+        </g>
+
+        <!-- Success burst on device (step 5) -->
+        <g id="successBurst" opacity="0">
+          <circle cx="56" cy="68" r="14" fill="#16a34a"/>
+          <text x="56" y="73" text-anchor="middle" font-size="14">✅</text>
+        </g>
+
+        <!-- IP label on packet (appears step 1) -->
+        <g id="ipLabel" opacity="0">
+          <rect x="24" y="155" width="66" height="32" rx="8" fill="#1e1b4b"/>
+          <text x="57" y="168" text-anchor="middle" font-size="8" font-weight="800" fill="#fed7aa">Dest IP:</text>
+          <text x="57" y="180" text-anchor="middle" font-size="8" fill="#a7f3d0">142.250.1.1</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Explanation panel -->
+    <div class="hiw-explain" id="hiwExplain">
+      <div class="hiw-explain-icon" id="hiwIcon">📱</div>
+      <div>
+        <div class="hiw-explain-title" id="hiwTitle">Step 1 — You Request Data</div>
+        <div class="hiw-explain-body" id="hiwBody">You tap a YouTube video on your phone 📱. Your device breaks the request into a small unit called a <strong>data packet</strong> 📦 and stamps the <strong>destination IP address</strong> (YouTube's server address) onto it — like writing an address on an envelope ✉️.</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="hiw-controls">
+      <button class="hiw-btn secondary" id="hiwPrev" onclick="hiwStep(-1)" disabled>← Back</button>
+      <div class="hiw-step-label" id="hiwStepLabel">Step 1 of 5</div>
+      <button class="hiw-btn primary" id="hiwNext" onclick="hiwStep(1)">Next Step →</button>
+    </div>
+    <div style="text-align:center;margin-top:0.8rem;">
+      <button class="hiw-restart" id="hiwRestart" onclick="hiwReset()" style="display:none;">🔄 Replay from Start</button>
+    </div>
+  </section>
+
+<style>
+/* ══ HOW IT WORKS INTERACTIVE ══ */
+.hiw-progress {
+  display:flex; align-items:center; justify-content:center;
+  gap:0; margin-bottom:1.8rem; flex-wrap:nowrap;
+}
+.hiw-pill {
+  width:34px; height:34px; border-radius:50%;
+  background:#e7e5e4; color:#78716c;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-d); font-size:0.95rem;
+  border:2px solid #d6d3d1; transition:all .35s;
+  flex-shrink:0;
+}
+.hiw-pill.active {
+  background:var(--orange); color:#fff;
+  border-color:var(--orange);
+  box-shadow:0 0 0 4px rgba(249,115,22,0.2);
+  transform:scale(1.18);
+}
+.hiw-pill.done {
+  background:#16a34a; color:#fff;
+  border-color:#16a34a;
+}
+.hiw-pill-line {
+  flex:1; height:3px; background:#e7e5e4;
+  border-radius:999px; min-width:20px; max-width:80px;
+  transition:background .35s;
+}
+.hiw-pill-line.done { background:#16a34a; }
+
+.hiw-canvas-wrap {
+  background:linear-gradient(180deg,#f0f9ff 0%,#f0fdf4 100%);
+  border-radius:16px; padding:1.2rem 0.5rem;
+  border:2px solid var(--border); margin-bottom:1.5rem;
+  overflow:hidden;
+}
+
+.hiw-explain {
+  background:linear-gradient(135deg,#fff7ed,#ffedd5);
+  border:2px solid #fed7aa; border-radius:16px;
+  padding:1.4rem 1.6rem; display:flex; gap:1rem;
+  align-items:flex-start; margin-bottom:1.5rem;
+  min-height:100px;
+  transition:all .3s;
+}
+.hiw-explain-icon {
+  font-size:2.6rem; flex-shrink:0;
+  animation:bounce 2s ease-in-out infinite;
+}
+.hiw-explain-title {
+  font-family:var(--font-d); font-size:1.15rem; color:#9a3412;
+  margin-bottom:0.4rem;
+}
+.hiw-explain-body {
+  font-size:0.93rem; color:#7c2d12; line-height:1.75; font-weight:600;
+}
+
+.hiw-controls {
+  display:flex; align-items:center; justify-content:center; gap:1rem;
+}
+.hiw-step-label {
+  font-family:var(--font-d); font-size:1rem; color:var(--muted);
+  min-width:90px; text-align:center;
+}
+.hiw-btn {
+  padding:0.6rem 1.5rem; border-radius:999px;
+  font-size:0.9rem; font-weight:800; cursor:pointer;
+  font-family:var(--font); border:2px solid transparent;
+  transition:all .2s;
+}
+.hiw-btn.primary { background:var(--orange); color:#fff; border-color:var(--orange); }
+.hiw-btn.primary:hover { background:var(--orange2); transform:scale(1.05); }
+.hiw-btn.secondary { background:#fff; color:var(--navy); border-color:var(--border); }
+.hiw-btn.secondary:hover:not(:disabled) { border-color:var(--orange); color:var(--orange); transform:scale(1.05); }
+.hiw-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.hiw-restart { background:none; border:2px solid var(--border); color:var(--muted); padding:0.4rem 1.2rem; border-radius:999px; font-size:0.82rem; font-weight:800; cursor:pointer; font-family:var(--font); transition:all .2s; }
+.hiw-restart:hover { border-color:var(--orange); color:var(--orange); }
+</style>
+
+  <!-- 7. ADVANTAGES & DISADVANTAGES -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚖️</span>
+      <h2 class="sec-title">Advantages &amp; Disadvantages</h2>
+      <p class="sec-sub">Every device has strengths and weaknesses 🤔</p>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card pros">
+        <div class="pc-head">👍 Advantages</div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🌐 <strong>Shares one internet connection</strong> — all your devices (phone 📱, laptop 💻, TV 📺) use the same broadband through one router, saving cost.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">📶 <strong>Wireless + wired connections</strong> — modern routers provide both Wi-Fi and ethernet ports, supporting all device types.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">⚡ <strong>Traffic management (QoS)</strong> — can prioritise video calls 🎥 or gaming 🎮 over less important background downloads.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🔒 <strong>Basic security via NAT</strong> — hides your devices' real IP addresses from the outside internet, adding a layer of privacy.</span></div>
+      </div>
+      <div class="pc-card cons">
+        <div class="pc-head">👎 Disadvantages</div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🐌 <strong>Can be a bottleneck</strong> — older or cheap routers cannot keep up with fast internet speeds, slowing down every connected device.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">📡 <strong>Wi-Fi signal weakens</strong> — thick walls and long distances reduce signal strength, creating dead zones in larger buildings.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🔧 <strong>Needs regular updates</strong> — firmware must be updated to fix security holes, which many users forget to do.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🛡️ <strong>Not a full firewall</strong> — NAT provides basic protection, but a dedicated hardware firewall gives much stronger network security.</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 8. QUIZ -->
+<section class="quiz-wrap">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quiz Time!</h2>
+    <p class="quiz-sub">Test your router knowledge — 10 questions 🎯</p>
+    <div class="quiz-card">
+      <div class="q-num" id="qNum">Question 1 of 10</div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <div class="q-nav">
+        <div class="q-score">Score: <span id="qScore">0</span> / 10</div>
+        <button class="q-btn" id="qNext" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📝</span>
+      <h2 class="sec-title">Quick Summary</h2>
+      <p class="sec-sub">Key points to remember for your exam 🎓</p>
+    </div>
+    <div style="background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div class="summary-grid">
+        <div class="sum-card a"><strong>📌 Definition</strong><p>A device that forwards data packets between networks by reading IP addresses and finding the best path to the destination.</p></div>
+        <div class="sum-card b"><strong>📌 Main Job</strong><p>Connect your local network (LAN) to the internet (WAN) and route each data packet to the correct device.</p></div>
+        <div class="sum-card c"><strong>📌 Key Feature</strong><p>NAT lets all your devices share one public IP address and keeps your device addresses hidden from the internet.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>🔀 Router — Computer Science &nbsp;·&nbsp; Network Devices Unit &nbsp;·&nbsp; IBDP Computer Science</footer>
+
+<script>
+// LIVE ROUTING LOG
+const logBody = document.getElementById('rlogBody');
+const MAX = 6;
+let total = 0;
+const routes = [
+  {icon:'📺',src:'YouTube Server',      dst:'Smart TV (192.168.1.4)',  path:'WAN → Router → TV'},
+  {icon:'🎮',src:'PlayStation Network', dst:'Console (192.168.1.5)',   path:'WAN → Router → Console'},
+  {icon:'📧',src:'Gmail Server',        dst:'Laptop (192.168.1.2)',    path:'WAN → Router → Laptop'},
+  {icon:'📱',src:'Instagram CDN',       dst:'Phone (192.168.1.3)',     path:'WAN → Router → Phone'},
+  {icon:'🎵',src:'Spotify Servers',     dst:'Phone (192.168.1.3)',     path:'WAN → Router → Phone'},
+  {icon:'💬',src:'WhatsApp Servers',    dst:'Phone (192.168.1.3)',     path:'WAN → Router → Phone'},
+  {icon:'💻',src:'Google Classroom',    dst:'Laptop (192.168.1.2)',    path:'WAN → Router → Laptop'},
+  {icon:'🖨️',src:'Cloud Print',        dst:'Printer (192.168.1.6)',   path:'WAN → Router → Printer'},
+  {icon:'📡',src:'TikTok CDN',          dst:'Phone (192.168.1.3)',     path:'WAN → Router → Phone'},
+  {icon:'🔄',src:'Windows Update',      dst:'Laptop (192.168.1.2)',    path:'WAN → Router → Laptop'},
+];
+let ri = 0;
+function addRoute() {
+  const r = routes[ri % routes.length]; ri++;
+  total++;
+  const speed = Math.floor(40 + Math.random() * 260);
+  const row = document.createElement('div');
+  row.className = 'rlog-row';
+  row.innerHTML = `<span class="rlog-icon">${r.icon}</span><span class="rlog-src">${r.src}</span><span class="rlog-dst">${r.dst}</span><span class="rlog-path">${r.path}</span>`;
+  logBody.prepend(row);
+  while (logBody.children.length > MAX) logBody.removeChild(logBody.lastChild);
+  document.getElementById('cTotal').textContent = total;
+  document.getElementById('cSpeed').textContent = speed;
+}
+setInterval(addRoute, 1100);
+
+// QUIZ
+const qs = [
+  {q:"What is the best real-world analogy for a router? 🏤",opts:["A lock on a door 🔐","A post office sorting room that reads addresses and finds the best route 📮","A security camera watching the building 📷","A printer that copies documents 🖨️"],ans:1,ex:"✅ Correct! A router is like a post office — it reads the destination address on each packet and finds the best route to deliver it."},
+  {q:"What does a router read to decide where to send a data packet? 📦",opts:["The file size of the data","The IP address — the destination address — on the packet","The username of the person sending it","The colour or theme of the website"],ans:1,ex:"✅ Right! Every packet has a destination IP address — just like a postal address — and the router uses it to decide where to forward the data."},
+  {q:"What does NAT stand for? 🔒",opts:["Network Access Tool","Network Address Translation","New Antenna Technology","None of the Above"],ans:1,ex:"✅ Spot on! NAT = Network Address Translation. It lets all your home devices share just one public IP address."},
+  {q:"What is the difference between a LAN and a WAN? 🌐",opts:["LAN is faster, WAN is slower","LAN is your local network (home/school), WAN is the wider internet","LAN always uses Wi-Fi, WAN always uses cables","There is no real difference between them"],ans:1,ex:"✅ Perfect! LAN = Local Area Network (your home or school). WAN = Wide Area Network (the internet)."},
+  {q:"At which OSI layer does a router operate? 🔢",opts:["Layer 1 — Physical Layer","Layer 2 — Data Link Layer","Layer 3 — Network Layer","Layer 4 — Transport Layer"],ans:2,ex:"✅ Correct! Routers work at Layer 3 (the Network Layer) where IP addresses are read and used to forward packets."},
+  {q:"What is a routing table? 🗺️",opts:["A list of all devices' usernames on the network","A map of known network paths used to decide where to forward each packet","A log of blocked hackers and viruses","A record of everyone who has visited websites"],ans:1,ex:"✅ Right! The routing table is the router's map — it looks up the best path for every incoming packet."},
+  {q:"Which router feature automatically gives each new device its own IP address? 📋",opts:["NAT","QoS","DHCP","Wi-Fi"],ans:2,ex:"✅ Spot on! DHCP (Dynamic Host Configuration Protocol) automatically hands out IP addresses — no manual setup needed."},
+  {q:"What does QoS (Quality of Service) do? ⚡",opts:["It blocks hackers from entering the network","It gives priority to important traffic like video calls so they stay smooth","It boosts your Wi-Fi signal range","It automatically updates the router firmware"],ans:1,ex:"✅ Correct! QoS lets the router prioritise real-time traffic (video calls, gaming) over less urgent background downloads."},
+  {q:"Which of these is an ADVANTAGE of a router? 👍",opts:["Older routers can slow the whole network down","Wi-Fi signal weakens through thick walls","All home devices can share one internet connection","It does not provide a full firewall on its own"],ans:2,ex:"✅ Great! Sharing one internet connection across all your devices is the router's biggest advantage."},
+  {q:"Which of these is a DISADVANTAGE of a router? 👎",opts:["It connects your local network to the internet","It provides NAT to keep device addresses private","It supports both wired and wireless connections","An old or cheap router can become a bottleneck, slowing everything down"],ans:3,ex:"✅ Right! An underpowered router cannot handle fast internet speeds, creating a bottleneck for all connected devices."},
+];
+let qi = 0, sc = 0, answered = false;
+
+function loadQ() {
+  const q = qs[qi];
+  document.getElementById('qNum').textContent = `Question ${qi+1} of ${qs.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const o = document.getElementById('qOpts');
+  o.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'q-opt';
+    b.textContent = `${['A','B','C','D'][i]})  ${opt}`;
+    b.onclick = () => answer(i, q.ans, q.ex);
+    o.appendChild(b);
+  });
+  document.getElementById('qFb').className = 'q-fb';
+  document.getElementById('qFb').textContent = '';
+  document.getElementById('qNext').disabled = true;
+  answered = false;
+}
+
+function answer(c, a, ex) {
+  if (answered) return;
+  answered = true;
+  // Scope to quiz opts only
+  const btns = document.getElementById('qOpts').querySelectorAll('.q-opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qFb');
+  if (c === a) {
+    btns[c].classList.add('correct');
+    sc++;
+    document.getElementById('qScore').textContent = sc;
+    fb.textContent = ex;
+    fb.className = 'q-fb show good';
+  } else {
+    btns[c].classList.add('wrong');
+    btns[a].classList.add('correct');
+    fb.textContent = 'Not quite! ' + ex;
+    fb.className = 'q-fb show bad';
+  }
+  document.getElementById('qNext').disabled = false;
+}
+
+document.getElementById('qNext').onclick = () => {
+  qi++;
+  if (qi < qs.length) {
+    loadQ();
+  } else {
+    const pct = Math.round(sc / qs.length * 100);
+    const medal = sc===10?'🏆':sc>=7?'🎉':sc>=5?'👍':'📚';
+    const msg = sc===10?'Perfect score! You know routers inside out! 🎓':sc>=7?'Great work! Review the ones you missed. 📖':sc>=5?'Good effort — re-read the features and characteristics. 💪':'Keep going — re-read the page and try again! 📚';
+    document.querySelector('.quiz-card').innerHTML = `<div style="text-align:center;padding:1rem 0;"><div style="font-size:4.5rem;margin-bottom:1rem;">${medal}</div><div style="font-family:var(--font-d);font-size:2.2rem;color:#fff;margin-bottom:0.5rem;">Score: ${sc} / ${qs.length}</div><div style="font-size:1rem;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:1.5rem;">${msg}</div><div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;"><div style="height:100%;width:${pct}%;background:${sc===10?'#16a34a':sc>=7?'#f97316':'#dc2626'};border-radius:999px;transition:width 1s;"></div></div><button class="q-btn" onclick="location.reload()">🔄 Try Again</button></div>`;
+  }
+};
+
+// Initialise quiz
+loadQ();
+
+// ══ HOW IT WORKS — HELPER FUNCTIONS (declared first) ══
+function svgSetOpacity(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.style.transition = 'opacity 0.45s'; el.style.opacity = val; }
+}
+
+function highlightNode(id, fill, stroke) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const rect = el.querySelector('rect');
+  if (rect) { rect.setAttribute('fill', fill); rect.setAttribute('stroke', stroke); }
+}
+
+function movePacket(x, y) {
+  const pkt = document.getElementById('packet');
+  if (!pkt) return;
+  const rect = pkt.querySelector('rect');
+  const txt  = pkt.querySelector('text');
+  if (rect) { rect.setAttribute('x', x - 28); rect.setAttribute('y', y - 14); }
+  if (txt)  { txt.setAttribute('x', x); txt.setAttribute('y', y + 4); }
+}
+
+function movePacketAnimated(fromX, toX, y, delayMs) {
+  svgSetOpacity('packet', 1);
+  let start = null;
+  const duration = 650;
+  function step(ts) {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    movePacket(fromX + (toX - fromX) * eased, y);
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  setTimeout(() => requestAnimationFrame(step), delayMs || 0);
+}
+
+function resetAllNodes() {
+  svgSetOpacity('packet', 0);
+  svgSetOpacity('routingTable', 0);
+  svgSetOpacity('routerCheck', 0);
+  svgSetOpacity('successBurst', 0);
+  svgSetOpacity('ipLabel', 0);
+  highlightNode('nodePhone',    '#fff7ed', '#fed7aa');
+  highlightNode('nodeRouter',   '#fff7ed', '#f97316');
+  highlightNode('nodeInternet', '#dbeafe', '#93c5fd');
+}
+
+// ══ HOW IT WORKS — STEPS DATA ══
+const hiwSteps = [
+  {
+    icon: '📱',
+    title: 'Step 1 — You Request Data',
+    body: 'You tap a YouTube video on your phone 📱. Your device breaks the request into a small unit called a <strong>data packet</strong> 📦 and stamps the <strong>destination IP address</strong> (YouTube\'s server address) onto it — just like writing an address on an envelope ✉️.',
+    animate() {
+      highlightNode('nodePhone', '#fed7aa', '#f97316');
+      svgSetOpacity('ipLabel', 1);
+      svgSetOpacity('packet', 1);
+      movePacket(56, 110);
+    }
+  },
+  {
+    icon: '📨',
+    title: 'Step 2 — Packet Travels to Router',
+    body: 'The packet leaves your device and travels through the air via <strong>Wi-Fi 📶</strong> (or along a cable 🔌 if wired). Watch it slide across to the router in the centre!',
+    animate() {
+      highlightNode('nodePhone', '#fff7ed', '#fed7aa');
+      movePacketAnimated(56, 310, 110, 0);
+      setTimeout(() => highlightNode('nodeRouter', '#fed7aa', '#f97316'), 500);
+    }
+  },
+  {
+    icon: '🗺️',
+    title: 'Step 3 — Router Checks Its Routing Table',
+    body: 'The router receives the packet and reads the <strong>destination IP address</strong>. It then looks up its <strong>routing table</strong> — a map of known network paths — to decide the best route. It matches the IP to the internet (WAN) gateway.',
+    animate() {
+      movePacket(350, 110);
+      highlightNode('nodeRouter', '#fef3c7', '#d97706');
+      svgSetOpacity('routingTable', 1);
+      svgSetOpacity('routerCheck', 0);
+    }
+  },
+  {
+    icon: '🚀',
+    title: 'Step 4 — Packet Forwarded to the Internet',
+    body: 'The router forwards the packet out through its <strong>WAN port</strong> toward the internet 🌐. The packet may pass through <strong>many routers</strong> across the world before reaching YouTube\'s server — each one reading the address and passing it on!',
+    animate() {
+      svgSetOpacity('routingTable', 0);
+      svgSetOpacity('routerCheck', 1);
+      highlightNode('nodeRouter', '#fff7ed', '#fed7aa');
+      movePacketAnimated(350, 612, 110, 0);
+      setTimeout(() => highlightNode('nodeInternet', '#bfdbfe', '#2563eb'), 550);
+    }
+  },
+  {
+    icon: '🎯',
+    title: 'Step 5 — Data Arrives at Your Device! ✅',
+    body: 'YouTube\'s server sends the video data back as packets. They travel back through the internet, arrive at your router, and the router delivers them to <strong>your specific device</strong> using its local IP address. The video starts playing! 🎬',
+    animate() {
+      svgSetOpacity('routerCheck', 0);
+      highlightNode('nodeInternet', '#dbeafe', '#93c5fd');
+      movePacketAnimated(612, 56, 110, 0);
+      setTimeout(() => {
+        highlightNode('nodePhone', '#dcfce7', '#16a34a');
+        svgSetOpacity('successBurst', 1);
+        svgSetOpacity('packet', 0);
+        svgSetOpacity('ipLabel', 0);
+      }, 600);
+    }
+  }
+];
+
+// ══ HOW IT WORKS — STEPPER LOGIC ══
+let hiwCurrent = 0;
+
+function hiwUpdateUI() {
+  const s = hiwSteps[hiwCurrent];
+
+  // Update explanation panel
+  document.getElementById('hiwIcon').textContent  = s.icon;
+  document.getElementById('hiwTitle').textContent = s.title;
+  document.getElementById('hiwBody').innerHTML    = s.body;
+  document.getElementById('hiwStepLabel').textContent = `Step ${hiwCurrent + 1} of ${hiwSteps.length}`;
+
+  // Update progress pills
+  hiwSteps.forEach((_, i) => {
+    const pill = document.getElementById('pill' + i);
+    const lines = document.querySelectorAll('.hiw-pill-line');
+    if (!pill) return;
+    pill.classList.remove('active', 'done');
+    if (i < hiwCurrent)       { pill.classList.add('done'); if (lines[i]) lines[i].classList.add('done'); }
+    else if (i === hiwCurrent) { pill.classList.add('active'); if (lines[i]) lines[i].classList.remove('done'); }
+    else                       { if (lines[i]) lines[i].classList.remove('done'); }
+  });
+
+  // Update buttons
+  document.getElementById('hiwPrev').disabled = hiwCurrent === 0;
+  const isLast = hiwCurrent === hiwSteps.length - 1;
+  const nextBtn = document.getElementById('hiwNext');
+  nextBtn.disabled = isLast;
+  nextBtn.textContent = isLast ? 'Complete ✅' : 'Next Step →';
+  document.getElementById('hiwRestart').style.display = isLast ? 'inline-block' : 'none';
+
+  // Run animation
+  s.animate();
+}
+
+function hiwStep(dir) {
+  hiwCurrent = Math.max(0, Math.min(hiwSteps.length - 1, hiwCurrent + dir));
+  hiwUpdateUI();
+}
+
+function hiwReset() {
+  hiwCurrent = 0;
+  resetAllNodes();
+  setTimeout(hiwUpdateUI, 100);
+}
+
+// Initialise stepper
+hiwUpdateUI();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardware &amp; Software Firewall — Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f4ff;
+  --card: #ffffff;
+  --navy: #1a2e5a;
+  --blue: #3b82f6;
+  --sky: #60a5fa;
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --red: #ef4444;
+  --orange: #f97316;
+  --yellow: #fbbf24;
+  --purple: #8b5cf6;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --font: 'Nunito', sans-serif;
+  --font-display: 'Fredoka One', cursive;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1a2e5a 0%, #1e40af 50%, #0e7490 100%);
+  padding: 4rem 2rem 6rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bubbles span {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  animation: float 6s ease-in-out infinite;
+}
+.hero-bubbles span:nth-child(1) { width:120px;height:120px;top:10%;left:8%;animation-delay:0s; }
+.hero-bubbles span:nth-child(2) { width:80px;height:80px;top:60%;left:3%;animation-delay:1s; }
+.hero-bubbles span:nth-child(3) { width:60px;height:60px;top:20%;right:10%;animation-delay:2s; }
+.hero-bubbles span:nth-child(4) { width:100px;height:100px;bottom:15%;right:6%;animation-delay:0.5s; }
+.hero-bubbles span:nth-child(5) { width:50px;height:50px;top:50%;right:20%;animation-delay:1.5s; }
+
+@keyframes float {
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-18px) scale(1.05);}
+}
+
+.hero-emoji {
+  font-size: 5rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: shieldBounce 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.4));
+}
+
+@keyframes shieldBounce {
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-10px) scale(1.08);}
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.hero-tagline {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.hero-chips {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+
+/* ── WAVE ── */
+.wave {
+  display: block;
+  width: 100%;
+  margin-top: -2px;
+  background: transparent;
+}
+
+/* ── SECTIONS ── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 3.5rem 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.section-emoji {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+}
+
+.section-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ── ANALOGY CARD ── */
+.analogy-card {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  border: 2px solid #fcd34d;
+  box-shadow: 0 8px 30px rgba(251,191,36,0.2);
+  margin-bottom: 2rem;
+}
+
+.analogy-icon {
+  font-size: 3.5rem;
+  flex-shrink: 0;
+  animation: wobble 3s ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%,100%{transform:rotate(-3deg);}
+  50%{transform:rotate(3deg);}
+}
+
+.analogy-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: #92400e;
+  margin-bottom: 0.5rem;
+}
+
+.analogy-text {
+  font-size: 1rem;
+  color: #78350f;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+/* ── HOW IT WORKS STEPS ── */
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.step-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  border: 2px solid var(--border);
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+}
+
+.step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.step-num {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-emoji { font-size: 2.4rem; margin-bottom: 0.6rem; display: block; }
+.step-title { font-family: var(--font-display); font-size: 1.05rem; color: var(--navy); margin-bottom: 0.4rem; }
+.step-text  { font-size: 0.85rem; color: var(--muted); line-height: 1.5; font-weight: 600; }
+
+/* ── LIVE DEMO ── */
+.demo-box {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 2rem;
+  border: 2px solid var(--border);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+}
+
+.demo-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--navy);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.live-badge {
+  background: var(--red);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.1em;
+  animation: livePulse 1.2s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes livePulse {
+  0%,100%{opacity:1;}50%{opacity:0.5;}
+}
+
+/* Road analogy diagram */
+.road-diagram {
+  background: linear-gradient(180deg, #bfdbfe 0%, #dbeafe 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Road */
+.road-diagram::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 50px;
+  background: #475569;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+/* Dashed line */
+.road-diagram::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, #fbbf24 0px, #fbbf24 30px, transparent 30px, transparent 60px);
+  transform: translateY(-50%);
+  z-index: 1;
+  animation: roadMove 2s linear infinite;
+}
+
+@keyframes roadMove {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 0; }
+}
+
+.road-node {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.road-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.road-icon-wrap.internet  { background: #fef2f2; }
+.road-icon-wrap.firewall  { background: #1a2e5a; animation: fwPulse 1.5s ease-in-out infinite; }
+.road-icon-wrap.computer  { background: #f0fdf4; }
+
+@keyframes fwPulse {
+  0%,100%{box-shadow:0 4px 12px rgba(0,0,0,0.2),0 0 0 0 rgba(59,130,246,0.5);}
+  50%{box-shadow:0 4px 12px rgba(0,0,0,0.2),0 0 0 14px rgba(59,130,246,0);}
+}
+
+.road-label {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2px 10px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--navy);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+
+/* Cars (packets) */
+.car {
+  position: absolute;
+  top: 50%;
+  font-size: 1.4rem;
+  z-index: 20;
+  transform: translateY(-50%);
+  transition: none;
+}
+
+.car.good {
+  animation: carDrive 4s linear infinite;
+}
+.car.bad {
+  animation: carBlock 4s linear infinite;
+}
+.car.good2 {
+  animation: carDrive 4s linear 2s infinite;
+}
+
+@keyframes carDrive {
+  0%   { left: 5%;  opacity: 0; transform: translateY(-50%) scale(0.8); }
+  5%   { opacity: 1; transform: translateY(-50%) scale(1); }
+  45%  { left: 46%; }
+  50%  { left: 54%; }
+  95%  { left: 90%; opacity: 1; }
+  100% { left: 93%; opacity: 0; }
+}
+
+@keyframes carBlock {
+  0%   { left: 5%;  opacity: 0; }
+  5%   { opacity: 1; }
+  45%  { left: 44%; opacity: 1; transform: translateY(-50%) scale(1); }
+  50%  { left: 44%; opacity: 1; transform: translateY(-80%) scale(1.4) rotate(20deg); }
+  55%  { left: 44%; opacity: 0; transform: translateY(-80%) scale(0); }
+  100% { left: 44%; opacity: 0; }
+}
+
+/* Explosion */
+.explosion {
+  position: absolute;
+  left: 43%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  z-index: 25;
+  opacity: 0;
+  animation: explode 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes explode {
+  0%,44%,60%,100%{opacity:0; transform:translate(-50%,-50%) scale(0.5);}
+  50%{opacity:1; transform:translate(-50%,-80%) scale(1.5);}
+}
+
+/* Packet counter strip */
+.counter-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.counter-pill {
+  border-radius: 14px;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 800;
+}
+
+.counter-pill.total  { background: #eff6ff; border: 2px solid #bfdbfe; }
+.counter-pill.passed { background: #f0fdf4; border: 2px solid #bbf7d0; }
+.counter-pill.blocked{ background: #fef2f2; border: 2px solid #fecaca; }
+
+.counter-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+.counter-pill.total  .counter-num { color: var(--blue); }
+.counter-pill.passed .counter-num { color: var(--green); }
+.counter-pill.blocked .counter-num { color: var(--red); }
+
+.counter-lbl { font-size: 0.78rem; font-weight: 800; color: var(--muted); }
+
+/* Simple log */
+.simple-log {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+}
+
+.log-header-bar {
+  background: var(--navy);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.log-header-bar span { color: rgba(255,255,255,0.7); font-size: 0.78rem; font-weight: 700; }
+
+.log-entries { max-height: 200px; overflow: hidden; }
+
+.log-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.83rem;
+  font-weight: 700;
+  animation: slideIn 0.35s ease both;
+  transition: background 0.2s;
+}
+
+.log-entry:hover { background: #f8fafc; }
+
+@keyframes slideIn {
+  from { opacity:0; transform: translateX(-15px); background: #eff6ff; }
+  to   { opacity:1; transform: translateX(0); background: transparent; }
+}
+
+.log-icon { font-size: 1.1rem; flex-shrink: 0; }
+.log-who { color: var(--muted); flex: 1; font-size: 0.78rem; }
+.log-what { color: var(--text); }
+.log-verdict { font-weight: 900; font-size: 0.8rem; padding: 2px 10px; border-radius: 999px; }
+.log-verdict.pass   { background: #dcfce7; color: #166534; }
+.log-verdict.block  { background: #fee2e2; color: #991b1b; }
+.log-verdict.check  { background: #dbeafe; color: #1e40af; }
+
+/* ── PROS & CONS ── */
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.pros-card, .cons-card {
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.pros-card {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border: 2px solid #86efac;
+}
+
+.cons-card {
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  border: 2px solid #fdba74;
+}
+
+.pc-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pros-card .pc-title { color: #166534; }
+.cons-card .pc-title { color: #9a3412; }
+
+.pc-item {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.pc-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-weight: 900;
+}
+
+.pros-card .pc-dot { background: #bbf7d0; color: #166534; }
+.cons-card .pc-dot { background: #fed7aa; color: #9a3412; }
+.pros-card .pc-item-text { color: #14532d; }
+.cons-card .pc-item-text { color: #7c2d12; }
+
+/* ── QUIZ ── */
+.quiz-section {
+  background: linear-gradient(135deg, #1a2e5a, #1e40af);
+  padding: 3.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-section::before {
+  content: '?';
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 20rem;
+  color: rgba(255,255,255,0.04);
+  top: -3rem;
+  right: -2rem;
+  pointer-events: none;
+}
+
+.quiz-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 0.4rem;
+}
+
+.quiz-sub {
+  color: rgba(255,255,255,0.65);
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.quiz-card {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.quiz-q {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+  min-height: 3rem;
+}
+
+.quiz-q-num {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.5rem;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.quiz-opt {
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.15);
+  color: #fff;
+  padding: 0.75rem 1.2rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: var(--font);
+}
+
+.quiz-opt:hover { background: rgba(255,255,255,0.15); transform: translateX(4px); }
+.quiz-opt.correct { background: rgba(16,185,129,0.35); border-color: #10b981; }
+.quiz-opt.wrong   { background: rgba(239,68,68,0.35);  border-color: #ef4444; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-opt.correct::after { content: '  ✓'; }
+.quiz-opt.wrong::after   { content: '  ✗'; }
+
+.quiz-feedback {
+  min-height: 2.5rem;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.quiz-feedback.show { opacity: 1; }
+.quiz-feedback.good { background: rgba(16,185,129,0.25); color: #a7f3d0; }
+.quiz-feedback.bad  { background: rgba(239,68,68,0.25);  color: #fca5a5; }
+
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.quiz-btn {
+  background: #fff;
+  color: var(--navy);
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.quiz-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.quiz-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+
+.quiz-score {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ── KEY FACTS ── */
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.fact-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 1.4rem;
+  border: 2px solid var(--border);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.25s, border-color 0.25s;
+  cursor: pointer;
+}
+
+.fact-card:hover { transform: translateY(-5px); }
+.fact-card:nth-child(1):hover { border-color: var(--blue); }
+.fact-card:nth-child(2):hover { border-color: var(--green); }
+.fact-card:nth-child(3):hover { border-color: var(--red); }
+.fact-card:nth-child(4):hover { border-color: var(--purple); }
+.fact-card:nth-child(5):hover { border-color: var(--orange); }
+.fact-card:nth-child(6):hover { border-color: var(--cyan); }
+
+.fact-emoji { font-size: 2rem; margin-bottom: 0.6rem; display: block; }
+.fact-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+}
+.fact-text { font-size: 0.85rem; color: var(--muted); line-height: 1.6; font-weight: 600; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--navy);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ── NAV TABS ── */
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1.5rem 0;
+  flex-wrap: wrap;
+}
+.nav-tab {
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.75);
+  padding: 0.55rem 1.6rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
+}
+.nav-tab.active, .nav-tab:hover {
+  background: #fff;
+  color: var(--navy);
+  border-color: #fff;
+}
+
+/* ── SOFTWARE HERO ── */
+.sw-hero {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
+  padding: 4rem 2rem 6rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sw-hero .hero-bubbles span { background: rgba(255,255,255,0.06); }
+
+/* ── SOFTWARE ANALOGY ── */
+.analogy-card.sw {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  border-color: #6ee7b7;
+  box-shadow: 0 8px 30px rgba(16,185,129,0.2);
+}
+.analogy-card.sw .analogy-title { color: #064e3b; }
+.analogy-card.sw .analogy-text  { color: #065f46; }
+
+/* ── SOFTWARE STEPS (teal accent) ── */
+.step-card.sw .step-num { background: #065f46; }
+
+/* ── SOFTWARE LIVE DEMO ── */
+.sw-road-diagram {
+  background: linear-gradient(180deg, #d1fae5 0%, #ecfdf5 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.sw-road-diagram::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 50px;
+  background: #374151;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+.sw-road-diagram::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, #10b981 0px, #10b981 30px, transparent 30px, transparent 60px);
+  transform: translateY(-50%);
+  z-index: 1;
+  animation: roadMove 2s linear infinite;
+}
+.road-icon-wrap.sw-firewall { background: #064e3b; animation: swFwPulse 1.5s ease-in-out infinite; }
+@keyframes swFwPulse {
+  0%,100%{box-shadow:0 4px 12px rgba(0,0,0,0.2),0 0 0 0 rgba(16,185,129,0.5);}
+  50%{box-shadow:0 4px 12px rgba(0,0,0,0.2),0 0 0 14px rgba(16,185,129,0);}
+}
+.sw-car1 { animation: swCarDrive 4s linear infinite; }
+.sw-car2 { animation: swCarBlock 4s linear 1.5s infinite; }
+.sw-car3 { animation: swCarDrive 4s linear 2.5s infinite; }
+.sw-explosion { position:absolute;left:43%;top:50%;transform:translate(-50%,-50%);font-size:2rem;z-index:25;opacity:0;animation:swExplode 4s ease-in-out 1.5s infinite;pointer-events:none; }
+@keyframes swCarDrive {
+  0%{left:5%;opacity:0;transform:translateY(-50%) scale(0.8);}
+  5%{opacity:1;transform:translateY(-50%) scale(1);}
+  45%{left:46%;}50%{left:54%;}
+  95%{left:90%;opacity:1;}100%{left:93%;opacity:0;}
+}
+@keyframes swCarBlock {
+  0%{left:5%;opacity:0;}5%{opacity:1;}
+  45%{left:44%;opacity:1;transform:translateY(-50%) scale(1);}
+  50%{left:44%;opacity:1;transform:translateY(-80%) scale(1.4) rotate(20deg);}
+  55%{left:44%;opacity:0;transform:translateY(-80%) scale(0);}
+  100%{left:44%;opacity:0;}
+}
+@keyframes swExplode {
+  0%,44%,60%,100%{opacity:0;transform:translate(-50%,-50%) scale(0.5);}
+  50%{opacity:1;transform:translate(-50%,-80%) scale(1.5);}
+}
+
+/* SW counters */
+.counter-pill.sw-total  { background:#ecfdf5; border:2px solid #6ee7b7; }
+.counter-pill.sw-passed { background:#f0fdf4; border:2px solid #bbf7d0; }
+.counter-pill.sw-blocked{ background:#fef2f2; border:2px solid #fecaca; }
+.counter-pill.sw-total  .counter-num { color:#059669; }
+.counter-pill.sw-passed .counter-num { color:var(--green); }
+.counter-pill.sw-blocked .counter-num { color:var(--red); }
+
+/* SW log */
+.sw-log-header { background:#064e3b; }
+
+/* ── COMPARISON TABLE ── */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  font-size: 0.9rem;
+}
+.compare-table th {
+  padding: 1rem 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 400;
+}
+.compare-table td {
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  vertical-align: top;
+  line-height: 1.5;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table .row-label { font-weight: 800; color: var(--navy); background: #f8fafc; width: 22%; }
+.compare-table .hw-col { background: #eff6ff; color: #1e3a8a; }
+.compare-table .sw-col { background: #f0fdf4; color: #14532d; }
+.compare-table thead th:nth-child(1) { background: var(--navy); color: #fff; }
+.compare-table thead th:nth-child(2) { background: #1e40af; color: #fff; }
+.compare-table thead th:nth-child(3) { background: #065f46; color: #fff; }
+.compare-table tbody tr:hover td { filter: brightness(0.97); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .pros-cons { grid-template-columns: 1fr; }
+  .steps-row { grid-template-columns: 1fr 1fr; }
+  .counter-strip { grid-template-columns: 1fr; }
+  .analogy-card { flex-direction: column; }
+  .compare-table { font-size: 0.78rem; }
+  .compare-table th, .compare-table td { padding: 0.6rem 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+  <div class="hero-bubbles">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <span class="hero-emoji" id="heroEmoji">🛡️</span>
+  <h1 id="heroTitle">Hardware Firewall</h1>
+  <p class="hero-tagline" id="heroTagline">Your network's personal security guard — explained simply!</p>
+  <div class="hero-chips" id="heroChips">
+    <span class="chip">Computer Science</span>
+    <span class="chip">Interactive</span>
+    <span class="chip">Network Devices</span>
+    <span class="chip">Hardware</span>
+  </div>
+  <!-- NAV TABS -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" id="tabHW" onclick="showSection('hw')">🛡️ Hardware Firewall</button>
+    <button class="nav-tab" id="tabSW" onclick="showSection('sw')">💻 Software Firewall</button>
+    <button class="nav-tab" id="tabCMP" onclick="showSection('cmp')">⚖️ Compare Both</button>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path id="wavePath" d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" fill="#f0f4ff"/>
+</svg>
+
+<!-- ══════════ HARDWARE SECTION ══════════ -->
+<div id="hwSection">
+<div class="container">
+
+  <!-- WHAT IS IT -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">🤔</span>
+      <h2 class="section-title">What is a Hardware Firewall?</h2>
+      <p class="section-sub">Let's start with a simple real-world analogy</p>
+    </div>
+
+    <!-- DEFINITION BOX -->
+    <div style="background:linear-gradient(135deg,#1e40af,#1a2e5a);border-radius:20px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 8px 30px rgba(30,64,175,0.25);display:flex;gap:1.2rem;align-items:flex-start;">
+      <div style="font-size:2.8rem;flex-shrink:0;">📖</div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:1rem;color:rgba(255,255,255,0.6);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;">Definition</div>
+        <p style="font-size:1.05rem;color:#fff;font-weight:700;line-height:1.7;margin:0;">
+          A <strong style="color:#93c5fd;">hardware firewall</strong> is a dedicated physical device that sits between a local network and the internet, inspecting all incoming and outgoing data packets and using a set of security rules to decide whether to allow or block each one.
+        </p>
+      </div>
+    </div>
+
+    <div class="analogy-card">
+      <div class="analogy-icon">🏫</div>
+      <div>
+        <div class="analogy-title">Think of it like a school security guard!</div>
+        <p class="analogy-text">
+          Imagine your school has one main entrance. A security guard stands there and checks everyone coming in.
+          They let in students, teachers, and visitors with valid passes — but they block anyone who looks suspicious or doesn't belong.
+          <br><br>
+          A <strong>Hardware Firewall</strong> works exactly the same way for your computer network!
+          It's a <strong>physical device</strong> (like a box) that sits between the internet and your computers.
+          It checks every piece of data coming in and going out, and decides what to allow and what to block.
+        </p>
+      </div>
+    </div>
+
+    <div class="facts-grid">
+      <div class="fact-card">
+        <span class="fact-emoji">📦</span>
+        <div class="fact-title">It's a Physical Device</div>
+        <p class="fact-text">Unlike app-based firewalls, a hardware firewall is a real, separate box — like a router — that sits between your internet connection and your network.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">🔍</span>
+        <div class="fact-title">It Checks Everything</div>
+        <p class="fact-text">Every "packet" (small chunk of data) that travels in or out of your network is inspected to make sure it's safe and follows the rules.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">🏢</span>
+        <div class="fact-title">Used in Businesses & Schools</div>
+        <p class="fact-text">Hardware firewalls are commonly found in offices, schools, and hospitals where many computers need to be protected at the same time.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">⚡</span>
+        <div class="fact-title">Fast & Dedicated</div>
+        <p class="fact-text">Because it's a separate device with its own processor, it checks data super fast without slowing down your computer.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">📋</span>
+        <div class="fact-title">Uses Rules</div>
+        <p class="fact-text">Network administrators set up rules like "block all traffic from suspicious websites" or "only allow school email servers to connect."</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">🛑</span>
+        <div class="fact-title">Stops Hackers & Malware</div>
+        <p class="fact-text">It blocks viruses, hackers, and other cyber threats before they even reach your computers — like a force field for your network!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS STEPS -->
+  <section class="section" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:2rem;border:2px solid var(--border);box-shadow:0 8px 30px rgba(0,0,0,0.06);">
+    <div class="section-header">
+      <span class="section-emoji">⚙️</span>
+      <h2 class="section-title">How Does It Work?</h2>
+      <p class="section-sub">5 simple steps from internet to your screen</p>
+    </div>
+    <div class="steps-row">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <span class="step-emoji">🌐</span>
+        <div class="step-title">Data Arrives</div>
+        <p class="step-text">A piece of data (called a "packet") arrives from the internet, wanting to enter your network.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <span class="step-emoji">🔎</span>
+        <div class="step-title">Firewall Checks It</div>
+        <p class="step-text">The firewall looks at where it's from, where it's going, and what type of data it is.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <span class="step-emoji">📋</span>
+        <div class="step-title">Compares to Rules</div>
+        <p class="step-text">It matches the data against a list of security rules set by the network administrator.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <span class="step-emoji">✅ / ❌</span>
+        <div class="step-title">Allow or Block</div>
+        <p class="step-text">Safe data is allowed through. Dangerous or suspicious data is blocked and logged.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">5</div>
+        <span class="step-emoji">💾</span>
+        <div class="step-title">Records Everything</div>
+        <p class="step-text">Every decision is saved in a log file so admins can review what happened later.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMO -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">🎮</span>
+      <h2 class="section-title">See It In Action!</h2>
+      <p class="section-sub">Watch the firewall decide what to allow and what to block in real time</p>
+    </div>
+
+    <div class="demo-box">
+      <div class="demo-title">🛡️ Live Network Traffic <span class="live-badge">● LIVE</span></div>
+
+      <!-- Road diagram -->
+      <div class="road-diagram">
+        <div class="road-node">
+          <div class="road-icon-wrap internet">🌐</div>
+          <div class="road-label">Internet</div>
+        </div>
+        <!-- animated vehicles -->
+        <div class="car good">🚗</div>
+        <div class="car bad">🦠</div>
+        <div class="car good2">📧</div>
+        <div class="explosion">💥</div>
+
+        <div class="road-node">
+          <div class="road-icon-wrap firewall">🛡️</div>
+          <div class="road-label">Firewall</div>
+        </div>
+
+        <div class="road-node">
+          <div class="road-icon-wrap computer">🖥️</div>
+          <div class="road-label">Your Network</div>
+        </div>
+      </div>
+
+      <p style="text-align:center;font-size:0.82rem;color:var(--muted);font-weight:700;margin-bottom:1.2rem;">
+        🚗 Safe data drives through &nbsp;·&nbsp; 🦠 Malware gets blocked with 💥 &nbsp;·&nbsp; 📧 Emails are inspected first
+      </p>
+
+      <!-- Counters -->
+      <div class="counter-strip">
+        <div class="counter-pill total">
+          <span class="counter-num" id="cTotal">0</span>
+          <span class="counter-lbl">📦 Total Checked</span>
+        </div>
+        <div class="counter-pill passed">
+          <span class="counter-num" id="cPassed">0</span>
+          <span class="counter-lbl">✅ Safely Passed</span>
+        </div>
+        <div class="counter-pill blocked">
+          <span class="counter-num" id="cBlocked">0</span>
+          <span class="counter-lbl">🚫 Threats Blocked</span>
+        </div>
+      </div>
+
+      <!-- Simple log -->
+      <div class="simple-log">
+        <div class="log-header-bar">
+          <span>🗒️ Firewall Activity Log</span>
+          <span style="color:var(--yellow)">● Recording...</span>
+        </div>
+        <div class="log-entries" id="logEntries"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROS & CONS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">⚖️</span>
+      <h2 class="section-title">Good & Not-So-Good</h2>
+      <p class="section-sub">Every device has strengths and weaknesses</p>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pros-card">
+        <div class="pc-title">👍 Advantages</div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Dedicated protection</strong> — it's the only job this device does, so it does it really well!</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Doesn't slow your PC down</strong> — it has its own processor, so your computer doesn't have to do the work.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Protects the whole network</strong> — one firewall covers every device connected to it.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Very hard to bypass</strong> — it can't be disabled by a virus on your computer like a software firewall might be.</span>
+        </div>
+      </div>
+
+      <div class="cons-card">
+        <div class="pc-title">👎 Disadvantages</div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>Costs more money</strong> — hardware firewalls can be expensive, especially for homes.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>Needs an expert to set up</strong> — the security rules need to be configured carefully by someone who knows networking.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>Single point of failure</strong> — if this one device breaks, the whole network loses its protection.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>Can't protect against everything</strong> — it mainly guards the entrance, not threats already inside the network.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- QUIZ HW -->
+<section class="quiz-section">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quick Knowledge Check!</h2>
+    <p class="quiz-sub">Test what you've just learned — 5 questions</p>
+
+    <div class="quiz-card">
+      <div class="quiz-q-num" id="qNum">Question 1 of 5</div>
+      <div class="quiz-q" id="qText">Loading...</div>
+      <div class="quiz-options" id="qOptions"></div>
+      <div class="quiz-feedback" id="qFeedback"></div>
+      <div class="quiz-nav">
+        <div class="quiz-score">Score: <span id="qScore">0</span> / <span id="qTotal">5</span></div>
+        <button class="quiz-btn" id="qNext" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <!-- SUMMARY HW -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">📝</span>
+      <h2 class="section-title">Quick Summary</h2>
+      <p class="section-sub">Everything you need to remember for your exam</p>
+    </div>
+    <div style="background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+        <div style="padding:1rem;background:#eff6ff;border-radius:12px;border-left:4px solid var(--blue);">
+          <strong style="color:var(--navy);">📌 Definition:</strong>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;">A dedicated physical device that filters all network traffic between the internet and a local network, using security rules to allow or block data.</p>
+        </div>
+        <div style="padding:1rem;background:#f0fdf4;border-radius:12px;border-left:4px solid var(--green);">
+          <strong style="color:#166534;">📌 Main Job:</strong>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;">Inspect incoming and outgoing data packets, compare them against rules, and block threats like hackers, viruses, and malware from entering the network.</p>
+        </div>
+        <div style="padding:1rem;background:#fef9c3;border-radius:12px;border-left:4px solid var(--yellow);">
+          <strong style="color:#854d0e;">📌 Key Difference:</strong>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;">Unlike software firewalls (programs on your computer), a hardware firewall is a standalone physical box — it doesn't slow down your computer and protects all devices on the network.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</div><!-- /hwSection -->
+
+
+<!-- ══════════ SOFTWARE SECTION ══════════ -->
+<div id="swSection" style="display:none;">
+
+<div class="container">
+
+  <!-- WHAT IS A SOFTWARE FIREWALL -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">🤔</span>
+      <h2 class="section-title">What is a Software Firewall?</h2>
+      <p class="section-sub">Let's start with a simple real-world analogy</p>
+    </div>
+
+    <!-- DEFINITION BOX -->
+    <div style="background:linear-gradient(135deg,#065f46,#064e3b);border-radius:20px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 8px 30px rgba(6,95,70,0.25);display:flex;gap:1.2rem;align-items:flex-start;">
+      <div style="font-size:2.8rem;flex-shrink:0;">📖</div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:1rem;color:rgba(255,255,255,0.6);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;">Definition</div>
+        <p style="font-size:1.05rem;color:#fff;font-weight:700;line-height:1.7;margin:0;">
+          A <strong style="color:#6ee7b7;">software firewall</strong> is a program installed on an individual device that monitors and controls the network connections made by applications on that device, using security rules to permit or block traffic based on the source, destination, and type of data.
+        </p>
+      </div>
+    </div>
+
+    <div class="analogy-card sw">
+      <div class="analogy-icon">🕵️</div>
+      <div>
+        <div class="analogy-title">Think of it like a personal bodyguard inside your phone!</div>
+        <p class="analogy-text">
+          Imagine every person in the school also has their own tiny security guard who walks with them all day —
+          checking every message they receive and every website they visit.
+          Even if someone sneaks past the school entrance, your personal guard spots them!
+          <br><br>
+          A <strong>Software Firewall</strong> works exactly like that. It's a <strong>program installed directly on your device</strong>
+          (laptop, phone, or tablet) that monitors every connection that program makes — allowing safe traffic and blocking threats aimed specifically at that device.
+        </p>
+      </div>
+    </div>
+
+    <div class="facts-grid">
+      <div class="fact-card">
+        <span class="fact-emoji">💻</span>
+        <div class="fact-title">It's a Program</div>
+        <p class="fact-text">Unlike hardware firewalls, a software firewall is an application that runs on your device — like Windows Defender Firewall, macOS Firewall, or a third-party app like ZoneAlarm.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">🔍</span>
+        <div class="fact-title">Monitors Per-App</div>
+        <p class="fact-text">It can control which applications on your device are allowed to access the internet — for example, blocking a game from sending data while allowing your browser.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">🏠</span>
+        <div class="fact-title">Perfect for Home Users</div>
+        <p class="fact-text">Software firewalls are free or low-cost and come built into modern operating systems — making them ideal for home computers and personal devices.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">🔔</span>
+        <div class="fact-title">Sends Alerts</div>
+        <p class="fact-text">It can pop up a notification asking "Do you want to allow this app to access the internet?" — giving the user direct control over each connection.</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">📋</span>
+        <div class="fact-title">Uses Rules Too</div>
+        <p class="fact-text">Users and administrators set rules like "block all incoming connections on port 23" or "only allow Chrome to access web ports 80 and 443."</p>
+      </div>
+      <div class="fact-card">
+        <span class="fact-emoji">🛡️</span>
+        <div class="fact-title">Guards Individual Devices</div>
+        <p class="fact-text">It protects one device at a time — so even if you connect to a public Wi-Fi network with no hardware firewall, your device still has its own layer of protection.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS STEPS SW -->
+  <section class="section" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:2rem;border:2px solid var(--border);box-shadow:0 8px 30px rgba(0,0,0,0.06);">
+    <div class="section-header">
+      <span class="section-emoji">⚙️</span>
+      <h2 class="section-title">How Does It Work?</h2>
+      <p class="section-sub">5 simple steps from app request to the internet</p>
+    </div>
+    <div class="steps-row">
+      <div class="step-card sw">
+        <div class="step-num" style="background:#065f46;">1</div>
+        <span class="step-emoji">📱</span>
+        <div class="step-title">App Requests Connection</div>
+        <p class="step-text">An application on your device tries to send or receive data over the internet.</p>
+      </div>
+      <div class="step-card sw">
+        <div class="step-num" style="background:#065f46;">2</div>
+        <span class="step-emoji">🔎</span>
+        <div class="step-title">Firewall Intercepts It</div>
+        <p class="step-text">The software firewall catches the request before it leaves your device — checking which app made it and where it's going.</p>
+      </div>
+      <div class="step-card sw">
+        <div class="step-num" style="background:#065f46;">3</div>
+        <span class="step-emoji">📋</span>
+        <div class="step-title">Checks App Rules</div>
+        <p class="step-text">It looks up whether this app is trusted, which ports it can use, and whether the destination IP is allowed.</p>
+      </div>
+      <div class="step-card sw">
+        <div class="step-num" style="background:#065f46;">4</div>
+        <span class="step-emoji">✅ / ❌</span>
+        <div class="step-title">Permit or Deny</div>
+        <p class="step-text">Approved apps get through. Suspicious or blocked apps are denied and the user may receive an alert.</p>
+      </div>
+      <div class="step-card sw">
+        <div class="step-num" style="background:#065f46;">5</div>
+        <span class="step-emoji">💾</span>
+        <div class="step-title">Logs the Decision</div>
+        <p class="step-text">Every action is recorded in a log so the user or admin can investigate suspicious activity later.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMO SW -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">🎮</span>
+      <h2 class="section-title">See It In Action!</h2>
+      <p class="section-sub">Watch the software firewall control which apps can connect — live!</p>
+    </div>
+
+    <div class="demo-box">
+      <div class="demo-title">💻 Live App Traffic Monitor <span class="live-badge" style="background:#059669;">● LIVE</span></div>
+
+      <!-- SW Road diagram -->
+      <div class="sw-road-diagram" style="position:relative;overflow:hidden;min-height:160px;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:1.5rem;border-radius:16px;padding:1.5rem;">
+        <div class="road-node">
+          <div class="road-icon-wrap" style="background:#ecfdf5;">📱</div>
+          <div class="road-label">Your Apps</div>
+        </div>
+        <!-- animated vehicles -->
+        <div class="car sw-car1" style="position:absolute;top:50%;font-size:1.4rem;z-index:20;transform:translateY(-50%);">🌐</div>
+        <div class="car sw-car2" style="position:absolute;top:50%;font-size:1.4rem;z-index:20;transform:translateY(-50%);">🦠</div>
+        <div class="car sw-car3" style="position:absolute;top:50%;font-size:1.4rem;z-index:20;transform:translateY(-50%);">📤</div>
+        <div class="sw-explosion">💥</div>
+
+        <div class="road-node">
+          <div class="road-icon-wrap sw-firewall">💻</div>
+          <div class="road-label">SW Firewall</div>
+        </div>
+
+        <div class="road-node">
+          <div class="road-icon-wrap" style="background:#eff6ff;">🌐</div>
+          <div class="road-label">Internet</div>
+        </div>
+      </div>
+
+      <p style="text-align:center;font-size:0.82rem;color:var(--muted);font-weight:700;margin-bottom:1.2rem;">
+        🌐 Browser traffic passes through &nbsp;·&nbsp; 🦠 Spyware gets blocked with 💥 &nbsp;·&nbsp; 📤 Safe uploads are inspected first
+      </p>
+
+      <!-- SW Counters -->
+      <div class="counter-strip">
+        <div class="counter-pill sw-total">
+          <span class="counter-num" id="swTotal">0</span>
+          <span class="counter-lbl">📦 Total Checked</span>
+        </div>
+        <div class="counter-pill sw-passed">
+          <span class="counter-num" id="swPassed">0</span>
+          <span class="counter-lbl">✅ Safely Passed</span>
+        </div>
+        <div class="counter-pill sw-blocked">
+          <span class="counter-num" id="swBlocked">0</span>
+          <span class="counter-lbl">🚫 Threats Blocked</span>
+        </div>
+      </div>
+
+      <!-- SW log -->
+      <div class="simple-log">
+        <div class="log-header-bar sw-log-header" style="background:#064e3b;">
+          <span>🗒️ Software Firewall Log</span>
+          <span style="color:#6ee7b7;">● Recording...</span>
+        </div>
+        <div class="log-entries" id="swLogEntries"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROS & CONS SW -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">⚖️</span>
+      <h2 class="section-title">Good &amp; Not-So-Good</h2>
+      <p class="section-sub">Every solution has strengths and weaknesses</p>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pros-card">
+        <div class="pc-title">👍 Advantages</div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Free &amp; built-in</strong> — Windows, macOS, and Linux all include a software firewall at no extra cost.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Per-application control</strong> — you can allow one app to connect to the internet while blocking another on the same device.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Protects on the go</strong> — works wherever you take your laptop, including public Wi-Fi with no hardware firewall.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✓</div>
+          <span class="pc-item-text"><strong>Easy to configure</strong> — most users can set it up through a simple menu without needing network expertise.</span>
+        </div>
+      </div>
+
+      <div class="cons-card">
+        <div class="pc-title">👎 Disadvantages</div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>Uses system resources</strong> — it runs on your CPU and RAM, which can slow down older or underpowered devices.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>Can be disabled by malware</strong> — a virus already on the device might switch off the software firewall, since it's just another program.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>Protects only one device</strong> — unlike a hardware firewall, it cannot shield every computer on the network from a single point.</span>
+        </div>
+        <div class="pc-item">
+          <div class="pc-dot">✗</div>
+          <span class="pc-item-text"><strong>User errors are common</strong> — users may accidentally click "Allow" on a dangerous app, weakening the protection.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container sw -->
+
+<!-- QUIZ SW -->
+<section class="quiz-section" style="background:linear-gradient(135deg,#064e3b,#065f46);">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quick Knowledge Check!</h2>
+    <p class="quiz-sub">Test what you've just learned about software firewalls — 5 questions</p>
+
+    <div class="quiz-card" id="swQuizCard">
+      <div class="quiz-q-num" id="swQNum">Question 1 of 5</div>
+      <div class="quiz-q" id="swQText">Loading...</div>
+      <div class="quiz-options" id="swQOptions"></div>
+      <div class="quiz-feedback" id="swQFeedback"></div>
+      <div class="quiz-nav">
+        <div class="quiz-score">Score: <span id="swQScore">0</span> / <span id="swQTotal">5</span></div>
+        <button class="quiz-btn" id="swQNext" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <!-- SUMMARY SW -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">📝</span>
+      <h2 class="section-title">Quick Summary</h2>
+      <p class="section-sub">Everything you need to remember for your exam</p>
+    </div>
+    <div style="background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+        <div style="padding:1rem;background:#ecfdf5;border-radius:12px;border-left:4px solid #059669;">
+          <strong style="color:#064e3b;">📌 Definition:</strong>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;">A program installed on a single device that monitors and controls network connections made by applications, filtering traffic according to a set of security rules.</p>
+        </div>
+        <div style="padding:1rem;background:#f0fdf4;border-radius:12px;border-left:4px solid var(--green);">
+          <strong style="color:#166534;">📌 Main Job:</strong>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;">Inspect every outgoing and incoming connection for a specific device, decide which applications can access the internet, and block suspicious or unauthorised traffic.</p>
+        </div>
+        <div style="padding:1rem;background:#fef9c3;border-radius:12px;border-left:4px solid var(--yellow);">
+          <strong style="color:#854d0e;">📌 Key Difference:</strong>
+          <p style="font-size:0.88rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;">Unlike hardware firewalls (a physical box), a software firewall is just a program — it protects one device, is easy to install, but can be disabled by malware and uses device resources.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</div><!-- /swSection -->
+
+
+<!-- ══════════ COMPARISON SECTION ══════════ -->
+<div id="cmpSection" style="display:none;">
+<div class="container">
+
+  <section class="section">
+    <div class="section-header">
+      <span class="section-emoji">⚖️</span>
+      <h2 class="section-title">Hardware vs Software Firewall</h2>
+      <p class="section-sub">A side-by-side comparison — great for exam revision!</p>
+    </div>
+
+    <div style="overflow-x:auto;border-radius:16px;margin-bottom:2rem;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>🛡️ Hardware Firewall</th>
+            <th>💻 Software Firewall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">What is it?</td>
+            <td class="hw-col">A physical, standalone device (box)</td>
+            <td class="sw-col">A program installed on your device</td>
+          </tr>
+          <tr>
+            <td class="row-label">Where does it sit?</td>
+            <td class="hw-col">Between the internet and the whole network</td>
+            <td class="sw-col">On a single device (laptop, PC, phone)</td>
+          </tr>
+          <tr>
+            <td class="row-label">What does it protect?</td>
+            <td class="hw-col">All devices on the local network</td>
+            <td class="sw-col">Only the device it is installed on</td>
+          </tr>
+          <tr>
+            <td class="row-label">Cost</td>
+            <td class="hw-col">Expensive — can cost hundreds to thousands of pounds</td>
+            <td class="sw-col">Often free — built into Windows &amp; macOS</td>
+          </tr>
+          <tr>
+            <td class="row-label">Performance impact</td>
+            <td class="hw-col">None — has its own dedicated processor</td>
+            <td class="sw-col">Uses CPU &amp; RAM — can slow older devices</td>
+          </tr>
+          <tr>
+            <td class="row-label">Setup difficulty</td>
+            <td class="hw-col">Requires a skilled network administrator</td>
+            <td class="sw-col">Easy — most users can configure it themselves</td>
+          </tr>
+          <tr>
+            <td class="row-label">Can malware disable it?</td>
+            <td class="hw-col">Very hard — it's a separate physical device</td>
+            <td class="sw-col">Yes — it's just another program on the device</td>
+          </tr>
+          <tr>
+            <td class="row-label">Per-app control?</td>
+            <td class="hw-col">No — works at network level, not app level</td>
+            <td class="sw-col">Yes — can block/allow specific applications</td>
+          </tr>
+          <tr>
+            <td class="row-label">Works on public Wi-Fi?</td>
+            <td class="hw-col">Only if the café/venue has one installed</td>
+            <td class="sw-col">Yes — always travels with the device</td>
+          </tr>
+          <tr>
+            <td class="row-label">Typical use</td>
+            <td class="hw-col">Schools, businesses, hospitals, large offices</td>
+            <td class="sw-col">Home users, personal laptops, individual PCs</td>
+          </tr>
+          <tr>
+            <td class="row-label">Best used when…</td>
+            <td class="hw-col">You need to protect many devices at once</td>
+            <td class="sw-col">You need to protect one specific device anywhere</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Summary insight cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-bottom:2rem;">
+      <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:16px;padding:1.5rem;border:2px solid #bfdbfe;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🛡️</div>
+        <div style="font-family:var(--font-display);font-size:1.1rem;color:#1e3a8a;margin-bottom:0.4rem;">Hardware Firewall — Best For</div>
+        <p style="font-size:0.88rem;color:#1e40af;font-weight:600;line-height:1.6;">Organisations needing to protect many computers at once. One device guards the entire network entrance — ideal for schools, offices, and hospitals.</p>
+      </div>
+      <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-radius:16px;padding:1.5rem;border:2px solid #6ee7b7;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">💻</div>
+        <div style="font-family:var(--font-display);font-size:1.1rem;color:#064e3b;margin-bottom:0.4rem;">Software Firewall — Best For</div>
+        <p style="font-size:0.88rem;color:#065f46;font-weight:600;line-height:1.6;">Individual users who need protection on their personal device, especially when travelling or using public Wi-Fi where there is no hardware firewall.</p>
+      </div>
+      <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:16px;padding:1.5rem;border:2px solid #fcd34d;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🤝</div>
+        <div style="font-family:var(--font-display);font-size:1.1rem;color:#92400e;margin-bottom:0.4rem;">Best Practice — Use Both!</div>
+        <p style="font-size:0.88rem;color:#78350f;font-weight:600;line-height:1.6;">Most secure environments use a hardware firewall to guard the network entrance AND a software firewall on each device — creating a defence-in-depth strategy.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div><!-- /cmpSection -->
+
+<div class="footer">
+  🛡️💻 Hardware &amp; Software Firewall — Computer Science &nbsp;·&nbsp; Network Devices Unit
+</div>
+
+<script>
+// ── LIVE LOG ──
+const logEntries = document.getElementById('logEntries');
+const MAX = 6;
+let total = 0, passed = 0, blocked = 0;
+
+const events = [
+  { icon:'🌐', who:'Google.com', what:'Website visit', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'🦠', who:'Unknown IP 45.33.x.x', what:'Virus download attempt', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'📧', who:'Email Server', what:'School email received', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'🕵️', who:'Suspicious site', what:'Port scan detected', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'📺', who:'YouTube.com', what:'Video stream', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'⚠️', who:'Unknown Russia IP', what:'Hacking attempt', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'🔒', who:'Bank website', what:'Secure HTTPS login', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'🦟', who:'Malware Bot', what:'Ransomware payload', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'📱', who:'Phone app update', what:'Software update', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'🔍', who:'Security scanner', what:'DPI inspection done', verdict:'check', label:'⊙ INSPECTED' },
+];
+
+let ei = 0;
+function addEntry() {
+  const e = events[ei % events.length]; ei++;
+  total++;
+  if (e.verdict === 'pass' || e.verdict === 'check') passed++;
+  else blocked++;
+
+  const row = document.createElement('div');
+  row.className = 'log-entry';
+  row.innerHTML = `
+    <span class="log-icon">${e.icon}</span>
+    <span class="log-who">${e.who}</span>
+    <span class="log-what">${e.what}</span>
+    <span class="log-verdict ${e.verdict}">${e.label}</span>
+  `;
+  logEntries.prepend(row);
+  while (logEntries.children.length > MAX) logEntries.removeChild(logEntries.lastChild);
+
+  document.getElementById('cTotal').textContent = total;
+  document.getElementById('cPassed').textContent = passed;
+  document.getElementById('cBlocked').textContent = blocked;
+}
+
+setInterval(addEntry, 1200);
+
+// ── QUIZ ──
+const questions = [
+  {
+    q: "A hardware firewall is best described as...",
+    opts: ["A program you install on your computer", "A physical device that filters network traffic", "A type of antivirus software", "A wireless router"],
+    ans: 1,
+    explain: "✅ Correct! A hardware firewall is a physical, standalone device — not a software program."
+  },
+  {
+    q: "What is the best real-world analogy for a hardware firewall?",
+    opts: ["A lock on your bedroom door", "A security guard checking everyone at the school entrance", "A teacher marking homework", "A post box collecting letters"],
+    ans: 1,
+    explain: "✅ Spot on! Like a security guard, a firewall checks everything coming in and decides what's allowed."
+  },
+  {
+    q: "Which of these is an ADVANTAGE of a hardware firewall?",
+    opts: ["It is very cheap to buy", "It protects one computer at a time", "It doesn't slow down your computer because it has its own processor", "It can be disabled by a virus on your PC"],
+    ans: 2,
+    explain: "✅ Great! Because it's a separate device, it does its own work — your computer stays fast!"
+  },
+  {
+    q: "What does a firewall check when data arrives from the internet?",
+    opts: ["The colour of the website", "Where the data came from, where it's going, and what type it is", "How fast the internet connection is", "Whether the user is logged in"],
+    ans: 1,
+    explain: "✅ Right! The firewall looks at the source, destination, and type of each data packet."
+  },
+  {
+    q: "Which is a DISADVANTAGE of a hardware firewall?",
+    opts: ["It protects all devices on the network", "It is hard to remove by viruses", "It can be expensive and requires an expert to configure", "It works faster than software firewalls"],
+    ans: 2,
+    explain: "✅ Correct! Hardware firewalls cost more and need skilled network admins to set them up properly."
+  }
+];
+
+let qIdx = 0, score = 0, answered = false;
+
+function loadQ() {
+  const q = questions[qIdx];
+  document.getElementById('qNum').textContent = `Question ${qIdx+1} of ${questions.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const opts = document.getElementById('qOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = `${['A','B','C','D'][i]})  ${opt}`;
+    btn.onclick = () => answer(i, q.ans, q.explain);
+    opts.appendChild(btn);
+  });
+  document.getElementById('qFeedback').className = 'quiz-feedback';
+  document.getElementById('qFeedback').textContent = '';
+  document.getElementById('qNext').disabled = true;
+  answered = false;
+}
+
+function answer(chosen, correct, explain) {
+  if (answered) return;
+  answered = true;
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qFeedback');
+  if (chosen === correct) {
+    btns[chosen].classList.add('correct');
+    score++;
+    document.getElementById('qScore').textContent = score;
+    fb.textContent = explain;
+    fb.className = 'quiz-feedback show good';
+  } else {
+    btns[chosen].classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.textContent = `Not quite! ${explain}`;
+    fb.className = 'quiz-feedback show bad';
+  }
+  document.getElementById('qNext').disabled = false;
+}
+
+document.getElementById('qNext').onclick = () => {
+  qIdx++;
+  if (qIdx < questions.length) {
+    loadQ();
+  } else {
+    const card = document.querySelector('.quiz-card');
+    const pct = Math.round((score/questions.length)*100);
+    const msg = score === 5 ? '🏆 Perfect score! You nailed it!' : score >= 3 ? '🎉 Great job! Review the ones you missed.' : '📚 Keep studying — you\'ve got this!';
+    card.innerHTML = `
+      <div style="text-align:center;padding:1rem 0;">
+        <div style="font-size:4rem;margin-bottom:1rem;">${score===5?'🏆':score>=3?'🎉':'📚'}</div>
+        <div style="font-family:var(--font-display);font-size:2rem;color:#fff;margin-bottom:0.5rem;">You scored ${score} / ${questions.length}</div>
+        <div style="font-size:1rem;color:rgba(255,255,255,0.75);font-weight:700;margin-bottom:1.5rem;">${msg}</div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;">
+          <div style="height:100%;width:${pct}%;background:${score===5?'#10b981':score>=3?'#fbbf24':'#ef4444'};border-radius:999px;transition:width 1s;"></div>
+        </div>
+        <button class="quiz-btn" onclick="location.reload()">🔄 Try Again</button>
+      </div>
+    `;
+  }
+};
+
+
+// ── TAB SWITCHER ──
+function showSection(tab) {
+  document.getElementById('hwSection').style.display  = tab === 'hw'  ? '' : 'none';
+  document.getElementById('swSection').style.display  = tab === 'sw'  ? '' : 'none';
+  document.getElementById('cmpSection').style.display = tab === 'cmp' ? '' : 'none';
+
+  ['hw','sw','cmp'].forEach(t => {
+    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+  });
+
+  // Hero colour
+  const hero = document.getElementById('heroSection');
+  if (tab === 'sw') {
+    hero.style.background = 'linear-gradient(135deg,#064e3b 0%,#065f46 50%,#047857 100%)';
+    document.getElementById('heroEmoji').textContent = '💻';
+    document.getElementById('heroTitle').textContent = 'Software Firewall';
+    document.getElementById('heroTagline').textContent = "Your device's own personal security program — explained simply!";
+    document.getElementById('wavePath').setAttribute('fill', '#f0f4ff');
+    document.getElementById('heroChips').innerHTML = '<span class="chip">Computer Science</span><span class="chip">Interactive</span><span class="chip">Network Devices</span><span class="chip">Software</span>';
+  } else if (tab === 'cmp') {
+    hero.style.background = 'linear-gradient(135deg,#1a2e5a 0%,#065f46 100%)';
+    document.getElementById('heroEmoji').textContent = '⚖️';
+    document.getElementById('heroTitle').textContent = 'Compare Both Firewalls';
+    document.getElementById('heroTagline').textContent = "Hardware vs Software — know the differences for your exam!";
+    document.getElementById('heroChips').innerHTML = '<span class="chip">Computer Science</span><span class="chip">Comparison</span><span class="chip">Exam Revision</span>';
+  } else {
+    hero.style.background = 'linear-gradient(135deg,#1a2e5a 0%,#1e40af 50%,#0e7490 100%)';
+    document.getElementById('heroEmoji').textContent = '🛡️';
+    document.getElementById('heroTitle').textContent = 'Hardware Firewall';
+    document.getElementById('heroTagline').textContent = "Your network's personal security guard — explained simply!";
+    document.getElementById('heroChips').innerHTML = '<span class="chip">Computer Science</span><span class="chip">Interactive</span><span class="chip">Network Devices</span><span class="chip">Hardware</span>';
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── SW LIVE LOG ──
+const swLogEntries = document.getElementById('swLogEntries');
+let swTotal = 0, swPassed = 0, swBlocked = 0;
+
+const swEvents = [
+  { icon:'🌐', who:'Chrome.exe', what:'Browser page load', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'🕵️', who:'Spyware.exe', what:'Data exfiltration attempt', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'📧', who:'Outlook.exe', what:'Email sync', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'⚠️', who:'Unknown.exe', what:'Port 23 (Telnet) scan', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'🎮', who:'Steam.exe', what:'Game update download', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'🦟', who:'Adware.dll', what:'Ad beacon sent', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'🔒', who:'VPN client', what:'Encrypted tunnel opened', verdict:'pass', label:'✓ ALLOWED' },
+  { icon:'⚡', who:'Malware.exe', what:'C2 server contact', verdict:'block', label:'✗ BLOCKED' },
+  { icon:'🔄', who:'Windows Update', what:'OS patch download', verdict:'check', label:'⊙ INSPECTED' },
+  { icon:'🛡️', who:'Defender.exe', what:'Definition update', verdict:'pass', label:'✓ ALLOWED' },
+];
+
+let swEi = 0;
+function addSwEntry() {
+  if (!swLogEntries) return;
+  const e = swEvents[swEi % swEvents.length]; swEi++;
+  swTotal++;
+  if (e.verdict === 'pass' || e.verdict === 'check') swPassed++;
+  else swBlocked++;
+
+  const row = document.createElement('div');
+  row.className = 'log-entry';
+  row.innerHTML = `
+    <span class="log-icon">${e.icon}</span>
+    <span class="log-who">${e.who}</span>
+    <span class="log-what">${e.what}</span>
+    <span class="log-verdict ${e.verdict}">${e.label}</span>
+  `;
+  swLogEntries.prepend(row);
+  while (swLogEntries.children.length > 6) swLogEntries.removeChild(swLogEntries.lastChild);
+
+  document.getElementById('swTotal').textContent  = swTotal;
+  document.getElementById('swPassed').textContent = swPassed;
+  document.getElementById('swBlocked').textContent = swBlocked;
+}
+setInterval(addSwEntry, 1300);
+
+// ── SW QUIZ ──
+const swQuestions = [
+  {
+    q: "A software firewall is best described as...",
+    opts: ["A physical box between the internet and a network", "A program installed on a single device that monitors connections", "A dedicated network appliance", "A type of antivirus database"],
+    ans: 1,
+    explain: "✅ Correct! A software firewall is a program — it runs on your device, not as separate hardware."
+  },
+  {
+    q: "Which is the best real-world analogy for a software firewall?",
+    opts: ["A security guard at the school entrance", "A personal bodyguard who travels everywhere with you", "A fence around the whole school", "A CCTV camera outside the building"],
+    ans: 1,
+    explain: "✅ Spot on! Like a personal bodyguard, a software firewall protects you wherever you go — including on public Wi-Fi."
+  },
+  {
+    q: "Which is an ADVANTAGE of a software firewall over a hardware firewall?",
+    opts: ["It protects the whole network at once", "It cannot be disabled by malware", "It can control which individual applications access the internet", "It has its own dedicated processor"],
+    ans: 2,
+    explain: "✅ Great! Software firewalls can allow or block specific apps — for example, blocking a game while letting a browser through."
+  },
+  {
+    q: "Which is a DISADVANTAGE of a software firewall?",
+    opts: ["It is expensive to buy", "It requires a network expert to set up", "It can be disabled by malware already on the device", "It only works when connected to a hardware firewall"],
+    ans: 2,
+    explain: "✅ Right! Because a software firewall is just another program, a virus on the device could turn it off."
+  },
+  {
+    q: "A student takes their laptop to a coffee shop with no hardware firewall. Which statement is TRUE?",
+    opts: ["The laptop has no protection at all", "The software firewall on the laptop still protects the device", "The hardware firewall at school protects the laptop remotely", "The laptop should not be used outside school"],
+    ans: 1,
+    explain: "✅ Correct! A software firewall travels with the device, so the laptop is still protected even on public Wi-Fi."
+  }
+];
+
+let swQIdx = 0, swScore = 0, swAnswered = false;
+
+function loadSwQ() {
+  const q = swQuestions[swQIdx];
+  document.getElementById('swQNum').textContent = `Question ${swQIdx+1} of ${swQuestions.length}`;
+  document.getElementById('swQText').textContent = q.q;
+  const opts = document.getElementById('swQOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = `${['A','B','C','D'][i]})  ${opt}`;
+    btn.onclick = () => answerSw(i, q.ans, q.explain);
+    opts.appendChild(btn);
+  });
+  document.getElementById('swQFeedback').className = 'quiz-feedback';
+  document.getElementById('swQFeedback').textContent = '';
+  document.getElementById('swQNext').disabled = true;
+  swAnswered = false;
+}
+
+function answerSw(chosen, correct, explain) {
+  if (swAnswered) return;
+  swAnswered = true;
+  const btns = document.querySelectorAll('#swQOptions .quiz-opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('swQFeedback');
+  if (chosen === correct) {
+    btns[chosen].classList.add('correct');
+    swScore++;
+    document.getElementById('swQScore').textContent = swScore;
+    fb.textContent = explain;
+    fb.className = 'quiz-feedback show good';
+  } else {
+    btns[chosen].classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.textContent = `Not quite! ${explain}`;
+    fb.className = 'quiz-feedback show bad';
+  }
+  document.getElementById('swQNext').disabled = false;
+}
+
+document.getElementById('swQNext').onclick = () => {
+  swQIdx++;
+  if (swQIdx < swQuestions.length) {
+    loadSwQ();
+  } else {
+    const card = document.getElementById('swQuizCard');
+    const pct = Math.round((swScore/swQuestions.length)*100);
+    const msg = swScore===5?'🏆 Perfect score! You nailed it!':swScore>=3?'🎉 Great job! Review the ones you missed.':'📚 Keep studying — you\'ve got this!';
+    card.innerHTML = `
+      <div style="text-align:center;padding:1rem 0;">
+        <div style="font-size:4rem;margin-bottom:1rem;">${swScore===5?'🏆':swScore>=3?'🎉':'📚'}</div>
+        <div style="font-family:var(--font-display);font-size:2rem;color:#fff;margin-bottom:0.5rem;">You scored ${swScore} / ${swQuestions.length}</div>
+        <div style="font-size:1rem;color:rgba(255,255,255,0.75);font-weight:700;margin-bottom:1.5rem;">${msg}</div>
+        <div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;">
+          <div style="height:100%;width:${pct}%;background:${swScore===5?'#10b981':swScore>=3?'#fbbf24':'#ef4444'};border-radius:999px;transition:width 1s;"></div>
+        </div>
+        <button class="quiz-btn" onclick="swQIdx=0;swScore=0;loadSwQ();">🔄 Try Again</button>
+      </div>
+    `;
+  }
+};
+
+loadSwQ();
+
+</script>
+</body>
+</html>

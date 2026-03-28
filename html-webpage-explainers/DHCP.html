@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DHCP — Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Audiowide&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0fdf4;--card:#fff;--green:#16a34a;--green-l:#dcfce7;--green-d:#14532d;
+  --teal:#0d9488;--teal-l:#ccfbf1;--emerald:#059669;--emerald-l:#d1fae5;
+  --purple:#7c3aed;--purple-l:#ede9fe;
+  --red:#dc2626;--red-l:#fee2e2;
+  --orange:#ea580c;--orange-l:#fff7ed;--yellow:#ca8a04;--yellow-l:#fef9c3;
+  --blue:#2563eb;--blue-l:#dbeafe;
+  --text:#052e16;--muted:#4b7a5a;--border:#a7f3d0;--navy:#064e3b;
+  --font:'Nunito',sans-serif;--font-d:'Audiowide',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:#1e293b;font-family:var(--font);overflow-x:hidden;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#052e16,#065f46,#059669);padding:4rem 2rem 5rem;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,0.1) 0%,transparent 70%);}
+.pulse-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.pulse-bg span{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.1);transform:translate(-50%,-50%);}
+.pulse-bg span:nth-child(1){width:200px;height:200px;animation:pRing 3s ease-out infinite;}
+.pulse-bg span:nth-child(2){width:350px;height:350px;animation:pRing 3s ease-out .5s infinite;}
+.pulse-bg span:nth-child(3){width:500px;height:500px;animation:pRing 3s ease-out 1s infinite;}
+@keyframes pRing{0%{opacity:.5;transform:translate(-50%,-50%) scale(0.8);}100%{opacity:0;transform:translate(-50%,-50%) scale(1.2);}}
+.hero-icon{font-size:5rem;display:block;margin-bottom:1rem;position:relative;z-index:5;animation:heroPulse 2s ease-in-out infinite;filter:drop-shadow(0 0 25px rgba(255,255,255,0.5));}
+@keyframes heroPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.12);}}
+.hero h1{font-family:var(--font-d);font-size:clamp(1.8rem,5vw,3.5rem);color:#fff;text-shadow:0 4px 20px rgba(0,0,0,0.3);margin-bottom:0.5rem;position:relative;z-index:5;}
+.hero-tag{font-size:1.1rem;color:rgba(255,255,255,0.85);font-weight:700;margin-bottom:1.5rem;position:relative;z-index:5;}
+.chips{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:5;}
+.chip{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:0.3rem 1rem;border-radius:999px;font-size:0.8rem;font-weight:700;}
+svg.wave{display:block;width:100%;background:transparent;margin-top:-2px;}
+
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.section{padding:3rem 0;}
+.sec-head{text-align:center;margin-bottom:2rem;}
+.sec-emoji{font-size:2.5rem;display:block;margin-bottom:0.4rem;}
+.sec-title{font-family:var(--font-d);font-size:1.7rem;color:var(--navy);margin-bottom:0.3rem;letter-spacing:0.03em;}
+.sec-sub{color:var(--muted);font-size:0.95rem;font-weight:700;}
+
+/* ANALOGY */
+.analogy{background:linear-gradient(135deg,#dcfce7,#a7f3d0);border:2px solid #6ee7b7;border-radius:20px;padding:2rem;display:flex;gap:1.5rem;align-items:flex-start;box-shadow:0 8px 25px rgba(5,150,105,0.15);margin-bottom:2rem;}
+.analogy-icon{font-size:3.5rem;flex-shrink:0;animation:hotelWave 3s ease-in-out infinite;}
+@keyframes hotelWave{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.analogy-title{font-family:var(--font-d);font-size:1.3rem;color:var(--green-d);margin-bottom:0.5rem;letter-spacing:0.03em;}
+.analogy-text{font-size:0.97rem;color:#065f46;line-height:1.7;font-weight:600;}
+
+/* FACTS */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.1rem;}
+.fact{background:var(--card);border-radius:16px;padding:1.3rem;border:2px solid var(--border);box-shadow:0 4px 12px rgba(0,0,0,0.05);transition:transform .25s,border-color .25s;cursor:pointer;}
+.fact:hover{transform:translateY(-5px);}
+.fact:nth-child(1):hover{border-color:var(--green);}
+.fact:nth-child(2):hover{border-color:var(--teal);}
+.fact:nth-child(3):hover{border-color:var(--purple);}
+.fact:nth-child(4):hover{border-color:var(--orange);}
+.fact:nth-child(5):hover{border-color:var(--red);}
+.fact:nth-child(6):hover{border-color:var(--blue);}
+.fact-e{font-size:2rem;margin-bottom:0.5rem;display:block;}
+.fact-t{font-family:var(--font-d);font-size:0.9rem;color:var(--navy);margin-bottom:0.3rem;}
+.fact-d{font-size:0.82rem;color:var(--muted);line-height:1.55;font-weight:600;}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem;}
+.step{background:var(--card);border-radius:16px;padding:1.4rem 1.1rem;text-align:center;border:2px solid var(--border);box-shadow:0 4px 12px rgba(0,0,0,0.06);position:relative;transition:transform .25s,box-shadow .25s;cursor:pointer;}
+.step:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(5,150,105,0.2);border-color:var(--green);}
+.step-n{position:absolute;top:-13px;left:50%;transform:translateX(-50%);width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;font-size:0.75rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.step-e{font-size:2.2rem;margin-bottom:0.5rem;display:block;}
+.step-t{font-family:var(--font-d);font-size:0.9rem;color:var(--navy);margin-bottom:0.3rem;}
+.step-d{font-size:0.82rem;color:var(--muted);line-height:1.5;font-weight:600;}
+
+/* DEMO BOX */
+.demo-box{background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,0.07);}
+.demo-title{font-family:var(--font-d);font-size:1.1rem;color:var(--navy);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem;}
+.live-dot{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block;animation:ldp 1s ease-in-out infinite;}
+@keyframes ldp{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+
+/* DORA STEP DIAGRAM */
+.dora-diagram{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.dora-title{text-align:center;font-family:var(--font-d);font-size:0.9rem;color:var(--navy);margin-bottom:1.2rem;}
+
+/* Step dots */
+.sdots{display:flex;gap:0.4rem;justify-content:center;margin-bottom:1.2rem;}
+.sdot{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:900;color:var(--muted);transition:all .3s;}
+.sdot.active{background:var(--green);border-color:var(--green);color:#fff;transform:scale(1.2);}
+.sdot.done{background:var(--emerald-l);border-color:var(--emerald);color:var(--green-d);}
+
+/* Step banner */
+.step-banner{background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:0.7rem 1.2rem;text-align:center;font-size:0.9rem;font-weight:800;color:var(--navy);margin-bottom:1.2rem;min-height:2.8rem;display:flex;align-items:center;justify-content:center;transition:background .3s;}
+.step-banner.active{background:#dcfce7;border-color:#4ade80;}
+.step-banner.done{background:#bbf7d0;border-color:#22c55e;}
+
+/* Client / Server nodes */
+.dora-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0 1rem;}
+.dora-node{text-align:center;flex:0 0 auto;}
+.dora-icon{width:72px;height:72px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 0.4rem;box-shadow:0 4px 12px rgba(0,0,0,0.1);transition:all .4s;}
+.dora-icon.client{background:linear-gradient(135deg,#dbeafe,#bfdbfe);border:2px solid #93c5fd;}
+.dora-icon.server{background:linear-gradient(135deg,#d1fae5,#a7f3d0);border:2px solid #6ee7b7;animation:serverGlow 2s ease-in-out infinite;}
+@keyframes serverGlow{0%,100%{box-shadow:0 4px 12px rgba(5,150,105,0.2);}50%{box-shadow:0 4px 24px rgba(5,150,105,0.5);}}
+.dora-icon.active-node{transform:scale(1.1);box-shadow:0 0 20px rgba(22,163,74,0.4);}
+.dora-label{font-size:0.72rem;font-weight:800;color:var(--navy);}
+.dora-ip{font-size:0.6rem;color:var(--muted);font-weight:700;font-family:monospace;}
+
+/* Message arrow */
+.dora-arrow{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;position:relative;}
+.arrow-line{width:100%;height:3px;border-radius:2px;background:var(--border);position:relative;overflow:visible;}
+.arrow-line.active-line{background:var(--green);}
+.arrow-dot{width:20px;height:20px;border-radius:50%;background:var(--green);position:absolute;top:50%;transform:translateY(-50%);opacity:0;font-size:0.7rem;display:flex;align-items:center;justify-content:center;}
+.arrow-dot.moving-right{animation:moveRight 1s ease-in-out;}
+.arrow-dot.moving-left{animation:moveLeft 1s ease-in-out;}
+@keyframes moveRight{0%{left:0;opacity:1;}100%{left:calc(100% - 20px);opacity:0;}}
+@keyframes moveLeft{0%{right:0;left:auto;opacity:1;}100%{right:calc(100% - 20px);opacity:0;}}
+.arrow-msg{font-size:0.65rem;font-weight:900;color:var(--green);text-align:center;white-space:nowrap;}
+.arrow-dir{font-size:0.6rem;color:var(--muted);font-weight:700;}
+
+/* IP assignment display */
+.ip-display{background:var(--navy);border-radius:12px;padding:0.8rem 1.2rem;margin-top:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.ip-label{font-size:0.72rem;color:rgba(255,255,255,0.5);font-weight:800;}
+.ip-value{font-family:monospace;font-size:1.1rem;font-weight:900;color:#4ade80;letter-spacing:0.1em;}
+.ip-info{font-size:0.65rem;color:rgba(255,255,255,0.4);font-weight:700;}
+.ip-lease{color:#fbbf24;}
+
+/* Button */
+.send-btn{display:block;margin:0 auto 1.5rem;background:linear-gradient(135deg,#065f46,#16a34a);color:#fff;border:none;padding:0.75rem 2.2rem;border-radius:999px;font-size:1rem;font-weight:800;cursor:pointer;font-family:var(--font);box-shadow:0 4px 18px rgba(22,163,74,0.35);transition:transform .15s,box-shadow .15s;}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(22,163,74,0.5);}
+.send-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+
+/* Counters */
+.counters{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+.ctr{border-radius:14px;padding:1rem;text-align:center;font-weight:800;}
+.ctr.a{background:var(--green-l);border:2px solid #86efac;}
+.ctr.b{background:var(--teal-l);border:2px solid #5eead4;}
+.ctr.c{background:var(--blue-l);border:2px solid #93c5fd;}
+.ctr-n{font-family:var(--font-d);font-size:2rem;display:block;}
+.ctr.a .ctr-n{color:var(--green);}
+.ctr.b .ctr-n{color:var(--teal);}
+.ctr.c .ctr-n{color:var(--blue);}
+.ctr-l{font-size:0.75rem;color:var(--muted);font-weight:800;}
+
+/* IP Pool Table */
+.pool-table{border-radius:12px;overflow:hidden;border:2px solid var(--border);}
+.pool-head{background:var(--navy);padding:0.65rem 1rem;display:flex;justify-content:space-between;}
+.pool-head span{color:rgba(255,255,255,0.7);font-size:0.78rem;font-weight:700;}
+.pool-cols{display:grid;grid-template-columns:1fr 1fr 100px 90px;background:#f0fdf4;border-bottom:2px solid var(--border);padding:0.4rem 1rem;}
+.pool-cols span{font-size:0.65rem;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
+.pool-row{display:grid;grid-template-columns:1fr 1fr 100px 90px;padding:0.5rem 1rem;border-bottom:1px solid var(--border);font-size:0.8rem;font-weight:700;align-items:center;transition:background .4s;}
+.pool-row:last-child{border-bottom:none;}
+.pool-row:hover{background:#f0fdf4;}
+.pool-row.active-row{background:#dcfce7;}
+.ip-addr{font-family:monospace;color:var(--navy);font-size:0.78rem;}
+.dev-name{color:#1e293b;}
+.lease-time{font-size:0.7rem;color:var(--teal);font-weight:800;font-family:monospace;}
+.status-badge{font-size:0.62rem;font-weight:900;padding:2px 8px;border-radius:999px;display:inline-block;}
+.s-leased{background:var(--green-l);color:var(--green);}
+.s-available{background:#f1f5f9;color:#94a3b8;}
+.s-reserved{background:var(--yellow-l);color:var(--yellow);}
+
+/* PROS / CONS */
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.pc{border-radius:16px;padding:1.5rem;}
+.pc.pros{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;}
+.pc.cons{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #fdba74;}
+.pc-head{font-family:var(--font-d);font-size:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+.pc.pros .pc-head{color:#166534;}
+.pc.cons .pc-head{color:#9a3412;}
+.pc-item{display:flex;gap:0.6rem;margin-bottom:0.7rem;font-size:0.87rem;line-height:1.5;font-weight:600;}
+.pc-dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;flex-shrink:0;margin-top:1px;font-weight:900;}
+.pc.pros .pc-dot{background:#bbf7d0;color:#166534;}
+.pc.cons .pc-dot{background:#fed7aa;color:#9a3412;}
+.pc.pros .pc-txt{color:#14532d;}
+.pc.cons .pc-txt{color:#7c2d12;}
+
+/* QUIZ */
+.quiz-wrap{background:linear-gradient(135deg,#052e16,#065f46,#059669);padding:3.5rem 0;position:relative;overflow:hidden;}
+.quiz-wrap::before{content:'🌐';position:absolute;font-size:18rem;top:-3rem;right:-2rem;opacity:0.06;pointer-events:none;}
+.quiz-title{font-family:var(--font-d);font-size:1.8rem;color:#fff;text-align:center;margin-bottom:0.4rem;}
+.quiz-sub{color:rgba(255,255,255,0.65);text-align:center;font-size:0.95rem;font-weight:700;margin-bottom:2rem;}
+.quiz-card{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:2rem;max-width:700px;margin:0 auto;}
+.q-num{font-size:0.78rem;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:0.4rem;}
+.q-text{font-size:1.08rem;font-weight:800;color:#fff;margin-bottom:1.2rem;line-height:1.5;min-height:3rem;}
+.q-opts{display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1rem;}
+.q-opt{background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.15);color:#fff;padding:0.7rem 1.2rem;border-radius:12px;font-size:0.88rem;font-weight:700;cursor:pointer;text-align:left;transition:all .2s;font-family:var(--font);}
+.q-opt:hover{background:rgba(255,255,255,0.18);transform:translateX(4px);}
+.q-opt.correct{background:rgba(22,163,74,0.35);border-color:#16a34a;}
+.q-opt.wrong{background:rgba(220,38,38,0.35);border-color:#dc2626;}
+.q-opt:disabled{cursor:default;}
+.q-opt.correct::after{content:'  ✓';}
+.q-opt.wrong::after{content:'  ✗';}
+.q-fb{min-height:2.5rem;border-radius:10px;padding:0.6rem 1rem;font-size:0.87rem;font-weight:700;text-align:center;opacity:0;transition:opacity .3s;}
+.q-fb.show{opacity:1;}
+.q-fb.good{background:rgba(22,163,74,0.25);color:#a7f3d0;}
+.q-fb.bad{background:rgba(220,38,38,0.25);color:#fca5a5;}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;}
+.q-btn{background:#fff;color:var(--navy);border:none;padding:0.6rem 1.4rem;border-radius:999px;font-size:0.88rem;font-weight:900;cursor:pointer;font-family:var(--font);transition:transform .15s,box-shadow .15s;}
+.q-btn:hover{transform:scale(1.05);box-shadow:0 4px 15px rgba(0,0,0,0.2);}
+.q-btn:disabled{opacity:0.4;cursor:default;transform:none;}
+.q-score{font-family:var(--font-d);font-size:1rem;color:rgba(255,255,255,0.7);}
+
+/* IP TYPES */
+.ip-types-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;}
+.ip-type-card{border-radius:20px;padding:1.8rem;position:relative;overflow:hidden;}
+.ip-type-card.ipv4{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #fdba74;}
+.ip-type-card.ipv6{background:linear-gradient(135deg,#fdf4ff,#f3e8ff);border:2px solid #d8b4fe;}
+.ip-type-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.65rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:999px;margin-bottom:0.8rem;}
+.ip-type-card.ipv4 .ip-type-badge{background:#fed7aa;color:#9a3412;}
+.ip-type-card.ipv6 .ip-type-badge{background:#e9d5ff;color:#6b21a8;}
+.ip-type-title{font-family:var(--font-d);font-size:1.1rem;margin-bottom:0.5rem;}
+.ip-type-card.ipv4 .ip-type-title{color:#9a3412;}
+.ip-type-card.ipv6 .ip-type-title{color:#581c87;}
+.ip-type-desc{font-size:0.87rem;line-height:1.65;font-weight:600;margin-bottom:1rem;}
+.ip-type-card.ipv4 .ip-type-desc{color:#7c2d12;}
+.ip-type-card.ipv6 .ip-type-desc{color:#4c1d95;}
+.ip-type-example{border-radius:10px;padding:0.7rem 1rem;font-family:monospace;font-size:0.88rem;font-weight:800;margin-bottom:0.9rem;}
+.ip-type-card.ipv4 .ip-type-example{background:rgba(234,88,12,0.1);color:#9a3412;}
+.ip-type-card.ipv6 .ip-type-example{background:rgba(139,92,246,0.1);color:#4c1d95;}
+.ip-type-list{list-style:none;display:flex;flex-direction:column;gap:0.4rem;}
+.ip-type-list li{font-size:0.82rem;font-weight:700;display:flex;gap:0.5rem;align-items:flex-start;line-height:1.45;}
+.ip-type-card.ipv4 .ip-type-list li{color:#7c2d12;}
+.ip-type-card.ipv6 .ip-type-list li{color:#4c1d95;}
+.ip-compare{background:var(--card);border-radius:16px;border:2px solid var(--border);overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,0.05);}
+.ip-compare-head{background:var(--navy);display:grid;grid-template-columns:1.2fr 1fr 1fr;padding:0.6rem 1.2rem;gap:1rem;}
+.ip-compare-head span{font-size:0.7rem;font-weight:900;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.08em;}
+.ip-compare-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;padding:0.65rem 1.2rem;gap:1rem;border-bottom:1px solid var(--border);font-size:0.82rem;align-items:center;}
+.ip-compare-row:last-child{border-bottom:none;}
+.ip-compare-row:hover{background:#fffbf5;}
+.ip-compare-row .label{font-weight:800;color:var(--navy);}
+.ip-compare-row .v4{color:#ea580c;font-weight:700;}
+.ip-compare-row .v6{color:#7c3aed;font-weight:700;}
+
+/* MAC vs IP */
+.mac-ip-section{background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,0.06);margin-top:2rem;}
+.mac-ip-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+.mac-card{border-radius:16px;padding:1.5rem;}
+.mac-card.mac{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #fde047;}
+.mac-card.ip{background:linear-gradient(135deg,#d1fae5,#a7f3d0);border:2px solid #6ee7b7;}
+.mac-card-icon{font-size:2.5rem;margin-bottom:0.5rem;display:block;}
+.mac-card-title{font-family:var(--font-d);font-size:1rem;margin-bottom:0.4rem;}
+.mac-card.mac .mac-card-title{color:#713f12;}
+.mac-card.ip .mac-card-title{color:#065f46;}
+.mac-card-val{font-family:monospace;font-size:0.88rem;font-weight:900;border-radius:8px;padding:0.4rem 0.7rem;display:inline-block;margin-bottom:0.6rem;}
+.mac-card.mac .mac-card-val{background:rgba(234,179,8,0.2);color:#713f12;}
+.mac-card.ip .mac-card-val{background:rgba(5,150,105,0.15);color:#065f46;}
+.mac-card-desc{font-size:0.83rem;font-weight:600;line-height:1.6;}
+.mac-card.mac .mac-card-desc{color:#78350f;}
+.mac-card.ip .mac-card-desc{color:#064e3b;}
+.mac-ip-compare{background:var(--card);border-radius:14px;border:2px solid var(--border);overflow:hidden;}
+.mac-ip-compare-head{background:var(--navy);display:grid;grid-template-columns:1.2fr 1fr 1fr;padding:0.6rem 1.2rem;gap:1rem;}
+.mac-ip-compare-head span{font-size:0.7rem;font-weight:900;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.08em;}
+.mac-ip-compare-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;padding:0.65rem 1.2rem;gap:1rem;border-bottom:1px solid var(--border);font-size:0.82rem;align-items:center;}
+.mac-ip-compare-row:last-child{border-bottom:none;}
+.mac-ip-compare-row:hover{background:#fffff5;}
+.mac-ip-compare-row .label{font-weight:800;color:var(--navy);}
+.mac-ip-compare-row .mac-v{color:#ca8a04;font-weight:700;}
+.mac-ip-compare-row .ip-v{color:#059669;font-weight:700;}
+
+/* ALLOCATION CARDS */
+.alloc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;}
+.alloc-card{border-radius:20px;padding:1.8rem;position:relative;overflow:hidden;}
+.alloc-card.dynamic{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #6ee7b7;}
+.alloc-card.static{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #93c5fd;}
+.alloc-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.65rem;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:999px;margin-bottom:0.8rem;}
+.alloc-card.dynamic .alloc-badge{background:#bbf7d0;color:#166534;}
+.alloc-card.static .alloc-badge{background:#bfdbfe;color:#1e40af;}
+.alloc-title{font-family:var(--font-d);font-size:1.15rem;margin-bottom:0.5rem;}
+.alloc-card.dynamic .alloc-title{color:#065f46;}
+.alloc-card.static .alloc-title{color:#1e3a8a;}
+.alloc-desc{font-size:0.88rem;line-height:1.65;font-weight:600;margin-bottom:1rem;}
+.alloc-card.dynamic .alloc-desc{color:#065f46;}
+.alloc-card.static .alloc-desc{color:#1e40af;}
+.alloc-example{border-radius:10px;padding:0.7rem 1rem;font-size:0.8rem;font-weight:700;}
+.alloc-card.dynamic .alloc-example{background:rgba(5,150,105,0.12);color:#065f46;}
+.alloc-card.static .alloc-example{background:rgba(37,99,235,0.1);color:#1e3a8a;}
+.alloc-list{list-style:none;margin-top:0.8rem;display:flex;flex-direction:column;gap:0.4rem;}
+.alloc-list li{font-size:0.82rem;font-weight:700;display:flex;gap:0.5rem;align-items:flex-start;line-height:1.45;}
+.alloc-card.dynamic .alloc-list li{color:#064e3b;}
+.alloc-card.static .alloc-list li{color:#1e3a8a;}
+.alloc-compare{background:var(--card);border-radius:16px;border:2px solid var(--border);overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,0.05);}
+.alloc-compare-head{background:var(--navy);display:grid;grid-template-columns:1.2fr 1fr 1fr;padding:0.6rem 1.2rem;gap:1rem;}
+.alloc-compare-head span{font-size:0.7rem;font-weight:900;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.08em;}
+.alloc-compare-row{display:grid;grid-template-columns:1.2fr 1fr 1fr;padding:0.65rem 1.2rem;gap:1rem;border-bottom:1px solid var(--border);font-size:0.82rem;align-items:center;}
+.alloc-compare-row:last-child{border-bottom:none;}
+.alloc-compare-row:hover{background:#f8fffe;}
+.alloc-compare-row .label{font-weight:800;color:var(--navy);}
+.alloc-compare-row .dyn{color:#059669;font-weight:700;}
+.alloc-compare-row .sta{color:#2563eb;font-weight:700;}
+
+/* SUBNET MASK SECTION */
+.subnet-card{background:linear-gradient(135deg,#fdf4ff,#f3e8ff);border:2px solid #d8b4fe;border-radius:20px;padding:2rem;margin-bottom:2rem;}
+.subnet-title{font-family:var(--font-d);font-size:1.1rem;color:#581c87;margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;}
+.subnet-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.2rem;}
+.subnet-block{border-radius:14px;padding:1.1rem;}
+.subnet-block.a{background:rgba(139,92,246,0.1);border:2px solid #c4b5fd;}
+.subnet-block.b{background:rgba(139,92,246,0.06);border:2px solid #ddd6fe;}
+.subnet-block-label{font-size:0.65rem;font-weight:900;text-transform:uppercase;letter-spacing:0.12em;color:#7c3aed;margin-bottom:0.35rem;}
+.subnet-block-val{font-family:monospace;font-size:1rem;font-weight:900;color:#4c1d95;margin-bottom:0.3rem;}
+.subnet-block-note{font-size:0.78rem;color:#6d28d9;font-weight:600;line-height:1.5;}
+.subnet-visual{background:#4c1d95;border-radius:12px;padding:1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+.subnet-visual-label{font-size:0.65rem;font-weight:900;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;}
+.subnet-visual-val{font-family:monospace;font-size:0.95rem;font-weight:900;letter-spacing:0.08em;}
+.subnet-visual-val.ip-col{color:#a78bfa;}
+.subnet-visual-val.mask-col{color:#fbbf24;}
+.subnet-visual-val.net-col{color:#4ade80;}
+
+/* SUMMARY */
+.summary{background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;}
+.sum-item{padding:1rem;border-radius:12px;}
+.sum-item.a{background:var(--green-l);border-left:4px solid var(--green);}
+.sum-item.b{background:var(--teal-l);border-left:4px solid var(--teal);}
+.sum-item.c{background:var(--yellow-l);border-left:4px solid var(--yellow);}
+.sum-item strong{color:var(--navy);}
+.sum-item p{font-size:0.87rem;color:var(--muted);margin-top:0.3rem;font-weight:600;line-height:1.5;}
+
+/* DEFINITION CARD */
+.def-card{
+  background:var(--navy);border-radius:20px;padding:2rem 2.5rem;
+  display:flex;gap:2.5rem;align-items:stretch;
+  box-shadow:0 12px 35px rgba(6,78,59,0.25);
+  position:relative;overflow:hidden;
+}
+.def-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:220px;height:220px;border-radius:50%;
+  background:rgba(74,222,128,0.06);
+}
+.def-card::after{
+  content:'';position:absolute;bottom:-40px;left:30%;
+  width:140px;height:140px;border-radius:50%;
+  background:rgba(74,222,128,0.04);
+}
+.def-left{
+  flex:0 0 auto;min-width:160px;
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid rgba(255,255,255,0.1);
+  padding-right:2rem;
+}
+.def-eyebrow{
+  font-size:0.65rem;font-weight:800;letter-spacing:0.25em;
+  text-transform:uppercase;color:rgba(74,222,128,0.7);margin-bottom:0.5rem;
+}
+.def-term{
+  font-family:var(--font-d);font-size:2.8rem;font-weight:700;
+  color:#4ade80;line-height:1;letter-spacing:0.04em;margin-bottom:0.3rem;
+}
+.def-full{
+  font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.4);
+  line-height:1.4;
+}
+.def-right{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.def-text{
+  font-size:0.92rem;color:rgba(255,255,255,0.75);
+  font-weight:600;line-height:1.7;
+}
+.def-text strong{color:#fff;}
+.def-text em{color:#86efac;font-style:normal;font-weight:700;}
+.def-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;}
+.def-tag{
+  background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);
+  color:#86efac;font-size:0.72rem;font-weight:700;
+  padding:0.25rem 0.8rem;border-radius:999px;
+}
+@media(max-width:640px){
+  .def-card{flex-direction:column;gap:1.2rem;}
+  .def-left{border-right:none;border-bottom:1px solid rgba(255,255,255,0.1);padding-right:0;padding-bottom:1rem;}
+  .def-term{font-size:2rem;}
+}
+
+footer{background:var(--navy);color:rgba(255,255,255,0.5);text-align:center;padding:1.5rem;font-size:0.78rem;font-weight:700;letter-spacing:0.05em;}
+
+@media(max-width:640px){
+  .pc-grid{grid-template-columns:1fr;}
+  .counters{grid-template-columns:1fr;}
+  .analogy{flex-direction:column;}
+  .dora-row{flex-direction:column;}
+  .pool-cols,.pool-row{grid-template-columns:1fr 1fr 80px;}
+  .alloc-grid{grid-template-columns:1fr;}
+  .alloc-compare-head,.alloc-compare-row{grid-template-columns:1.2fr 1fr 1fr;font-size:0.75rem;}
+  .ip-types-grid{grid-template-columns:1fr;}
+  .ip-compare-head,.ip-compare-row{grid-template-columns:1.2fr 1fr 1fr;font-size:0.75rem;}
+  .mac-ip-cards{grid-template-columns:1fr;}
+  .mac-ip-compare-head,.mac-ip-compare-row{grid-template-columns:1.2fr 1fr 1fr;font-size:0.75rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="pulse-bg"><span></span><span></span><span></span></div>
+  <span class="hero-icon">🌐</span>
+  <h1>DHCP</h1>
+  <p class="hero-tag">Dynamic Host Configuration Protocol — automatically assigns IP addresses!</p>
+  <div class="chips">
+    <span class="chip">Computer Science</span>
+    <span class="chip">Network Protocols</span>
+    <span class="chip">Interactive</span>
+    <span class="chip">IP Addressing</span>
+  </div>
+</section>
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,40 C360,70 1080,10 1440,40 L1440,60 L0,60 Z" fill="#f0fdf4"/>
+</svg>
+
+<div class="container">
+
+  <!-- DEFINITION CARD -->
+  <section class="section" style="padding-bottom:0;">
+    <div class="def-card">
+      <div class="def-left">
+        <div class="def-eyebrow">📖 Definition</div>
+        <div class="def-term">DHCP</div>
+        <div class="def-full">Dynamic Host Configuration Protocol</div>
+      </div>
+      <div class="def-right">
+        <p class="def-text">
+          <strong>DHCP</strong> is a <strong>network protocol</strong> that automatically assigns
+          <strong>IP addresses</strong> and other network configuration settings — such as
+          <em>subnet mask</em>, <em>default gateway</em>, and <em>DNS server</em> —
+          to devices (hosts) when they connect to a network.
+        </p>
+        <p class="def-text" style="margin-top:0.6rem;">
+          Without DHCP, every device would need its IP address configured <strong>manually</strong>
+          by a network administrator. DHCP makes this process <strong>automatic, fast, and error-free</strong>,
+          and ensures no two devices are ever assigned the same IP address.
+        </p>
+        <div class="def-tags">
+          <span class="def-tag">🌐 Network Protocol</span>
+          <span class="def-tag">📡 Application Layer</span>
+          <span class="def-tag">🔢 IP Addressing</span>
+          <span class="def-tag">⚡ UDP Port 67/68</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY DHCP CONCEPTS -->
+  <section class="section" style="padding-bottom:0;">
+    <div class="sec-head">
+      <span class="sec-emoji">🧩</span>
+      <h2 class="sec-title">Key DHCP Concepts</h2>
+      <p class="sec-sub">Subnet masks, dynamic allocation &amp; static allocation explained</p>
+    </div>
+
+    <!-- SUBNET MASK -->
+    <div class="subnet-card">
+      <div class="subnet-title">🔢 What is a Subnet Mask?</div>
+      <p style="font-size:0.9rem;color:#6d28d9;font-weight:600;line-height:1.7;margin-bottom:1.2rem;">
+        A <strong>subnet mask</strong> tells a device which part of an IP address identifies the <em>network</em>
+        and which part identifies the individual <em>device (host)</em>. DHCP automatically provides the
+        subnet mask alongside the IP address — you never have to enter it yourself.
+      </p>
+      <div class="subnet-row">
+        <div class="subnet-block a">
+          <div class="subnet-block-label">📡 Example IP Address</div>
+          <div class="subnet-block-val">192.168.1.15</div>
+          <div class="subnet-block-note">This is the <strong>device's unique address</strong> on the network — like a house number on a street.</div>
+        </div>
+        <div class="subnet-block b">
+          <div class="subnet-block-label">🔢 Subnet Mask</div>
+          <div class="subnet-block-val">255.255.255.0</div>
+          <div class="subnet-block-note"><strong>255</strong> = that section belongs to the <em>network</em>. <strong>0</strong> = that section identifies the <em>device</em>. Devices sharing <code>192.168.1.x</code> are on the same network.</div>
+        </div>
+        <div class="subnet-block a">
+          <div class="subnet-block-label">🏘️ What It Tells Us</div>
+          <div class="subnet-block-val">192.168.1.0 /24</div>
+          <div class="subnet-block-note">The <strong>network address</strong> is 192.168.1.0. There are up to <strong>254 usable device addresses</strong> (192.168.1.1–254) on this subnet.</div>
+        </div>
+      </div>
+      <div class="subnet-visual">
+        <div>
+          <div class="subnet-visual-label">IP Address</div>
+          <div class="subnet-visual-val ip-col">192 . 168 . 1 . <span style="color:#f87171;">15</span></div>
+        </div>
+        <div style="color:rgba(255,255,255,0.3);font-size:1.3rem;">AND</div>
+        <div>
+          <div class="subnet-visual-label">Subnet Mask</div>
+          <div class="subnet-visual-val mask-col">255 . 255 . 255 . <span style="color:#f87171;">0</span></div>
+        </div>
+        <div style="color:rgba(255,255,255,0.3);font-size:1.3rem;">=</div>
+        <div>
+          <div class="subnet-visual-label">Network Address</div>
+          <div class="subnet-visual-val net-col">192 . 168 . 1 . <span style="color:#f87171;">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DYNAMIC vs STATIC -->
+    <div class="alloc-grid">
+      <div class="alloc-card dynamic">
+        <div class="alloc-badge">🔄 Automatic</div>
+        <div class="alloc-title">Dynamic Allocation</div>
+        <p class="alloc-desc">The DHCP server <strong>automatically assigns a free IP address</strong> from its pool each time a device connects. The address may be <em>different</em> every time — it is leased for a set period and then returned to the pool.</p>
+        <div class="alloc-example">📱 Your phone connects to Wi-Fi → DHCP hands it <strong>192.168.1.23</strong> for 24 hours. Tomorrow it might get <strong>192.168.1.47</strong> instead.</div>
+        <ul class="alloc-list">
+          <li>✅ No admin effort — fully automatic</li>
+          <li>✅ Efficient use of the IP address pool</li>
+          <li>✅ Ideal for laptops, phones, tablets</li>
+          <li>⚠️ IP address can change between sessions</li>
+        </ul>
+      </div>
+      <div class="alloc-card static">
+        <div class="alloc-badge">📌 Fixed</div>
+        <div class="alloc-title">Static Allocation</div>
+        <p class="alloc-desc">A device is given the <strong>same IP address every single time</strong> it connects. This is configured manually on the device itself <em>or</em> as a DHCP reservation (the server always hands the same IP to a specific MAC address).</p>
+        <div class="alloc-example">🖨️ The office printer is always <strong>192.168.1.5</strong> so every computer can find it reliably, no matter when it reboots.</div>
+        <ul class="alloc-list">
+          <li>✅ Consistent, predictable address</li>
+          <li>✅ Required for servers, printers &amp; routers</li>
+          <li>✅ Easier to apply firewall rules</li>
+          <li>⚠️ More admin work; risk of human error</li>
+        </ul>
+      </div>
+    </div>
+    <div class="alloc-compare">
+      <div class="alloc-compare-head">
+        <span>Feature</span><span>🔄 Dynamic</span><span>📌 Static</span>
+      </div>
+      <div class="alloc-compare-row"><span class="label">IP changes?</span><span class="dyn">Yes — can change</span><span class="sta">No — always same</span></div>
+      <div class="alloc-compare-row"><span class="label">Setup required?</span><span class="dyn">None (automatic)</span><span class="sta">Manual config</span></div>
+      <div class="alloc-compare-row"><span class="label">Best for</span><span class="dyn">Phones, laptops</span><span class="sta">Servers, printers</span></div>
+      <div class="alloc-compare-row"><span class="label">IP pool usage</span><span class="dyn">Efficient (shared)</span><span class="sta">Address reserved</span></div>
+      <div class="alloc-compare-row"><span class="label">Risk</span><span class="dyn">IP can change</span><span class="sta">IP conflicts if misconfigured</span></div>
+    </div>
+  </section>
+
+  <!-- TYPES OF IP ADDRESS -->
+  <section class="section" style="padding-bottom:0;">
+    <div class="sec-head">
+      <span class="sec-emoji">🔢</span>
+      <h2 class="sec-title">Types of IP Address</h2>
+      <p class="sec-sub">IPv4 and IPv6 — the two versions used on the internet today</p>
+    </div>
+
+    <div class="ip-types-grid">
+      <!-- IPv4 -->
+      <div class="ip-type-card ipv4">
+        <div class="ip-type-badge">🟠 Version 4</div>
+        <div class="ip-type-title">IPv4 — Internet Protocol Version 4</div>
+        <p class="ip-type-desc">The <strong>original and most widely used</strong> version of IP addressing. An IPv4 address is made up of <strong>four numbers (0–255)</strong> separated by dots — written in <em>dotted decimal notation</em>. It uses <strong>32 bits</strong>, giving about <strong>4.3 billion</strong> possible addresses.</p>
+        <div class="ip-type-example">📡 Example: 192 . 168 . 1 . 15</div>
+        <ul class="ip-type-list">
+          <li>📏 32-bit address (4 groups of 8 bits)</li>
+          <li>🌍 ~4.3 billion unique addresses</li>
+          <li>⚠️ Running out — most addresses now assigned</li>
+          <li>🏠 Used on most home &amp; school networks</li>
+          <li>✅ Simple, human-readable format</li>
+        </ul>
+      </div>
+      <!-- IPv6 -->
+      <div class="ip-type-card ipv6">
+        <div class="ip-type-badge">🟣 Version 6</div>
+        <div class="ip-type-title">IPv6 — Internet Protocol Version 6</div>
+        <p class="ip-type-desc">The <strong>next generation</strong> of IP addressing, designed to replace IPv4. Written as <strong>eight groups of four hexadecimal digits</strong> separated by colons. It uses <strong>128 bits</strong>, providing a practically <em>unlimited</em> number of addresses — enough for every grain of sand on Earth to have trillions.</p>
+        <div class="ip-type-example">📡 Example: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</div>
+        <ul class="ip-type-list">
+          <li>📏 128-bit address (8 groups of 16 bits)</li>
+          <li>🌍 340 undecillion unique addresses</li>
+          <li>✅ Solves IPv4 address exhaustion</li>
+          <li>🔒 Built-in security (IPsec)</li>
+          <li>⚠️ More complex; not yet universal</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- IPv4 vs IPv6 Comparison -->
+    <div class="ip-compare">
+      <div class="ip-compare-head">
+        <span>Feature</span><span>🟠 IPv4</span><span>🟣 IPv6</span>
+      </div>
+      <div class="ip-compare-row"><span class="label">Address length</span><span class="v4">32 bits</span><span class="v6">128 bits</span></div>
+      <div class="ip-compare-row"><span class="label">Format</span><span class="v4">192.168.1.1</span><span class="v6">2001:0db8::7334</span></div>
+      <div class="ip-compare-row"><span class="label">Total addresses</span><span class="v4">~4.3 billion</span><span class="v6">~340 undecillion</span></div>
+      <div class="ip-compare-row"><span class="label">Address shortage?</span><span class="v4">Yes — nearly exhausted</span><span class="v6">No — effectively unlimited</span></div>
+      <div class="ip-compare-row"><span class="label">Security</span><span class="v4">Optional (add-on)</span><span class="v6">Built-in (IPsec)</span></div>
+      <div class="ip-compare-row"><span class="label">Adoption</span><span class="v4">Universal today</span><span class="v6">Growing rapidly</span></div>
+    </div>
+  </section>
+
+  <!-- MAC ADDRESS vs IP ADDRESS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🆚</span>
+      <h2 class="sec-title">MAC Address vs IP Address</h2>
+      <p class="sec-sub">Two very different kinds of address — both essential for networking</p>
+    </div>
+    <div class="mac-ip-section">
+      <div class="mac-ip-cards">
+        <!-- MAC -->
+        <div class="mac-card mac">
+          <span class="mac-card-icon">🔖</span>
+          <div class="mac-card-title">MAC Address</div>
+          <div class="mac-card-val">A4:C3:F0:85:AC:2D</div>
+          <p class="mac-card-desc">
+            A <strong>Media Access Control (MAC) address</strong> is a <strong>permanent, hardware-level identifier</strong> burned into a device's network card (NIC) during manufacture. It <em>never changes</em> — it is unique worldwide and stays the same no matter which network the device joins.
+            <br><br>
+            Think of it like a device's <strong>passport number</strong> — a fixed ID that belongs to the hardware forever.
+          </p>
+        </div>
+        <!-- IP -->
+        <div class="mac-card ip">
+          <span class="mac-card-icon">🌐</span>
+          <div class="mac-card-title">IP Address</div>
+          <div class="mac-card-val">192.168.1.15</div>
+          <p class="mac-card-desc">
+            An <strong>IP (Internet Protocol) address</strong> is a <strong>logical, software-level identifier</strong> assigned by a network (often by DHCP). It <em>can change</em> — a device gets a different IP on each network it joins, and dynamic IPs can change each session.
+            <br><br>
+            Think of it like a device's <strong>home address</strong> — it tells others where to send data, but it changes if you move.
+          </p>
+        </div>
+      </div>
+
+      <!-- Comparison table -->
+      <div class="mac-ip-compare">
+        <div class="mac-ip-compare-head">
+          <span>Feature</span><span>🔖 MAC Address</span><span>🌐 IP Address</span>
+        </div>
+        <div class="mac-ip-compare-row"><span class="label">Set by</span><span class="mac-v">Manufacturer (hardware)</span><span class="ip-v">Network / DHCP (software)</span></div>
+        <div class="mac-ip-compare-row"><span class="label">Changes?</span><span class="mac-v">No — permanent</span><span class="ip-v">Yes — can change</span></div>
+        <div class="mac-ip-compare-row"><span class="label">Format</span><span class="mac-v">6 pairs hex (A4:C3:F0…)</span><span class="ip-v">4 decimal groups (192.168…)</span></div>
+        <div class="mac-ip-compare-row"><span class="label">Layer</span><span class="mac-v">Data Link (Layer 2)</span><span class="ip-v">Network (Layer 3)</span></div>
+        <div class="mac-ip-compare-row"><span class="label">Scope</span><span class="mac-v">Local network only</span><span class="ip-v">Across the internet</span></div>
+        <div class="mac-ip-compare-row"><span class="label">Used for</span><span class="mac-v">Device identification</span><span class="ip-v">Routing &amp; addressing</span></div>
+        <div class="mac-ip-compare-row"><span class="label">DHCP role</span><span class="mac-v">Used to identify device</span><span class="ip-v">What DHCP assigns</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IS DHCP -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🤔</span>
+      <h2 class="sec-title">What is DHCP?</h2>
+      <p class="sec-sub">Start with a simple real-world analogy</p>
+    </div>
+    <div class="analogy">
+      <div class="analogy-icon">🏨</div>
+      <div>
+        <div class="analogy-title">Think of it like a Hotel Reception Desk!</div>
+        <p class="analogy-text">
+          When you check into a hotel, you don't bring your own room — the receptionist <strong>assigns you a room number</strong> from the available rooms. When you check out, that room becomes available for the next guest. You never have to worry about picking a room yourself.
+          <br><br>
+          <strong>DHCP (Dynamic Host Configuration Protocol)</strong> works exactly the same way for IP addresses! When your phone or laptop joins a network, the DHCP server automatically <strong>assigns it a unique IP address</strong> from a pool of available addresses. When you leave, the address is returned to the pool for the next device. You never have to type an IP address manually! 🎉
+        </p>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><span class="fact-e">🤖</span><div class="fact-t">Fully Automatic</div><p class="fact-d">DHCP automatically assigns IP addresses to every device on a network — no manual setup needed. Your phone gets an IP the moment it connects to Wi-Fi.</p></div>
+      <div class="fact"><span class="fact-e">🏊</span><div class="fact-t">IP Address Pool</div><p class="fact-d">The DHCP server maintains a pool of available IP addresses (e.g. 192.168.1.10 – 192.168.1.200) and hands them out one by one as devices connect.</p></div>
+      <div class="fact"><span class="fact-e">⏰</span><div class="fact-t">Lease System</div><p class="fact-d">IP addresses are not given forever — they are "leased" for a set time (e.g. 24 hours). When the lease expires, the address can be reassigned to another device.</p></div>
+      <div class="fact"><span class="fact-e">📦</span><div class="fact-t">More Than Just an IP</div><p class="fact-d">DHCP also provides the subnet mask, default gateway, and DNS server addresses — everything a device needs to communicate on the network.</p></div>
+      <div class="fact"><span class="fact-e">🏢</span><div class="fact-t">Used Everywhere</div><p class="fact-d">Every home router, school network, and office uses DHCP. Without it, every device would need to be manually configured — imagine doing that for 500 school laptops!</p></div>
+      <div class="fact"><span class="fact-e">🔄</span><div class="fact-t">D-O-R-A Process</div><p class="fact-d">DHCP uses a 4-step process to assign an IP: Discover → Offer → Request → Acknowledge. Remember the acronym DORA — like the explorer!</p></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS — DORA STEPS -->
+  <section class="section" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:2rem;border:2px solid var(--border);box-shadow:0 8px 25px rgba(0,0,0,0.06);">
+    <div class="sec-head">
+      <span class="sec-emoji">⚙️</span>
+      <h2 class="sec-title">How Does It Work?</h2>
+      <p class="sec-sub">The 4-step DORA process — how your device gets an IP address</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <span class="step-e">📢</span>
+        <div class="step-t">DISCOVER</div>
+        <p class="step-d">Your device joins the network and shouts "Is there a DHCP server? I need an IP address!" — it broadcasts this to the whole network.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <span class="step-e">🎁</span>
+        <div class="step-t">OFFER</div>
+        <p class="step-d">The DHCP server replies: "Yes! I'm here. I can offer you the IP address 192.168.1.15 — it's available!" It also offers a lease time.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <span class="step-e">✋</span>
+        <div class="step-t">REQUEST</div>
+        <p class="step-d">Your device responds: "Yes please! I'd like that IP address." This formally requests the offered address from the server.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">4</div>
+        <span class="step-e">✅</span>
+        <div class="step-t">ACKNOWLEDGE</div>
+        <p class="step-d">The server confirms: "Great! IP 192.168.1.15 is now yours for 24 hours." Your device can now communicate on the network!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMO — DORA Step by Step -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🎮</span>
+      <h2 class="sec-title">See It In Action!</h2>
+      <p class="sec-sub">Click through the DORA process — watch a device get its IP address step by step</p>
+    </div>
+    <div class="demo-box">
+      <div class="demo-title">🌐 DHCP DORA Process Demo</div>
+
+      <!-- Step dots -->
+      <div class="sdots">
+        <div class="sdot" id="sd0">1</div>
+        <div class="sdot" id="sd1">2</div>
+        <div class="sdot" id="sd2">3</div>
+        <div class="sdot" id="sd3">4</div>
+      </div>
+
+      <!-- Step banner -->
+      <div class="step-banner" id="stepBanner">Press <strong>Start DORA</strong> to watch a laptop join the network and get an IP address!</div>
+
+      <!-- Network diagram -->
+      <div class="dora-diagram">
+        <div class="dora-title">🏫 School Network — Laptop joining and receiving an IP address</div>
+        <div class="dora-row">
+
+          <!-- Client -->
+          <div class="dora-node">
+            <div class="dora-icon client" id="clientIcon">💻</div>
+            <div class="dora-label">New Laptop</div>
+            <div class="dora-ip" id="clientIp">IP: ???.???.???.???</div>
+          </div>
+
+          <!-- Arrow -->
+          <div class="dora-arrow">
+            <div class="arrow-msg" id="arrowMsg">— waiting —</div>
+            <div class="arrow-line" id="arrowLine">
+              <div class="arrow-dot" id="arrowDot">📦</div>
+            </div>
+            <div class="arrow-dir" id="arrowDir"></div>
+          </div>
+
+          <!-- Server -->
+          <div class="dora-node">
+            <div class="dora-icon server" id="serverIcon">🖥️</div>
+            <div class="dora-label">DHCP Server</div>
+            <div class="dora-ip">IP: 192.168.1.1</div>
+          </div>
+
+        </div>
+
+        <!-- IP assignment display -->
+        <div class="ip-display" id="ipDisplay" style="opacity:0;transition:opacity .5s;">
+          <div>
+            <div class="ip-label">ASSIGNED IP ADDRESS</div>
+            <div class="ip-value" id="assignedIp">192.168.1.15</div>
+          </div>
+          <div>
+            <div class="ip-label">SUBNET MASK</div>
+            <div class="ip-value" style="font-size:0.85rem;">255.255.255.0</div>
+          </div>
+          <div>
+            <div class="ip-label">DEFAULT GATEWAY</div>
+            <div class="ip-value" style="font-size:0.85rem;">192.168.1.1</div>
+          </div>
+          <div>
+            <div class="ip-label">LEASE TIME</div>
+            <div class="ip-value ip-lease" style="font-size:0.85rem;">24 hours</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <button class="send-btn" id="sendBtn" onclick="nextStep()">📢 Start DORA — Step 1: Discover</button>
+
+      <!-- Counters -->
+      <div class="counters">
+        <div class="ctr a"><span class="ctr-n" id="cLeased">0</span><span class="ctr-l">✅ IPs Leased</span></div>
+        <div class="ctr b"><span class="ctr-n" id="cAvail">10</span><span class="ctr-l">🌐 IPs Available</span></div>
+        <div class="ctr c"><span class="ctr-n" id="cLease">24h</span><span class="ctr-l">⏰ Lease Duration</span></div>
+      </div>
+
+      <!-- IP Pool Table -->
+      <div class="pool-table">
+        <div class="pool-head">
+          <span>🏊 DHCP IP Address Pool (192.168.1.10 – 192.168.1.20)</span>
+          <span style="color:#4ade80;font-weight:900;" id="poolBadge">IDLE</span>
+        </div>
+        <div class="pool-cols">
+          <span>IP Address</span><span>Device</span><span>Lease Expires</span><span>Status</span>
+        </div>
+        <div id="poolBody">
+          <div class="pool-row"><span class="ip-addr">192.168.1.10</span><span class="dev-name">📱 Student Phone</span><span class="lease-time">23h 14m</span><span><span class="status-badge s-leased">Leased</span></span></div>
+          <div class="pool-row"><span class="ip-addr">192.168.1.11</span><span class="dev-name">💻 Teacher Laptop</span><span class="lease-time">18h 02m</span><span><span class="status-badge s-leased">Leased</span></span></div>
+          <div class="pool-row"><span class="ip-addr">192.168.1.12</span><span class="dev-name">📟 Class Tablet</span><span class="lease-time">11h 55m</span><span><span class="status-badge s-leased">Leased</span></span></div>
+          <div class="pool-row" id="newRow" style="display:none;"><span class="ip-addr">192.168.1.15</span><span class="dev-name" id="newDev">—</span><span class="lease-time" id="newLease">—</span><span><span class="status-badge" id="newBadge">—</span></span></div>
+          <div class="pool-row"><span class="ip-addr">192.168.1.16</span><span class="dev-name">—</span><span class="lease-time">—</span><span><span class="status-badge s-available">Available</span></span></div>
+          <div class="pool-row"><span class="ip-addr">192.168.1.17</span><span class="dev-name">—</span><span class="lease-time">—</span><span><span class="status-badge s-available">Available</span></span></div>
+          <div class="pool-row"><span class="ip-addr">192.168.1.1</span><span class="dev-name">🖥️ DHCP Server</span><span class="lease-time">Reserved</span><span><span class="status-badge s-reserved">Reserved</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROS & CONS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚖️</span>
+      <h2 class="sec-title">Advantages & Disadvantages</h2>
+      <p class="sec-sub">The good and the not-so-good</p>
+    </div>
+    <div class="pc-grid">
+      <div class="pc pros">
+        <div class="pc-head">👍 Advantages</div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Fully automatic</strong> — no manual IP configuration needed. Devices connect instantly without any user intervention.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Prevents conflicts</strong> — the server ensures no two devices are ever given the same IP address, eliminating IP conflicts.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Efficient address use</strong> — IPs are only assigned when devices are connected. When they leave, addresses return to the pool.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt"><strong>Centrally managed</strong> — one DHCP server manages the whole network. Changing the gateway or DNS only needs to be done in one place.</span></div>
+      </div>
+      <div class="pc cons">
+        <div class="pc-head">👎 Disadvantages</div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Single point of failure</strong> — if the DHCP server goes down, new devices can't get an IP address and can't join the network.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Changing IP addresses</strong> — devices get different IPs each time they connect, making it hard to host servers or printers reliably.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Security risks</strong> — a rogue (fake) DHCP server on the network could assign wrong IP settings to devices, causing a man-in-the-middle attack.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt"><strong>Not suitable for servers</strong> — web servers, printers, and routers need a fixed IP. These must be configured manually or use a DHCP reservation.</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- QUIZ -->
+<section class="quiz-wrap">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quiz Time!</h2>
+    <p class="quiz-sub">Test your DHCP knowledge — 12 questions</p>
+    <div class="quiz-card">
+      <div class="q-num" id="qNum">Question 1 of 12</div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <div class="q-nav"><div class="q-score">Score: <span id="qScore">0</span>/12</div><button class="q-btn" id="qNext" disabled>Next →</button></div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📝</span>
+      <h2 class="sec-title">Quick Summary</h2>
+      <p class="sec-sub">Key points to remember</p>
+    </div>
+    <div class="summary"><div class="sum-grid">
+      <div class="sum-item a"><strong>📌 Definition:</strong><p>A network protocol that automatically assigns IP addresses and other network settings (subnet mask, gateway, DNS) to devices when they connect to a network.</p></div>
+      <div class="sum-item b"><strong>📌 The DORA Process:</strong><p>Discover → Offer → Request → Acknowledge. These 4 steps happen automatically in milliseconds every time a device joins a network.</p></div>
+      <div class="sum-item c"><strong>📌 Remember:</strong><p>DHCP uses a lease system — IP addresses are temporary, not permanent. Devices needing a fixed IP (servers, printers) should use static IPs or DHCP reservations.</p></div>
+    </div></div>
+  </section>
+</div>
+
+<footer>🌐 DHCP — Computer Science · Network Protocols Unit</footer>
+
+<script>
+// ── DORA STEP DEMO ──
+let currentStep = 0, leased = 0, avail = 10;
+
+const steps = [
+  {
+    dot: 0,
+    banner: '📢 Step 1 — DISCOVER: The new laptop connects to the network and broadcasts "Is there a DHCP server? I need an IP address!" to everyone.',
+    btnLabel: '🎁 Step 2: Server sends an Offer',
+    msg: '📢 DHCPDISCOVER (Broadcast)',
+    dir: 'Laptop → Network (broadcast)',
+    direction: 'right',
+    clientActive: true, serverActive: false,
+    clientIp: 'IP: ???.???.???.???',
+    showIp: false,
+  },
+  {
+    dot: 1,
+    banner: '🎁 Step 2 — OFFER: The DHCP server replies "I have IP 192.168.1.15 available — it\'s yours if you want it!" and includes a 24-hour lease.',
+    btnLabel: '✋ Step 3: Laptop sends a Request',
+    msg: '🎁 DHCPOFFER (192.168.1.15)',
+    dir: 'Server → Laptop',
+    direction: 'left',
+    clientActive: false, serverActive: true,
+    clientIp: 'IP: ???.???.???.???',
+    showIp: false,
+  },
+  {
+    dot: 2,
+    banner: '✋ Step 3 — REQUEST: The laptop formally responds "Yes please! I\'d like to use IP 192.168.1.15." It broadcasts this so other DHCP servers know too.',
+    btnLabel: '✅ Step 4: Server Acknowledges',
+    msg: '✋ DHCPREQUEST (192.168.1.15)',
+    dir: 'Laptop → Network (broadcast)',
+    direction: 'right',
+    clientActive: true, serverActive: false,
+    clientIp: 'IP: 192.168.1.15 (pending)',
+    showIp: false,
+  },
+  {
+    dot: 3,
+    banner: '✅ Step 4 — ACKNOWLEDGE: The server confirms "IP 192.168.1.15 is officially yours for 24 hours — along with subnet mask, gateway, and DNS!" The laptop is now online! 🎉',
+    btnLabel: '🔄 Reset — Connect another device',
+    msg: '✅ DHCPACK (192.168.1.15 confirmed!)',
+    dir: 'Server → Laptop',
+    direction: 'left',
+    clientActive: true, serverActive: true,
+    clientIp: 'IP: 192.168.1.15 ✓',
+    showIp: true,
+  },
+];
+
+function setDots(cur) {
+  for (let i = 0; i < 4; i++) {
+    const d = document.getElementById(`sd${i}`);
+    d.className = 'sdot' + (i < cur ? ' done' : i === cur ? ' active' : '');
+  }
+}
+
+function applyStep(s) {
+  setDots(s.dot);
+  const banner = document.getElementById('stepBanner');
+  banner.innerHTML = s.banner;
+  banner.className = 'step-banner ' + (s.dot === 3 ? 'done' : 'active');
+
+  document.getElementById('arrowMsg').textContent = s.msg;
+  document.getElementById('arrowDir').textContent = s.dir;
+  document.getElementById('clientIp').textContent = s.clientIp;
+  document.getElementById('clientIcon').classList.toggle('active-node', s.clientActive);
+  document.getElementById('serverIcon').classList.toggle('active-node', s.serverActive);
+
+  // Animate dot
+  const dot = document.getElementById('arrowDot');
+  dot.className = 'arrow-dot moving-' + s.direction;
+  dot.textContent = s.direction === 'right' ? '📦' : '🎁';
+  setTimeout(() => { dot.className = 'arrow-dot'; }, 1100);
+
+  // Colour the line
+  document.getElementById('arrowLine').classList.toggle('active-line', true);
+
+  document.getElementById('sendBtn').textContent = s.btnLabel;
+
+  if (s.showIp) {
+    document.getElementById('ipDisplay').style.opacity = '1';
+    // Update pool table
+    const row = document.getElementById('newRow');
+    row.style.display = 'grid';
+    row.classList.add('active-row');
+    document.getElementById('newDev').textContent = '💻 New Laptop';
+    document.getElementById('newLease').textContent = '24h 00m';
+    document.getElementById('newBadge').textContent = 'Leased';
+    document.getElementById('newBadge').className = 'status-badge s-leased';
+    document.getElementById('poolBadge').textContent = 'IP ASSIGNED ✓';
+    leased = 4; avail = 9;
+    document.getElementById('cLeased').textContent = leased;
+    document.getElementById('cAvail').textContent = avail;
+  } else {
+    document.getElementById('poolBadge').textContent = ['DISCOVER','OFFER','REQUEST','ACK'][s.dot];
+  }
+
+  if (s.dot === 3) {
+    for (let i = 0; i < 4; i++) document.getElementById(`sd${i}`).className = 'sdot done';
+  }
+}
+
+function nextStep() {
+  if (currentStep < steps.length) {
+    applyStep(steps[currentStep]);
+    currentStep++;
+    if (currentStep === steps.length) {
+      document.getElementById('sendBtn').textContent = '🔄 Reset — Connect another device';
+    }
+  } else {
+    resetDemo();
+  }
+}
+
+function resetDemo() {
+  currentStep = 0; leased = 0; avail = 10;
+  setDots(-1);
+  document.getElementById('stepBanner').innerHTML = 'Press <strong>Start DORA</strong> to watch a laptop join the network and get an IP address!';
+  document.getElementById('stepBanner').className = 'step-banner';
+  document.getElementById('arrowMsg').textContent = '— waiting —';
+  document.getElementById('arrowDir').textContent = '';
+  document.getElementById('clientIp').textContent = 'IP: ???.???.???.???';
+  document.getElementById('clientIcon').classList.remove('active-node');
+  document.getElementById('serverIcon').classList.remove('active-node');
+  document.getElementById('arrowLine').classList.remove('active-line');
+  document.getElementById('ipDisplay').style.opacity = '0';
+  document.getElementById('newRow').style.display = 'none';
+  document.getElementById('newRow').classList.remove('active-row');
+  document.getElementById('poolBadge').textContent = 'IDLE';
+  document.getElementById('cLeased').textContent = 0;
+  document.getElementById('cAvail').textContent = 10;
+  document.getElementById('sendBtn').textContent = '📢 Start DORA — Step 1: Discover';
+}
+
+// ── QUIZ ──
+const qs=[
+  {q:"What does DHCP stand for?",opts:["Dynamic Host Configuration Protocol","Digital Host Connection Protocol","Dynamic Hardware Control Protocol","Direct HTTP Connection Protocol"],ans:0,ex:"✅ Correct! DHCP = Dynamic Host Configuration Protocol — it dynamically configures network settings for hosts (devices)."},
+  {q:"What is the best real-world analogy for DHCP?",opts:["A security guard checking IDs","A hotel receptionist assigning room numbers to guests","A post office delivering letters","A teacher handing out assignments"],ans:1,ex:"✅ Spot on! Just like a hotel receptionist assigns rooms, a DHCP server assigns IP addresses from a pool of available ones."},
+  {q:"What does the 'D' in DORA stand for?",opts:["Deliver","Deploy","Discover","Delegate"],ans:2,ex:"✅ Right! DORA = Discover → Offer → Request → Acknowledge. The device first DISCOVERs the server by broadcasting on the network."},
+  {q:"Which is an ADVANTAGE of DHCP?",opts:["Devices always get the same IP address","If the server fails, all devices lose their connection","It automatically prevents IP address conflicts","Servers and printers work better with it"],ans:2,ex:"✅ Correct! DHCP ensures no two devices are ever given the same IP — preventing IP address conflicts automatically."},
+  {q:"Which is a DISADVANTAGE of DHCP?",opts:["It automatically assigns IP addresses","It works with all types of devices","If the DHCP server goes down, new devices cannot get an IP and join the network","It saves time for network administrators"],ans:2,ex:"✅ Right! DHCP is a single point of failure — if the server crashes, new devices can't get an IP address and can't connect."},
+  {q:"What does a subnet mask tell a device?",opts:["How fast the network is","Which part of the IP address is the network and which is the device","The name of the Wi-Fi network","How long to keep its IP address"],ans:1,ex:"✅ Correct! A subnet mask separates the network portion of an IP address from the host (device) portion. For example, 255.255.255.0 means the first three numbers identify the network."},
+  {q:"Which type of allocation gives a device a potentially different IP address each time it connects?",opts:["Static allocation","Reserved allocation","Dynamic allocation","Manual allocation"],ans:2,ex:"✅ Right! Dynamic allocation means the DHCP server assigns a free IP from its pool — it may be different each session. Great for phones and laptops."},
+  {q:"A school printer must always be found at the same IP address. Which allocation type should be used?",opts:["Dynamic allocation","Static allocation","DORA allocation","Broadcast allocation"],ans:1,ex:"✅ Spot on! Static allocation gives a device the same IP every time — essential for printers, servers, and routers that must be consistently reachable."},
+  {q:"How many bits does an IPv4 address use?",opts:["16 bits","64 bits","32 bits","128 bits"],ans:2,ex:"✅ Correct! IPv4 uses 32 bits, written as four groups of numbers (0–255) separated by dots — e.g. 192.168.1.15."},
+  {q:"Why was IPv6 created?",opts:["To make IP addresses easier to remember","Because IPv4 was running out of unique addresses","To replace MAC addresses","To speed up Wi-Fi connections"],ans:1,ex:"✅ Right! IPv4 only supports ~4.3 billion addresses — not enough for every device on Earth. IPv6 uses 128 bits and provides a virtually unlimited supply."},
+  {q:"What is a MAC address?",opts:["A temporary address assigned by DHCP","A permanent hardware address burned into a device's network card","The address of a web server","A type of IP address used on the internet"],ans:1,ex:"✅ Correct! A MAC address is a permanent, unique identifier assigned by the manufacturer to a device's network card. It never changes, unlike an IP address."},
+  {q:"Which of the following best describes the difference between a MAC and an IP address?",opts:["They are the same thing","A MAC address is permanent (hardware), an IP address is temporary (software/network)","A MAC address changes on every network, an IP stays the same","Both are assigned by DHCP"],ans:1,ex:"✅ Spot on! A MAC address is a fixed hardware ID (like a passport), while an IP address is a logical address that can change depending on the network (like a home address)."},
+];
+let qi=0,sc=0,done=false;
+function loadQ(){
+  const q=qs[qi];
+  document.getElementById('qNum').textContent=`Question ${qi+1} of ${qs.length}`;
+  document.getElementById('qText').textContent=q.q;
+  const o=document.getElementById('qOpts');o.innerHTML='';
+  q.opts.forEach((opt,i)=>{const b=document.createElement('button');b.className='q-opt';b.textContent=`${['A','B','C','D'][i]})  ${opt}`;b.onclick=()=>ans(i,q.ans,q.ex);o.appendChild(b);});
+  document.getElementById('qFb').className='q-fb';document.getElementById('qFb').textContent='';
+  document.getElementById('qNext').disabled=true;done=false;
+}
+function ans(c,a,ex){
+  if(done)return;done=true;
+  document.querySelectorAll('.q-opt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('qFb');
+  if(c===a){document.querySelectorAll('.q-opt')[c].classList.add('correct');sc++;document.getElementById('qScore').textContent=sc;fb.textContent=ex;fb.className='q-fb show good';}
+  else{document.querySelectorAll('.q-opt')[c].classList.add('wrong');document.querySelectorAll('.q-opt')[a].classList.add('correct');fb.textContent='Not quite! '+ex;fb.className='q-fb show bad';}
+  document.getElementById('qNext').disabled=false;
+}
+document.getElementById('qNext').onclick=()=>{
+  qi++;
+  if(qi<qs.length){loadQ();}
+  else{
+    const pct=Math.round(sc/qs.length*100);
+    document.querySelector('.quiz-card').innerHTML=`<div style="text-align:center;padding:1rem 0;"><div style="font-size:4rem;margin-bottom:1rem;">${sc===qs.length?'🏆':sc>=Math.ceil(qs.length/2)?'🎉':'📚'}</div><div style="font-family:var(--font-d);font-size:2rem;color:#fff;margin-bottom:0.5rem;">Score: ${sc} / ${qs.length}</div><div style="font-size:1rem;color:rgba(255,255,255,0.75);font-weight:700;margin-bottom:1.5rem;">${sc===qs.length?'🏆 Perfect! You know your DHCP!':sc>=Math.ceil(qs.length/2)?'🎉 Great effort! Review the ones you missed.':'📚 Keep going — you\'ve got this!'}</div><div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;"><div style="height:100%;width:${pct}%;background:${sc===qs.length?'#16a34a':sc>=Math.ceil(qs.length/2)?'#059669':'#dc2626'};border-radius:999px;"></div></div><button class="q-btn" onclick="location.reload()">🔄 Try Again</button></div>`;
+  }
+};
+loadQ();
+</script>
+</body>
+</html>

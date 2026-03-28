@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modem — IBDP Computer Science Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fdf4ff;
+  --card: #ffffff;
+  --purple: #7c3aed;
+  --purple2: #5b21b6;
+  --purple-dark: #4c1d95;
+  --purple-light: #ede9fe;
+  --violet: #6d28d9;
+  --pink: #db2777;
+  --pink-light: #fce7f3;
+  --green: #16a34a;
+  --green-light: #dcfce7;
+  --red: #dc2626;
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
+  --orange: #ea580c;
+  --orange-light: #fff7ed;
+  --yellow: #ca8a04;
+  --yellow-light: #fef9c3;
+  --teal: #0d9488;
+  --navy: #2e1065;
+  --text: #1e1b4b;
+  --muted: #6b7280;
+  --border: #ddd6fe;
+  --font: 'Nunito', sans-serif;
+  --font-d: 'Fredoka One', cursive;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); overflow-x:hidden; }
+
+/* ══ HERO ══ */
+.hero {
+  background: linear-gradient(135deg, #2e1065 0%, #5b21b6 45%, #7c3aed 80%, #a855f7 100%);
+  position: relative; overflow: hidden;
+  min-height: 55vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.hero-bg-circles span {
+  position:absolute; border-radius:50%;
+  background:rgba(255,255,255,0.05); pointer-events:none;
+}
+.hero-bg-circles span:nth-child(1){width:420px;height:420px;top:-100px;right:-80px;}
+.hero-bg-circles span:nth-child(2){width:260px;height:260px;bottom:80px;left:-60px;}
+.hero-bg-circles span:nth-child(3){width:190px;height:190px;top:35%;left:28%;}
+.hero-content { position:relative; z-index:10; padding:3rem 2rem 4rem; text-align:center; }
+.hero-badge { display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:rgba(255,255,255,0.92); font-size:0.74rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; padding:0.3rem 1.1rem; border-radius:999px; margin-bottom:1rem; backdrop-filter:blur(4px); }
+.hero h1 { font-family:var(--font-d); font-size:clamp(3rem,8vw,5.5rem); color:#fff; text-shadow:0 4px 24px rgba(0,0,0,0.35); margin-bottom:0.5rem; line-height:1; }
+.hero-sub { font-size:1.1rem; color:rgba(255,255,255,0.82); font-weight:700; margin-bottom:1.8rem; max-width:500px; margin-left:auto; margin-right:auto; }
+.hero-chips { display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; }
+.chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:0.3rem 1rem; border-radius:999px; font-size:0.78rem; font-weight:800; backdrop-filter:blur(4px); }
+
+svg.wave { display:block; width:100%; background:transparent; margin-top:-2px; }
+
+/* ══ LAYOUT ══ */
+.container { max-width:1080px; margin:0 auto; padding:0 1.5rem; }
+.section { padding:3rem 0; }
+.sec-head { text-align:center; margin-bottom:2rem; }
+.sec-emoji { font-size:2.4rem; display:block; margin-bottom:0.4rem; }
+.sec-title { font-family:var(--font-d); font-size:2rem; color:var(--navy); margin-bottom:0.3rem; }
+.sec-sub { color:var(--muted); font-size:0.95rem; font-weight:700; }
+
+/* ══ DEFINITION ══ */
+.def-box { background:linear-gradient(135deg,#4c1d95,#7c3aed); border-radius:20px; padding:2rem 2.2rem; display:flex; gap:1.4rem; align-items:flex-start; box-shadow:0 10px 35px rgba(124,58,237,0.3); }
+.def-icon-wrap { width:58px; height:58px; border-radius:14px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
+.def-label { font-family:var(--font-d); font-size:0.8rem; color:rgba(255,255,255,0.55); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:0.4rem; }
+.def-text { font-size:1.05rem; color:#fff; font-weight:700; line-height:1.75; }
+.def-text strong { color:#c4b5fd; }
+
+/* ══ ANALOGY ══ */
+.analogy-card { background:linear-gradient(135deg,#fdf4ff,#ede9fe); border:2px solid #c4b5fd; border-radius:20px; padding:2rem; display:flex; gap:1.6rem; align-items:flex-start; box-shadow:0 8px 28px rgba(124,58,237,0.15); }
+.analogy-bounce { font-size:4rem; flex-shrink:0; animation:bounce 3s ease-in-out infinite; line-height:1; }
+@keyframes bounce { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-10px) rotate(3deg);} }
+.analogy-title { font-family:var(--font-d); font-size:1.4rem; color:var(--purple-dark); margin-bottom:0.5rem; }
+.analogy-body { font-size:0.97rem; color:#4c1d95; line-height:1.8; font-weight:600; }
+.analogy-body strong { color:#2e1065; }
+
+/* ══ FEATURES TABLE ══ */
+.feat-wrap { overflow-x:auto; border-radius:18px; box-shadow:0 6px 28px rgba(0,0,0,0.08); }
+.feat-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+.feat-table thead th { padding:1rem 1.3rem; text-align:left; font-family:var(--font-d); font-weight:400; font-size:1rem; }
+.feat-table thead th:first-child { background:var(--navy); color:#fff; width:32%; }
+.feat-table thead th:last-child { background:var(--purple); color:#fff; }
+.feat-table td { padding:0.85rem 1.3rem; border-bottom:1px solid var(--border); font-weight:600; line-height:1.55; vertical-align:top; }
+.feat-table tr:last-child td { border-bottom:none; }
+.feat-table tbody tr:nth-child(even) td { background:#faf5ff; }
+.feat-table tbody tr:hover td { background:var(--purple-light); }
+.feat-name { font-weight:800; color:var(--navy); }
+.feat-tag { display:inline-block; font-size:0.65rem; font-weight:900; letter-spacing:0.07em; text-transform:uppercase; padding:1px 8px; border-radius:999px; background:var(--purple-light); color:var(--purple-dark); margin-right:0.4rem; vertical-align:middle; }
+
+/* ══ CHARACTERISTICS ══ */
+.chars-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.1rem; }
+.char-card { background:var(--card); border-radius:16px; padding:1.3rem; border:2px solid var(--border); display:flex; gap:0.9rem; align-items:flex-start; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform .25s, border-color .25s; }
+.char-card:hover { transform:translateY(-4px); border-color:var(--purple); }
+.char-icon-box { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--purple-light); border:2px solid #c4b5fd; }
+.char-title { font-family:var(--font-d); font-size:0.97rem; color:var(--navy); margin-bottom:0.2rem; }
+.char-desc { font-size:0.8rem; color:var(--muted); line-height:1.55; font-weight:600; }
+
+/* ══ HOW IT WORKS INTERACTIVE ══ */
+.hiw-progress { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:1.8rem; }
+.hiw-pill { width:34px; height:34px; border-radius:50%; background:#e7e5e4; color:var(--muted); display:flex; align-items:center; justify-content:center; font-family:var(--font-d); font-size:0.95rem; border:2px solid #d6d3d1; transition:all .35s; flex-shrink:0; }
+.hiw-pill.active { background:var(--purple); color:#fff; border-color:var(--purple); box-shadow:0 0 0 4px rgba(124,58,237,0.2); transform:scale(1.18); }
+.hiw-pill.done { background:var(--green); color:#fff; border-color:var(--green); }
+.hiw-pill-line { flex:1; height:3px; background:#e7e5e4; border-radius:999px; min-width:20px; max-width:80px; transition:background .35s; }
+.hiw-pill-line.done { background:var(--green); }
+.hiw-canvas-wrap { background:linear-gradient(180deg,#fdf4ff 0%,#ede9fe 100%); border-radius:16px; padding:1.2rem 0.5rem; border:2px solid var(--border); margin-bottom:1.5rem; overflow:hidden; }
+.hiw-explain { background:linear-gradient(135deg,#fdf4ff,#ede9fe); border:2px solid #c4b5fd; border-radius:16px; padding:1.4rem 1.6rem; display:flex; gap:1rem; align-items:flex-start; margin-bottom:1.5rem; min-height:100px; }
+.hiw-explain-icon { font-size:2.6rem; flex-shrink:0; animation:bounce 2s ease-in-out infinite; }
+.hiw-explain-title { font-family:var(--font-d); font-size:1.15rem; color:var(--purple-dark); margin-bottom:0.4rem; }
+.hiw-explain-body { font-size:0.93rem; color:#4c1d95; line-height:1.75; font-weight:600; }
+.hiw-controls { display:flex; align-items:center; justify-content:center; gap:1rem; }
+.hiw-step-label { font-family:var(--font-d); font-size:1rem; color:var(--muted); min-width:90px; text-align:center; }
+.hiw-btn { padding:0.6rem 1.5rem; border-radius:999px; font-size:0.9rem; font-weight:800; cursor:pointer; font-family:var(--font); border:2px solid transparent; transition:all .2s; }
+.hiw-btn.primary { background:var(--purple); color:#fff; border-color:var(--purple); }
+.hiw-btn.primary:hover { background:var(--purple2); transform:scale(1.05); }
+.hiw-btn.secondary { background:#fff; color:var(--navy); border-color:var(--border); }
+.hiw-btn.secondary:hover:not(:disabled) { border-color:var(--purple); color:var(--purple); transform:scale(1.05); }
+.hiw-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.hiw-restart { background:none; border:2px solid var(--border); color:var(--muted); padding:0.4rem 1.2rem; border-radius:999px; font-size:0.82rem; font-weight:800; cursor:pointer; font-family:var(--font); transition:all .2s; }
+.hiw-restart:hover { border-color:var(--purple); color:var(--purple); }
+
+/* ══ PROS & CONS ══ */
+.pc-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.pc-card { border-radius:18px; padding:1.6rem; }
+.pc-card.pros { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; }
+.pc-card.cons { background:linear-gradient(135deg,#fff7ed,#ffedd5); border:2px solid #fdba74; }
+.pc-head { font-family:var(--font-d); font-size:1.25rem; margin-bottom:1rem; }
+.pc-card.pros .pc-head { color:#166534; }
+.pc-card.cons .pc-head { color:#9a3412; }
+.pc-item { display:flex; gap:0.6rem; margin-bottom:0.75rem; font-size:0.9rem; line-height:1.55; font-weight:600; }
+.pc-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; flex-shrink:0; margin-top:1px; font-weight:900; }
+.pc-card.pros .pc-dot { background:#bbf7d0; color:#166534; }
+.pc-card.cons .pc-dot { background:#fed7aa; color:#9a3412; }
+.pc-card.pros .pc-txt { color:#14532d; }
+.pc-card.cons .pc-txt { color:#7c2d12; }
+
+/* ══ QUIZ ══ */
+.quiz-wrap { background:linear-gradient(135deg,#2e1065,#5b21b6,#7c3aed); padding:3.5rem 0; position:relative; overflow:hidden; }
+.quiz-wrap::before { content:'📡'; position:absolute; font-size:18rem; top:-3rem; right:-2rem; opacity:0.05; pointer-events:none; }
+.quiz-title { font-family:var(--font-d); font-size:2rem; color:#fff; text-align:center; margin-bottom:0.3rem; }
+.quiz-sub { color:rgba(255,255,255,0.65); text-align:center; font-size:0.95rem; font-weight:700; margin-bottom:2rem; }
+.quiz-card { background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:2rem; max-width:700px; margin:0 auto; }
+.q-num { font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:700; margin-bottom:0.4rem; }
+.q-text { font-size:1.08rem; font-weight:800; color:#fff; margin-bottom:1.2rem; line-height:1.5; min-height:3rem; }
+.q-opts { display:flex; flex-direction:column; gap:0.55rem; margin-bottom:1rem; }
+.q-opt { background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.15); color:#fff; padding:0.72rem 1.2rem; border-radius:12px; font-size:0.88rem; font-weight:700; cursor:pointer; text-align:left; transition:all .2s; font-family:var(--font); }
+.q-opt:hover { background:rgba(255,255,255,0.18); transform:translateX(4px); }
+.q-opt.correct { background:rgba(22,163,74,0.35); border-color:#16a34a; }
+.q-opt.wrong { background:rgba(220,38,38,0.35); border-color:#dc2626; }
+.q-opt:disabled { cursor:default; }
+.q-opt.correct::after { content:'  ✓'; }
+.q-opt.wrong::after { content:'  ✗'; }
+.q-fb { min-height:2.5rem; border-radius:10px; padding:0.6rem 1rem; font-size:0.87rem; font-weight:700; text-align:center; opacity:0; transition:opacity .3s; }
+.q-fb.show { opacity:1; }
+.q-fb.good { background:rgba(22,163,74,0.25); color:#a7f3d0; }
+.q-fb.bad { background:rgba(220,38,38,0.25); color:#fca5a5; }
+.q-nav { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; }
+.q-btn { background:#fff; color:var(--navy); border:none; padding:0.6rem 1.5rem; border-radius:999px; font-size:0.88rem; font-weight:900; cursor:pointer; font-family:var(--font); transition:transform .15s,box-shadow .15s; }
+.q-btn:hover { transform:scale(1.05); box-shadow:0 4px 16px rgba(0,0,0,0.2); }
+.q-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+.q-score { font-family:var(--font-d); font-size:1rem; color:rgba(255,255,255,0.7); }
+
+/* ══ SUMMARY ══ */
+.summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
+.sum-card { padding:1.1rem 1.2rem; border-radius:14px; }
+.sum-card.a { background:var(--purple-light); border-left:4px solid var(--purple); }
+.sum-card.b { background:var(--green-light); border-left:4px solid var(--green); }
+.sum-card.c { background:var(--yellow-light); border-left:4px solid var(--yellow); }
+.sum-card strong { color:var(--navy); font-size:0.95rem; }
+.sum-card p { font-size:0.85rem; color:var(--muted); margin-top:0.3rem; font-weight:600; line-height:1.55; }
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+@keyframes bitFade { 0%,100%{opacity:0.3;color:#93c5fd;} 50%{opacity:1;color:#1d4ed8;} }
+
+footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:1.5rem; font-size:0.8rem; font-weight:700; letter-spacing:0.05em; }
+
+@media(max-width:640px){
+  .pc-grid { grid-template-columns:1fr; }
+  .analogy-card { flex-direction:column; }
+  .def-box { flex-direction:column; }
+  .feat-table { font-size:0.78rem; }
+  .feat-table th,.feat-table td { padding:0.6rem 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg-circles"><span></span><span></span><span></span></div>
+  <div class="hero-content">
+    <div class="hero-badge">🎓 IBDP · Computer Science · Network Devices</div>
+    <div style="font-size:5.5rem;margin-bottom:0.8rem;display:block;animation:bounce 4s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(196,165,253,0.6));">📡</div>
+    <h1>The Modem</h1>
+    <p class="hero-sub">🔄 The internet's signal translator — converting between two worlds!</p>
+    <div class="hero-chips">
+      <span class="chip">🌐 Networking</span>
+      <span class="chip">💻 Computer Science</span>
+      <span class="chip">🎮 Interactive</span>
+      <span class="chip">📶 Signal Conversion</span>
+    </div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,10 C500,60 900,0 1440,30 L1440,60 L0,60 Z" fill="#fdf4ff"/>
+</svg>
+
+<div class="container">
+
+  <!-- 1. DEFINITION -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📖</span>
+      <h2 class="sec-title">What is a Modem?</h2>
+      <p class="sec-sub">A clear definition to kick things off</p>
+    </div>
+    <div class="def-box">
+      <div class="def-icon-wrap">📖</div>
+      <div>
+        <div class="def-label">Definition</div>
+        <p class="def-text">
+          A <strong>modem</strong> (short for <strong>MOdulator-DEModulator</strong>) is a hardware device that
+          converts <strong>digital data</strong> from a computer into <strong>analog signals</strong>
+          so it can travel through cable or telephone lines (modulation), and converts
+          incoming <strong>analog signals</strong> back into <strong>digital data</strong> that
+          the computer can read (demodulation). It is the physical connection point between
+          your home network and your <strong>Internet Service Provider (ISP)</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ANALOGY -->
+  <section class="section" style="padding-top:0;">
+    <div class="sec-head">
+      <span class="sec-emoji">💡</span>
+      <h2 class="sec-title">Real-World Analogy</h2>
+      <p class="sec-sub">Connect the idea to something you already know 🧠</p>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-bounce">🌍</div>
+      <div>
+        <div class="analogy-title">🌍 Think of it like a Language Translator!</div>
+        <p class="analogy-body">
+          Imagine you speak English 🇬🇧 and want to have a conversation with someone who only speaks French 🇫🇷.
+          You need a <strong>translator</strong> in the middle who converts your English words into French to send —
+          and converts their French replies back into English for you to read.
+          <br><br>
+          A <strong>Modem</strong> does exactly this for data signals! 📶
+          Your computer speaks in <em>"digital"</em> language — <strong>1s and 0s</strong>.
+          But the cable from your ISP carries <em>"analog"</em> signals — like waves on a wire 〰️ or light pulses through fibre.
+          <br><br>
+          The modem <strong>MOdulates</strong> your digital data into analog signals to send 📤 —
+          and <strong>DEModulates</strong> incoming analog signals back into digital data to receive 📥.
+          That's where the name <strong>MO-DEM</strong> comes from! 🎉
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 3. FEATURES -->
+<section style="background:white;padding:3rem 0;border-top:2px solid var(--border);border-bottom:2px solid var(--border);">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-emoji">⚙️</span>
+      <h2 class="sec-title">Key Features of a Modem</h2>
+      <p class="sec-sub">What a modem can do — explained in plain English 🔍</p>
+    </div>
+    <div class="feat-wrap">
+      <table class="feat-table">
+        <thead>
+          <tr>
+            <th>🔧 Feature</th>
+            <th>📝 What It Does — Simply Explained</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>📤 Modulation</td>
+            <td>Converts your computer's <strong>digital data (1s and 0s)</strong> into <strong>analog signals</strong> (waves) so the data can travel over cable or telephone lines to your ISP. This is the "MO" in modem.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>📥 Demodulation</td>
+            <td>Converts incoming <strong>analog signals</strong> from your ISP's cable back into <strong>digital data</strong> that your computer can read and process. This is the "DEM" in modem.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🌐 ISP Connection</td>
+            <td>Provides the <strong>physical link</strong> between your home or school network and your Internet Service Provider (ISP) — the company that gives you access to the internet.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Speed</span>🚀 Speed Regulation</td>
+            <td>The modem's technology determines your <strong>maximum internet speed</strong>. Newer modems (e.g. DOCSIS 3.1 cable modems or VDSL2 DSL modems) support much faster speeds than older ones.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Reliability</span>🔌 Always-On Link</td>
+            <td>Modern broadband modems maintain a <strong>constant, always-on connection</strong> to your ISP — unlike old dial-up modems that needed to dial a phone number each time.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Combo</span>📦 Modem-Router Combo</td>
+            <td>Many ISPs supply a <strong>combined modem-router device</strong> (sometimes called a "home hub" or "gateway box") that handles both signal conversion and Wi-Fi routing in one unit.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- 4. CHARACTERISTICS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🧬</span>
+      <h2 class="sec-title">Characteristics of a Modem</h2>
+      <p class="sec-sub">The key properties that define what a modem is 🔎</p>
+    </div>
+    <div class="chars-grid">
+      <div class="char-card">
+        <div class="char-icon-box">🔄</div>
+        <div>
+          <div class="char-title">Bidirectional Signal Conversion</div>
+          <p class="char-desc">Works in <strong>both directions</strong> — modulating digital to analog for sending (upload) and demodulating analog to digital for receiving (download) simultaneously.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🔌</div>
+        <div>
+          <div class="char-title">Connected to a Physical Line</div>
+          <p class="char-desc">Plugs directly into the <strong>wall socket</strong> — the cable or fibre line installed by your ISP. No physical line means no internet, regardless of the modem's quality.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">1️⃣</div>
+        <div>
+          <div class="char-title">Single Device Connection</div>
+          <p class="char-desc">A standalone modem connects only <strong>one device</strong> directly. To share the connection across multiple phones, laptops, and tablets, a <strong>router</strong> is required.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">📶</div>
+        <div>
+          <div class="char-title">No Built-in Wi-Fi</div>
+          <p class="char-desc">A basic modem has <strong>no wireless capability</strong>. It only handles the signal conversion. A separate <strong>router or wireless access point (WAP)</strong> is needed for Wi-Fi.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🏢</div>
+        <div>
+          <div class="char-title">ISP-Specific Technology</div>
+          <p class="char-desc">Modems are designed to work with a <strong>specific type of ISP connection</strong> — cable (DOCSIS), DSL (ADSL/VDSL), or fibre — and must match the technology your ISP uses.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">⚡</div>
+        <div>
+          <div class="char-title">Speed Bottleneck</div>
+          <p class="char-desc">The modem <strong>caps your maximum internet speed</strong>. Even if your ISP provides 1 Gbps, an old modem that only supports 100 Mbps will limit your actual speed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. HOW IT WORKS — INTERACTIVE -->
+  <section class="section" id="howItWorksSection" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:1rem;border:2px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,0.06);">
+    <div class="sec-head">
+      <span class="sec-emoji">🔄</span>
+      <h2 class="sec-title">How Does a Modem Work?</h2>
+      <p class="sec-sub">Press <strong>Next Step</strong> to follow the signal from the internet to your screen 👇</p>
+    </div>
+
+    <!-- Progress pills -->
+    <div class="hiw-progress">
+      <div class="hiw-pill active" id="pill0">1</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill1">2</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill2">3</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill3">4</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill4">5</div>
+    </div>
+
+    <!-- SVG canvas -->
+    <div class="hiw-canvas-wrap">
+      <svg id="hiwSvg" viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+
+        <!-- Background road / cable line -->
+        <rect x="0" y="95" width="700" height="40" rx="8" fill="#2e1065"/>
+        <!-- Animated cable dashes -->
+        <line x1="0" y1="115" x2="700" y2="115" stroke="#a78bfa" stroke-width="2.5" stroke-dasharray="18,14" opacity="0.6">
+          <animate attributeName="stroke-dashoffset" from="0" to="-64" dur="1.2s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- Node: ISP / Internet -->
+        <g id="nodeISP">
+          <rect x="8" y="65" width="108" height="100" rx="14" fill="#dbeafe" stroke="#93c5fd" stroke-width="2.5"/>
+          <text x="62" y="100" text-anchor="middle" font-size="26">🌐</text>
+          <text x="62" y="123" text-anchor="middle" font-size="9" font-weight="800" fill="#1e40af">INTERNET</text>
+          <text x="62" y="136" text-anchor="middle" font-size="8" fill="#6b7280">ISP Network</text>
+          <text x="62" y="153" text-anchor="middle" font-size="8" fill="#ea580c">〰️ Analog</text>
+        </g>
+
+        <!-- Node: Modem -->
+        <g id="nodeModem">
+          <rect x="295" y="58" width="110" height="114" rx="14" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
+          <text x="350" y="98" text-anchor="middle" font-size="28">📡</text>
+          <text x="350" y="122" text-anchor="middle" font-size="9" font-weight="800" fill="#4c1d95">MODEM</text>
+          <text x="350" y="136" text-anchor="middle" font-size="8" fill="#7c3aed">MOdulate /</text>
+          <text x="350" y="148" text-anchor="middle" font-size="8" fill="#7c3aed">DEModulate</text>
+          <text x="350" y="162" text-anchor="middle" font-size="8" fill="#6b7280">Signal Convert</text>
+        </g>
+
+        <!-- Node: Computer / Router -->
+        <g id="nodePC">
+          <rect x="582" y="65" width="110" height="100" rx="14" fill="#dcfce7" stroke="#86efac" stroke-width="2.5"/>
+          <text x="637" y="100" text-anchor="middle" font-size="26">💻</text>
+          <text x="637" y="123" text-anchor="middle" font-size="9" font-weight="800" fill="#166534">YOUR DEVICE</text>
+          <text x="637" y="136" text-anchor="middle" font-size="8" fill="#6b7280">PC / Router</text>
+          <text x="637" y="153" text-anchor="middle" font-size="8" fill="#2563eb">010101 Digital</text>
+        </g>
+
+        <!-- Analog signal wave (on left cable side) -->
+        <g id="analogSignal" opacity="0">
+          <path d="M116,115 Q131,95 146,115 Q161,135 176,115 Q191,95 206,115 Q221,135 236,115 Q251,95 266,115 Q281,135 295,115"
+            fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round">
+            <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="0.8s" repeatCount="indefinite"/>
+          </path>
+          <text x="195" y="85" text-anchor="middle" font-size="9" font-weight="800" fill="#ea580c">〰️ ANALOG</text>
+        </g>
+
+        <!-- Digital bits stream (right side of modem) -->
+        <g id="digitalSignal" opacity="0">
+          <rect x="405" y="105" width="16" height="20" rx="3" fill="#2563eb" opacity="0.9"/>
+          <rect x="426" y="108" width="16" height="14" rx="3" fill="#2563eb" opacity="0.7"/>
+          <rect x="447" y="103" width="16" height="24" rx="3" fill="#2563eb" opacity="0.9"/>
+          <rect x="468" y="107" width="16" height="16" rx="3" fill="#2563eb" opacity="0.8"/>
+          <rect x="489" y="104" width="16" height="22" rx="3" fill="#2563eb" opacity="0.9"/>
+          <rect x="510" y="109" width="16" height="12" rx="3" fill="#2563eb" opacity="0.7"/>
+          <rect x="531" y="105" width="16" height="20" rx="3" fill="#2563eb" opacity="0.9"/>
+          <text x="490" y="90" text-anchor="middle" font-size="9" font-weight="800" fill="#2563eb">01 DIGITAL 10</text>
+        </g>
+
+        <!-- Conversion flash on modem (step 3) -->
+        <g id="convFlash" opacity="0">
+          <circle cx="350" cy="58" r="14" fill="#fbbf24"/>
+          <text x="350" y="63" text-anchor="middle" font-size="12">🔄</text>
+        </g>
+
+        <!-- Moving analog packet (left to modem) -->
+        <g id="pktAnalog" opacity="0">
+          <rect x="-32" y="103" width="64" height="24" rx="8" fill="#ea580c" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="120" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">〰️ Analog</text>
+        </g>
+
+        <!-- Moving digital packet (modem to PC) -->
+        <g id="pktDigital" opacity="0">
+          <rect x="-36" y="103" width="72" height="24" rx="8" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="120" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">010 Digital</text>
+        </g>
+
+        <!-- Success check on PC -->
+        <g id="successCheck" opacity="0">
+          <circle cx="637" cy="65" r="14" fill="#16a34a"/>
+          <text x="637" y="70" text-anchor="middle" font-size="14">✅</text>
+        </g>
+
+        <!-- Upload arrow (step 5 — reverse) -->
+        <g id="uploadArrow" opacity="0">
+          <text x="350" y="200" text-anchor="middle" font-size="11" font-weight="800" fill="#7c3aed">⬆️ UPLOAD: Digital → Modem → Analog → ISP</text>
+        </g>
+
+      </svg>
+    </div>
+
+    <!-- Explanation panel -->
+    <div class="hiw-explain" id="hiwExplain">
+      <div class="hiw-explain-icon" id="hiwIcon">🌐</div>
+      <div>
+        <div class="hiw-explain-title" id="hiwTitle">Step 1 — ISP Sends an Analog Signal</div>
+        <div class="hiw-explain-body" id="hiwBody">Your Internet Service Provider (ISP) 🌐 sends data down the cable to your building as <strong>analog signals</strong> — continuous waves 〰️. These waves carry all the information (videos, websites, messages) you requested, but in a format your computer cannot directly understand.</div>
+      </div>
+    </div>
+
+    <div class="hiw-controls">
+      <button class="hiw-btn secondary" id="hiwPrev" onclick="hiwStep(-1)" disabled>← Back</button>
+      <div class="hiw-step-label" id="hiwStepLabel">Step 1 of 5</div>
+      <button class="hiw-btn primary" id="hiwNext" onclick="hiwStep(1)">Next Step →</button>
+    </div>
+    <div style="text-align:center;margin-top:0.8rem;">
+      <button class="hiw-restart" id="hiwRestart" onclick="hiwReset()" style="display:none;">🔄 Replay from Start</button>
+    </div>
+  </section>
+
+  <!-- 6. ADVANTAGES & DISADVANTAGES -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚖️</span>
+      <h2 class="sec-title">Advantages &amp; Disadvantages</h2>
+      <p class="sec-sub">Every device has strengths and weaknesses 🤔</p>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card pros">
+        <div class="pc-head">👍 Advantages</div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🌐 <strong>Essential for internet access</strong> — without a modem, no device in your home can connect to the internet at all. It is the first and most important step.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🔌 <strong>Always-on connection</strong> — modern broadband modems maintain a constant connection to your ISP, with no dialling needed unlike old dial-up modems.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🔗 <strong>Direct, reliable physical link</strong> — provides a stable, wired link to the internet infrastructure — generally more reliable than wireless connections.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">📦 <strong>Often combined with a router</strong> — many ISPs supply a modem-router combo device, reducing the number of separate devices needed at home.</span></div>
+      </div>
+      <div class="pc-card cons">
+        <div class="pc-head">👎 Disadvantages</div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">1️⃣ <strong>One device only</strong> — a standalone modem connects just one device directly. A router is needed to share the connection with phones, laptops, and tablets.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🐌 <strong>Speed is capped by the modem</strong> — the modem's technology limits your maximum speed. An old modem will bottleneck your internet even on a fast ISP plan.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🏗️ <strong>Depends on ISP infrastructure</strong> — if the cable line to your building is damaged or outdated, the modem cannot improve the connection quality.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">📵 <strong>No built-in Wi-Fi</strong> — a basic modem has no wireless capability at all. A separate router or wireless access point is required for any wireless devices.</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 7. QUIZ -->
+<section class="quiz-wrap">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quiz Time!</h2>
+    <p class="quiz-sub">Test your modem knowledge — 10 questions 🎯</p>
+    <div class="quiz-card">
+      <div class="q-num" id="qNum">Question 1 of 10</div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <div class="q-nav">
+        <div class="q-score">Score: <span id="qScore">0</span> / 10</div>
+        <button class="q-btn" id="qNext" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📝</span>
+      <h2 class="sec-title">Quick Summary</h2>
+      <p class="sec-sub">Key points to remember for your exam 🎓</p>
+    </div>
+    <div style="background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div class="summary-grid">
+        <div class="sum-card a"><strong>📌 Definition</strong><p>A device that converts digital data into analog signals to send over cable lines (modulation), and converts incoming analog signals back into digital data (demodulation).</p></div>
+        <div class="sum-card b"><strong>📌 Name Origin</strong><p>MODEM = MOdulate + DEModulate — the two signal conversions it performs. MO = digital to analog (send), DEM = analog to digital (receive).</p></div>
+        <div class="sum-card c"><strong>📌 Key Limitation</strong><p>A standalone modem connects only ONE device. You need a router to share the connection. The modem's technology also caps your maximum internet speed.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>📡 Modem — Computer Science &nbsp;·&nbsp; Network Devices Unit &nbsp;·&nbsp; IBDP Computer Science</footer>
+
+<script>
+// ══ QUIZ ══
+const qs = [
+  { q:"Where does the name 'MODEM' come from? 📡", opts:["Modern Device — a modern internet device","MOdulate + DEModulate — the two signal conversions it performs","Monitor + Demultiplexer — its two main components","Modular Electronic Device — its construction style"], ans:1, ex:"✅ Correct! MOdulate (digital→analog to send) + DEModulate (analog→digital to receive) = MODEM!" },
+  { q:"What is the best analogy for a modem? 🌍", opts:["A security guard blocking unwanted visitors","A language translator converting between two different languages","A post office sorting room routing letters","A teacher marking and returning assignments"], ans:1, ex:"✅ Spot on! Like a translator converting between two languages, a modem converts between digital (computer language) and analog (cable language) signals." },
+  { q:"What does a modem MODULATE? 📤", opts:["Analog signals from the ISP into digital data for the computer","Digital data from your computer into analog signals for the cable","Wi-Fi radio signals into ethernet packets","Sound waves captured by a microphone into text"], ans:1, ex:"✅ Right! MOdulation = converting outgoing digital data (1s & 0s) from your computer into analog signals that can travel through the cable to your ISP." },
+  { q:"What does a modem DEMODULATE? 📥", opts:["Digital data from your computer into analog signals","Analog signals from the ISP cable into digital data for your computer","Radio frequency signals into Wi-Fi channels","Encrypted data into readable text"], ans:1, ex:"✅ Correct! DEmodulation = converting incoming analog signals from your ISP into digital data (1s & 0s) that your computer can read and use." },
+  { q:"What is the key LIMITATION of a standalone modem? 🔌", opts:["It cannot connect to the internet at all","It is very expensive to buy and maintain","It can only connect ONE device — a router is needed to share the connection","It only works with Wi-Fi devices"], ans:2, ex:"✅ Correct! A modem alone gives internet access to just one device. A router is needed to share that connection across all your devices." },
+  { q:"What determines your maximum internet speed? 🚀", opts:["The colour of the modem's casing","The modem's technology — older modems cap speed at lower limits","The number of devices connected via Wi-Fi","The router's antenna strength"], ans:1, ex:"✅ Right! The modem's technology caps your maximum speed — like a pipe's diameter limits water flow. A newer, better modem means faster possible speeds." },
+  { q:"Which of these is an ADVANTAGE of a modem? 👍", opts:["It provides built-in Wi-Fi for all devices","It connects many devices wirelessly by itself","It provides the essential physical link between your home and the internet","It works without any cable line from the ISP"], ans:2, ex:"✅ Correct! Without the modem, no device in your home can reach the internet at all — it is the essential first connection point to your ISP." },
+  { q:"What type of signal does an ISP send through the cable line? 〰️", opts:["Digital signals — the same 1s and 0s your computer uses","Analog signals — continuous waves that carry the data","Wi-Fi radio signals","Laser pulses that are already in digital format"], ans:1, ex:"✅ Right! ISPs send analog signals through the cable (or light pulses through fibre). The modem's job is to convert these into digital data your computer understands." },
+  { q:"Which device would you need alongside a modem to give Wi-Fi to all home devices? 📶", opts:["A switch — to connect more ethernet ports","A router — to share and distribute the internet connection wirelessly","A hub — to broadcast signals across the room","A firewall — to protect the network"], ans:1, ex:"✅ Spot on! A modem alone has no Wi-Fi. A router sits between the modem and your devices, sharing the connection and providing wireless access for phones, laptops, and tablets." },
+  { q:"What is a modem-router combo device? 📦", opts:["A device that only does modulation, not demodulation","Two separate devices sold together in a box","A single unit that handles both signal conversion (modem) and network sharing/Wi-Fi (router)","A modem with an extra antenna attached"], ans:2, ex:"✅ Correct! Many ISPs supply a combined modem-router unit — it handles both the analog-to-digital conversion and the distribution of the connection to all your devices." },
+];
+
+let qi = 0, sc = 0, answered = false;
+
+function loadQ() {
+  const q = qs[qi];
+  document.getElementById('qNum').textContent = `Question ${qi + 1} of ${qs.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const o = document.getElementById('qOpts');
+  o.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'q-opt';
+    b.textContent = `${['A','B','C','D'][i]})  ${opt}`;
+    b.onclick = () => answerQ(i, q.ans, q.ex);
+    o.appendChild(b);
+  });
+  document.getElementById('qFb').className = 'q-fb';
+  document.getElementById('qFb').textContent = '';
+  document.getElementById('qNext').disabled = true;
+  answered = false;
+}
+
+function answerQ(c, a, ex) {
+  if (answered) return;
+  answered = true;
+  const btns = document.getElementById('qOpts').querySelectorAll('.q-opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qFb');
+  if (c === a) {
+    btns[c].classList.add('correct'); sc++;
+    document.getElementById('qScore').textContent = sc;
+    fb.textContent = ex; fb.className = 'q-fb show good';
+  } else {
+    btns[c].classList.add('wrong'); btns[a].classList.add('correct');
+    fb.textContent = 'Not quite! ' + ex; fb.className = 'q-fb show bad';
+  }
+  document.getElementById('qNext').disabled = false;
+}
+
+document.getElementById('qNext').onclick = () => {
+  qi++;
+  if (qi < qs.length) {
+    loadQ();
+  } else {
+    const pct = Math.round(sc / qs.length * 100);
+    const medal = sc===10?'🏆':sc>=7?'🎉':sc>=5?'👍':'📚';
+    const msg = sc===10?'Perfect score! You know modems inside out! 🎓':sc>=7?'Great work! Review the ones you missed. 📖':sc>=5?'Good effort — re-read the features and characteristics. 💪':'Keep going — re-read the page and try again! 📚';
+    document.querySelector('.quiz-card').innerHTML = `<div style="text-align:center;padding:1rem 0;"><div style="font-size:4.5rem;margin-bottom:1rem;">${medal}</div><div style="font-family:var(--font-d);font-size:2.2rem;color:#fff;margin-bottom:0.5rem;">Score: ${sc} / ${qs.length}</div><div style="font-size:1rem;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:1.5rem;">${msg}</div><div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;"><div style="height:100%;width:${pct}%;background:${sc===10?'#16a34a':sc>=7?'#7c3aed':'#dc2626'};border-radius:999px;transition:width 1s;"></div></div><button class="q-btn" onclick="location.reload()">🔄 Try Again</button></div>`;
+  }
+};
+
+loadQ();
+
+// ══ HOW IT WORKS — HELPERS ══
+function svgFade(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.style.transition = 'opacity 0.45s'; el.style.opacity = val; }
+}
+function highlightNode(id, fill, stroke) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const rect = el.querySelector('rect');
+  if (rect) { rect.setAttribute('fill', fill); rect.setAttribute('stroke', stroke); }
+}
+function movePkt(id, x, y) {
+  const pkt = document.getElementById(id);
+  if (!pkt) return;
+  const rect = pkt.querySelector('rect');
+  const txt  = pkt.querySelector('text');
+  if (rect) { rect.setAttribute('x', x - 32); rect.setAttribute('y', y - 12); }
+  if (txt)  { txt.setAttribute('x', x); txt.setAttribute('y', y + 5); }
+}
+function animatePkt(id, fromX, toX, y, delay) {
+  svgFade(id, 1);
+  let start = null;
+  const dur = 650;
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    movePkt(id, fromX + (toX - fromX) * e, y);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  setTimeout(() => requestAnimationFrame(step), delay || 0);
+}
+function resetSvg() {
+  ['pktAnalog','pktDigital','analogSignal','digitalSignal','convFlash','successCheck','uploadArrow'].forEach(id => svgFade(id, 0));
+  highlightNode('nodeISP',   '#dbeafe', '#93c5fd');
+  highlightNode('nodeModem', '#ede9fe', '#7c3aed');
+  highlightNode('nodePC',    '#dcfce7', '#86efac');
+}
+
+// ══ HOW IT WORKS — STEPS ══
+const hiwSteps = [
+  {
+    icon: '🌐',
+    title: 'Step 1 — ISP Sends an Analog Signal',
+    body: 'Your Internet Service Provider (ISP) 🌐 sends data down the cable to your building as <strong>analog signals</strong> — continuous waves 〰️. These waves carry all the information (videos, websites, messages) you requested, but in a format your computer cannot directly understand.',
+    animate() {
+      highlightNode('nodeISP', '#bfdbfe', '#2563eb');
+      svgFade('analogSignal', 1);
+      movePkt('pktAnalog', 62, 115); svgFade('pktAnalog', 1);
+    }
+  },
+  {
+    icon: '📡',
+    title: 'Step 2 — Modem Receives the Analog Signal',
+    body: 'The <strong>analog signal</strong> travels along the cable and arrives at your modem 📡. The modem is plugged into the wall socket — the physical cable line installed by your ISP. The modem intercepts the signal and prepares to process it.',
+    animate() {
+      highlightNode('nodeISP', '#dbeafe', '#93c5fd');
+      highlightNode('nodeModem', '#ddd6fe', '#5b21b6');
+      animatePkt('pktAnalog', 62, 350, 115, 0);
+    }
+  },
+  {
+    icon: '🔄',
+    title: 'Step 3 — Demodulation! Analog → Digital',
+    body: 'This is the modem\'s key job — <strong>DEmodulation</strong>! 🔄 The modem reads the incoming analog waves and converts them into <strong>digital data</strong> — the 1s and 0s that computers understand. The analog wave pattern encodes the data, and the modem decodes it perfectly.',
+    animate() {
+      svgFade('pktAnalog', 0);
+      svgFade('analogSignal', 0);
+      svgFade('convFlash', 1);
+      highlightNode('nodeModem', '#fef3c7', '#d97706');
+      setTimeout(() => { svgFade('digitalSignal', 1); svgFade('convFlash', 0); }, 500);
+    }
+  },
+  {
+    icon: '💻',
+    title: 'Step 4 — Digital Data Sent to Your Device',
+    body: 'The <strong>digital data</strong> (1s and 0s) 💻 is now sent from the modem to your computer or router via an <strong>ethernet cable</strong>. The data is now in a format all your devices understand. Watch the digital packet travel from the modem to your device!',
+    animate() {
+      svgFade('convFlash', 0);
+      highlightNode('nodeModem', '#ede9fe', '#7c3aed');
+      highlightNode('nodePC', '#bbf7d0', '#16a34a');
+      movePkt('pktDigital', 350, 115); svgFade('pktDigital', 1);
+      animatePkt('pktDigital', 350, 637, 115, 0);
+      setTimeout(() => { svgFade('successCheck', 1); svgFade('pktDigital', 0); }, 700);
+    }
+  },
+  {
+    icon: '⬆️',
+    title: 'Step 5 — Uploading (Modulation — the Reverse)',
+    body: 'When you <strong>upload</strong> data (send an email 📧, post a photo 📸, join a video call 🎥), the process reverses! The modem takes your computer\'s <strong>digital data</strong> and <strong>MOdulates</strong> it — converting it into <strong>analog signals</strong> to travel back through the cable to your ISP and out to the internet. 🌍',
+    animate() {
+      highlightNode('nodePC', '#dcfce7', '#86efac');
+      svgFade('successCheck', 0);
+      svgFade('digitalSignal', 0);
+      svgFade('uploadArrow', 1);
+      highlightNode('nodeModem', '#fef3c7', '#d97706');
+      movePkt('pktDigital', 637, 115); svgFade('pktDigital', 1);
+      animatePkt('pktDigital', 637, 350, 115, 0);
+      setTimeout(() => {
+        svgFade('pktDigital', 0);
+        svgFade('analogSignal', 1);
+        highlightNode('nodeISP', '#bfdbfe', '#2563eb');
+        movePkt('pktAnalog', 350, 115); svgFade('pktAnalog', 1);
+        animatePkt('pktAnalog', 350, 62, 115, 0);
+      }, 700);
+    }
+  }
+];
+
+let hiwCurrent = 0;
+
+function hiwUpdateUI() {
+  const s = hiwSteps[hiwCurrent];
+  document.getElementById('hiwIcon').textContent  = s.icon;
+  document.getElementById('hiwTitle').textContent = s.title;
+  document.getElementById('hiwBody').innerHTML    = s.body;
+  document.getElementById('hiwStepLabel').textContent = `Step ${hiwCurrent + 1} of ${hiwSteps.length}`;
+
+  hiwSteps.forEach((_, i) => {
+    const pill = document.getElementById('pill' + i);
+    const lines = document.querySelectorAll('.hiw-pill-line');
+    if (!pill) return;
+    pill.classList.remove('active','done');
+    if (i < hiwCurrent)        { pill.classList.add('done');   if (lines[i]) lines[i].classList.add('done'); }
+    else if (i === hiwCurrent) { pill.classList.add('active'); if (lines[i]) lines[i].classList.remove('done'); }
+    else                       { if (lines[i]) lines[i].classList.remove('done'); }
+  });
+
+  document.getElementById('hiwPrev').disabled = hiwCurrent === 0;
+  const isLast = hiwCurrent === hiwSteps.length - 1;
+  const nextBtn = document.getElementById('hiwNext');
+  nextBtn.disabled = isLast;
+  nextBtn.textContent = isLast ? 'Complete ✅' : 'Next Step →';
+  document.getElementById('hiwRestart').style.display = isLast ? 'inline-block' : 'none';
+
+  s.animate();
+}
+
+function hiwStep(dir) {
+  hiwCurrent = Math.max(0, Math.min(hiwSteps.length - 1, hiwCurrent + dir));
+  hiwUpdateUI();
+}
+
+function hiwReset() {
+  hiwCurrent = 0;
+  resetSvg();
+  setTimeout(hiwUpdateUI, 100);
+}
+
+hiwUpdateUI();
+</script>
+</body>
+</html>

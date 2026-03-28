@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Switch — IBDP Computer Science Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0fdf4;
+  --card: #ffffff;
+  --green: #16a34a;
+  --green2: #065f46;
+  --green-dark: #14532d;
+  --green-light: #dcfce7;
+  --emerald: #059669;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --orange: #ea580c;
+  --orange-light: #fff7ed;
+  --yellow: #ca8a04;
+  --yellow-light: #fef9c3;
+  --purple: #7c3aed;
+  --navy: #064e3b;
+  --text: #14532d;
+  --muted: #4b7a5a;
+  --border: #a7f3d0;
+  --font: 'Nunito', sans-serif;
+  --font-d: 'Fredoka One', cursive;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:#1c1917; font-family:var(--font); overflow-x:hidden; }
+
+/* ══ HERO ══ */
+.hero {
+  background: linear-gradient(135deg, #022c22 0%, #064e3b 35%, #065f46 65%, #047857 100%);
+  position: relative; overflow: hidden;
+  min-height: 55vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.hero-bg-circles span { position:absolute; border-radius:50%; background:rgba(255,255,255,0.04); pointer-events:none; }
+.hero-bg-circles span:nth-child(1){width:420px;height:420px;top:-100px;right:-80px;}
+.hero-bg-circles span:nth-child(2){width:260px;height:260px;bottom:80px;left:-60px;}
+.hero-bg-circles span:nth-child(3){width:190px;height:190px;top:35%;left:28%;}
+.hero::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(255,255,255,0.02) 28px,rgba(255,255,255,0.02) 29px), repeating-linear-gradient(90deg,transparent,transparent 28px,rgba(255,255,255,0.02) 28px,rgba(255,255,255,0.02) 29px); }
+.hero-content { position:relative; z-index:10; padding:3rem 2rem 4rem; text-align:center; }
+.hero-badge { display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:rgba(255,255,255,0.92); font-size:0.74rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; padding:0.3rem 1.1rem; border-radius:999px; margin-bottom:1rem; backdrop-filter:blur(4px); }
+.hero h1 { font-family:var(--font-d); font-size:clamp(3rem,8vw,5.5rem); color:#fff; text-shadow:0 4px 24px rgba(0,0,0,0.4); margin-bottom:0.5rem; line-height:1; }
+.hero-sub { font-size:1.1rem; color:rgba(255,255,255,0.82); font-weight:700; margin-bottom:1.8rem; max-width:520px; margin-left:auto; margin-right:auto; }
+.hero-chips { display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; }
+.chip { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:0.3rem 1rem; border-radius:999px; font-size:0.78rem; font-weight:800; backdrop-filter:blur(4px); }
+
+svg.wave { display:block; width:100%; background:transparent; margin-top:-2px; }
+
+/* ══ LAYOUT ══ */
+.container { max-width:1080px; margin:0 auto; padding:0 1.5rem; }
+.section { padding:3rem 0; }
+.sec-head { text-align:center; margin-bottom:2rem; }
+.sec-emoji { font-size:2.4rem; display:block; margin-bottom:0.4rem; }
+.sec-title { font-family:var(--font-d); font-size:2rem; color:var(--navy); margin-bottom:0.3rem; }
+.sec-sub { color:var(--muted); font-size:0.95rem; font-weight:700; }
+
+/* ══ DEFINITION ══ */
+.def-box { background:linear-gradient(135deg,#14532d,#16a34a); border-radius:20px; padding:2rem 2.2rem; display:flex; gap:1.4rem; align-items:flex-start; box-shadow:0 10px 35px rgba(22,163,74,0.3); }
+.def-icon-wrap { width:58px; height:58px; border-radius:14px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
+.def-label { font-family:var(--font-d); font-size:0.8rem; color:rgba(255,255,255,0.55); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:0.4rem; }
+.def-text { font-size:1.05rem; color:#fff; font-weight:700; line-height:1.75; }
+.def-text strong { color:#bbf7d0; }
+
+/* ══ ANALOGY ══ */
+.analogy-card { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; border-radius:20px; padding:2rem; display:flex; gap:1.6rem; align-items:flex-start; box-shadow:0 8px 28px rgba(22,163,74,0.15); }
+.analogy-bounce { font-size:4rem; flex-shrink:0; animation:sway 3s ease-in-out infinite; line-height:1; }
+@keyframes sway { 0%,100%{transform:rotate(-5deg);} 50%{transform:translateY(-8px) rotate(5deg);} }
+.analogy-title { font-family:var(--font-d); font-size:1.4rem; color:var(--green-dark); margin-bottom:0.5rem; }
+.analogy-body { font-size:0.97rem; color:#166534; line-height:1.8; font-weight:600; }
+.analogy-body strong { color:#14532d; }
+
+/* ══ FEATURES TABLE ══ */
+.feat-wrap { overflow-x:auto; border-radius:18px; box-shadow:0 6px 28px rgba(0,0,0,0.08); }
+.feat-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+.feat-table thead th { padding:1rem 1.3rem; text-align:left; font-family:var(--font-d); font-weight:400; font-size:1rem; }
+.feat-table thead th:first-child { background:var(--navy); color:#fff; width:32%; }
+.feat-table thead th:last-child { background:var(--green); color:#fff; }
+.feat-table td { padding:0.85rem 1.3rem; border-bottom:1px solid var(--border); font-weight:600; line-height:1.55; vertical-align:top; }
+.feat-table tr:last-child td { border-bottom:none; }
+.feat-table tbody tr:nth-child(even) td { background:#f0fdf4; }
+.feat-table tbody tr:hover td { background:var(--green-light); }
+.feat-name { font-weight:800; color:var(--navy); }
+.feat-tag { display:inline-block; font-size:0.65rem; font-weight:900; letter-spacing:0.07em; text-transform:uppercase; padding:1px 8px; border-radius:999px; background:var(--green-light); color:var(--green-dark); margin-right:0.4rem; vertical-align:middle; }
+
+/* ══ CHARACTERISTICS ══ */
+.chars-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.1rem; }
+.char-card { background:var(--card); border-radius:16px; padding:1.3rem; border:2px solid var(--border); display:flex; gap:0.9rem; align-items:flex-start; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform .25s, border-color .25s; }
+.char-card:hover { transform:translateY(-4px); border-color:var(--green); }
+.char-icon-box { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--green-light); border:2px solid #86efac; }
+.char-title { font-family:var(--font-d); font-size:0.97rem; color:var(--navy); margin-bottom:0.2rem; }
+.char-desc { font-size:0.8rem; color:var(--muted); line-height:1.55; font-weight:600; }
+
+/* ══ HOW IT WORKS — INTERACTIVE STEPPER ══ */
+.hiw-progress { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:1.8rem; }
+.hiw-pill { width:34px; height:34px; border-radius:50%; background:#e7e5e4; color:var(--muted); display:flex; align-items:center; justify-content:center; font-family:var(--font-d); font-size:0.95rem; border:2px solid #d6d3d1; transition:all .35s; flex-shrink:0; }
+.hiw-pill.active { background:var(--green); color:#fff; border-color:var(--green); box-shadow:0 0 0 4px rgba(22,163,74,0.2); transform:scale(1.18); }
+.hiw-pill.done { background:var(--emerald); color:#fff; border-color:var(--emerald); }
+.hiw-pill-line { flex:1; height:3px; background:#e7e5e4; border-radius:999px; min-width:20px; max-width:80px; transition:background .35s; }
+.hiw-pill-line.done { background:var(--emerald); }
+.hiw-canvas-wrap { background:linear-gradient(180deg,#f0fff4 0%,#dcfce7 100%); border-radius:16px; padding:1.2rem 0.5rem; border:2px solid var(--border); margin-bottom:1.5rem; overflow:hidden; }
+.hiw-explain { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; border-radius:16px; padding:1.4rem 1.6rem; display:flex; gap:1rem; align-items:flex-start; margin-bottom:1.5rem; min-height:100px; }
+.hiw-explain-icon { font-size:2.6rem; flex-shrink:0; animation:sway 2.5s ease-in-out infinite; }
+.hiw-explain-title { font-family:var(--font-d); font-size:1.15rem; color:var(--green-dark); margin-bottom:0.4rem; }
+.hiw-explain-body { font-size:0.93rem; color:#166534; line-height:1.75; font-weight:600; }
+.hiw-controls { display:flex; align-items:center; justify-content:center; gap:1rem; }
+.hiw-step-label { font-family:var(--font-d); font-size:1rem; color:var(--muted); min-width:90px; text-align:center; }
+.hiw-btn { padding:0.6rem 1.5rem; border-radius:999px; font-size:0.9rem; font-weight:800; cursor:pointer; font-family:var(--font); border:2px solid transparent; transition:all .2s; }
+.hiw-btn.primary { background:var(--green); color:#fff; border-color:var(--green); }
+.hiw-btn.primary:hover { background:var(--green2); transform:scale(1.05); }
+.hiw-btn.secondary { background:#fff; color:var(--navy); border-color:var(--border); }
+.hiw-btn.secondary:hover:not(:disabled) { border-color:var(--green); color:var(--green); transform:scale(1.05); }
+.hiw-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.hiw-restart { background:none; border:2px solid var(--border); color:var(--muted); padding:0.4rem 1.2rem; border-radius:999px; font-size:0.82rem; font-weight:800; cursor:pointer; font-family:var(--font); transition:all .2s; }
+.hiw-restart:hover { border-color:var(--green); color:var(--green); }
+
+/* ══ MAC ANIMATION SECTION ══ */
+.mac-anim-section { background:var(--card); border-radius:20px; padding:2rem; border:2px solid var(--border); box-shadow:0 8px 28px rgba(0,0,0,0.07); }
+.mac-anim-title { font-family:var(--font-d); font-size:1.35rem; color:var(--navy); display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem; }
+.live-badge { background:var(--red); color:#fff; font-size:0.62rem; font-weight:900; padding:2px 9px; border-radius:999px; letter-spacing:0.1em; animation:livePulse 1.2s ease-in-out infinite; }
+@keyframes livePulse { 0%,100%{opacity:1;} 50%{opacity:0.45;} }
+.mac-anim-desc { font-size:0.88rem; color:var(--muted); font-weight:700; margin-bottom:1.4rem; }
+
+/* The network diagram canvas */
+.net-canvas { background:linear-gradient(135deg,#022c22,#064e3b); border-radius:16px; padding:1.5rem; margin-bottom:1.4rem; position:relative; min-height:340px; }
+
+/* Switch node */
+.sw-node { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); }
+.sw-box { width:88px; height:64px; border-radius:12px; background:linear-gradient(135deg,#065f46,#047857); border:3px solid #34d399; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:0 0 28px rgba(52,211,153,0.4); animation:swPulse 2s ease-in-out infinite; position:relative; z-index:10; }
+@keyframes swPulse { 0%,100%{box-shadow:0 0 20px rgba(52,211,153,0.4);} 50%{box-shadow:0 0 40px rgba(52,211,153,0.7);} }
+.sw-box-svg { display:block; }
+.sw-node-label { font-family:var(--font-d); font-size:0.68rem; color:#a7f3d0; text-align:center; margin-top:0.3rem; letter-spacing:0.06em; }
+
+/* Device nodes around the switch */
+.dev-node { position:absolute; display:flex; flex-direction:column; align-items:center; gap:0.3rem; z-index:10; }
+.dev-box { width:62px; height:62px; border-radius:14px; background:#fff; border:3px solid #86efac; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:1.6rem; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:all .4s; position:relative; }
+.dev-box.accepted { background:#dcfce7 !important; border-color:#16a34a !important; box-shadow:0 0 20px rgba(22,163,74,0.6) !important; transform:scale(1.12); }
+.dev-box.discarded { background:#fee2e2 !important; border-color:#dc2626 !important; opacity:0.7; }
+.dev-box.sending { background:#dbeafe !important; border-color:#2563eb !important; box-shadow:0 0 20px rgba(37,99,235,0.5) !important; transform:scale(1.08); }
+.dev-label { font-size:0.65rem; font-weight:800; color:#fff; background:rgba(0,0,0,0.5); padding:1px 7px; border-radius:6px; white-space:nowrap; }
+.dev-mac { font-size:0.52rem; color:rgba(255,255,255,0.5); font-weight:700; font-family:monospace; white-space:nowrap; }
+
+/* Status badge on device */
+.dev-status { position:absolute; top:-10px; right:-10px; font-size:0.65rem; font-weight:900; padding:2px 7px; border-radius:999px; white-space:nowrap; opacity:0; transition:opacity .35s; }
+.dev-status.show { opacity:1; }
+.dev-status.match { background:#16a34a; color:#fff; }
+.dev-status.discard { background:#dc2626; color:#fff; }
+
+/* Cable lines — SVG overlay */
+.cable-svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+
+/* Packet bubble */
+.pkt-bubble { position:absolute; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; z-index:20; pointer-events:none; transition:left .55s cubic-bezier(.4,0,.2,1), top .55s cubic-bezier(.4,0,.2,1), opacity .35s; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
+.pkt-bubble.green-pkt { background:linear-gradient(135deg,#16a34a,#059669); color:#fff; }
+.pkt-bubble.red-pkt   { background:linear-gradient(135deg,#dc2626,#b91c1c); color:#fff; }
+
+/* Info bar */
+.mac-info-bar { display:flex; align-items:center; gap:0.8rem; flex-wrap:wrap; margin-bottom:1.2rem; padding:0.9rem 1.2rem; background:#f0fdf4; border:2px solid #86efac; border-radius:12px; font-size:0.85rem; font-weight:700; color:var(--navy); }
+.info-badge { font-size:0.72rem; font-weight:900; padding:3px 12px; border-radius:999px; }
+.info-badge.src  { background:#dbeafe; color:#1e40af; }
+.info-badge.dst  { background:#dcfce7; color:#166534; }
+.info-badge.port { background:#fef3c7; color:#92400e; }
+
+/* MAC table */
+.mac-tbl-wrap { border-radius:14px; overflow:hidden; border:2px solid var(--border); }
+.mac-tbl-head { background:var(--navy); padding:0.65rem 1rem; display:flex; justify-content:space-between; align-items:center; }
+.mac-tbl-head span { color:rgba(255,255,255,0.75); font-size:0.78rem; font-weight:700; }
+.mac-tbl-badge { background:#4ade80; color:#052e16; font-size:0.62rem; font-weight:900; padding:2px 10px; border-radius:999px; }
+.mac-tbl-cols { display:grid; grid-template-columns:1.2fr 1.6fr 0.7fr 1fr; background:#f0fdf4; border-bottom:2px solid var(--border); padding:0.4rem 1rem; }
+.mac-tbl-cols span { font-size:0.68rem; font-weight:900; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+.mac-tbl-row { display:grid; grid-template-columns:1.2fr 1.6fr 0.7fr 1fr; padding:0.5rem 1rem; border-bottom:1px solid var(--border); font-size:0.8rem; font-weight:700; transition:background .35s; align-items:center; }
+.mac-tbl-row:last-child { border-bottom:none; }
+.mac-tbl-row:hover { background:#f0fdf4; }
+.mac-tbl-row.tbl-hl-src  { background:#dbeafe !important; }
+.mac-tbl-row.tbl-hl-dst  { background:#dcfce7 !important; }
+.mac-tbl-row.tbl-hl-skip { opacity:0.5; }
+.tbl-mac { font-family:monospace; color:var(--teal); font-size:0.72rem; }
+.tbl-port { color:var(--orange); font-weight:900; }
+.tbl-badge { font-size:0.6rem; font-weight:900; padding:2px 8px; border-radius:999px; display:inline-block; }
+.tbl-badge.idle    { background:#f1f5f9; color:#94a3b8; }
+.tbl-badge.src     { background:#dbeafe; color:#1e40af; }
+.tbl-badge.dst     { background:#dcfce7; color:#166534; }
+.tbl-badge.skip    { background:#fee2e2; color:#dc2626; }
+
+/* Send button */
+.send-btn { display:block; margin:1.2rem auto 0; background:linear-gradient(135deg,#065f46,#16a34a); color:#fff; border:none; padding:0.75rem 2.4rem; border-radius:999px; font-size:1rem; font-weight:800; cursor:pointer; font-family:var(--font); box-shadow:0 4px 18px rgba(22,163,74,0.35); transition:transform .15s,box-shadow .15s; }
+.send-btn:hover { transform:scale(1.05); box-shadow:0 6px 24px rgba(22,163,74,0.5); }
+
+/* ══ SWITCH VS HUB ══ */
+.vs-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.vs-card { border-radius:18px; padding:1.6rem; }
+.vs-card.hub { background:linear-gradient(135deg,#fef2f2,#fee2e2); border:2px solid #fca5a5; }
+.vs-card.sw  { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; }
+.vs-head { font-family:var(--font-d); font-size:1.2rem; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+.vs-card.hub .vs-head { color:#991b1b; }
+.vs-card.sw  .vs-head { color:var(--green-dark); }
+.vs-item { display:flex; gap:0.6rem; margin-bottom:0.6rem; font-size:0.87rem; font-weight:600; line-height:1.5; }
+.vs-dot { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.7rem; flex-shrink:0; margin-top:1px; font-weight:900; }
+.hub .vs-dot { background:#fecaca; color:#991b1b; }
+.sw  .vs-dot { background:#bbf7d0; color:var(--green-dark); }
+.hub .vs-txt { color:#7f1d1d; }
+.sw  .vs-txt { color:var(--green-dark); }
+
+/* ══ PROS & CONS ══ */
+.pc-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.pc-card { border-radius:18px; padding:1.6rem; }
+.pc-card.pros { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; }
+.pc-card.cons { background:linear-gradient(135deg,#fff7ed,#ffedd5); border:2px solid #fdba74; }
+.pc-head { font-family:var(--font-d); font-size:1.25rem; margin-bottom:1rem; }
+.pc-card.pros .pc-head { color:#166534; }
+.pc-card.cons .pc-head { color:#9a3412; }
+.pc-item { display:flex; gap:0.6rem; margin-bottom:0.75rem; font-size:0.9rem; line-height:1.55; font-weight:600; }
+.pc-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; flex-shrink:0; margin-top:1px; font-weight:900; }
+.pc-card.pros .pc-dot { background:#bbf7d0; color:#166534; }
+.pc-card.cons .pc-dot { background:#fed7aa; color:#9a3412; }
+.pc-card.pros .pc-txt { color:#14532d; }
+.pc-card.cons .pc-txt { color:#7c2d12; }
+
+/* ══ QUIZ ══ */
+.quiz-wrap { background:linear-gradient(135deg,#022c22,#064e3b,#059669); padding:3.5rem 0; position:relative; overflow:hidden; }
+.quiz-wrap::before { content:'🖧'; position:absolute; font-size:18rem; top:-3rem; right:-2rem; opacity:0.05; pointer-events:none; }
+.quiz-title { font-family:var(--font-d); font-size:2rem; color:#fff; text-align:center; margin-bottom:0.3rem; }
+.quiz-sub { color:rgba(255,255,255,0.65); text-align:center; font-size:0.95rem; font-weight:700; margin-bottom:2rem; }
+.quiz-card { background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:2rem; max-width:700px; margin:0 auto; }
+.q-num { font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:700; margin-bottom:0.4rem; }
+.q-text { font-size:1.08rem; font-weight:800; color:#fff; margin-bottom:1.2rem; line-height:1.5; min-height:3rem; }
+.q-opts { display:flex; flex-direction:column; gap:0.55rem; margin-bottom:1rem; }
+.q-opt { background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.15); color:#fff; padding:0.72rem 1.2rem; border-radius:12px; font-size:0.88rem; font-weight:700; cursor:pointer; text-align:left; transition:all .2s; font-family:var(--font); }
+.q-opt:hover { background:rgba(255,255,255,0.18); transform:translateX(4px); }
+.q-opt.correct { background:rgba(22,163,74,0.35); border-color:#16a34a; }
+.q-opt.wrong { background:rgba(220,38,38,0.35); border-color:#dc2626; }
+.q-opt:disabled { cursor:default; }
+.q-opt.correct::after { content:'  ✓'; }
+.q-opt.wrong::after { content:'  ✗'; }
+.q-fb { min-height:2.5rem; border-radius:10px; padding:0.6rem 1rem; font-size:0.87rem; font-weight:700; text-align:center; opacity:0; transition:opacity .3s; }
+.q-fb.show { opacity:1; }
+.q-fb.good { background:rgba(22,163,74,0.25); color:#a7f3d0; }
+.q-fb.bad { background:rgba(220,38,38,0.25); color:#fca5a5; }
+.q-nav { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; }
+.q-btn { background:#fff; color:var(--navy); border:none; padding:0.6rem 1.5rem; border-radius:999px; font-size:0.88rem; font-weight:900; cursor:pointer; font-family:var(--font); transition:transform .15s,box-shadow .15s; }
+.q-btn:hover { transform:scale(1.05); box-shadow:0 4px 16px rgba(0,0,0,0.2); }
+.q-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+.q-score { font-family:var(--font-d); font-size:1rem; color:rgba(255,255,255,0.7); }
+
+/* SUMMARY */
+.summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
+.sum-card { padding:1.1rem 1.2rem; border-radius:14px; }
+.sum-card.a { background:var(--green-light); border-left:4px solid var(--green); }
+.sum-card.b { background:var(--blue-light); border-left:4px solid var(--blue); }
+.sum-card.c { background:var(--yellow-light); border-left:4px solid var(--yellow); }
+.sum-card strong { color:var(--navy); font-size:0.95rem; }
+.sum-card p { font-size:0.85rem; color:var(--muted); margin-top:0.3rem; font-weight:600; line-height:1.55; }
+
+footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:1.5rem; font-size:0.8rem; font-weight:700; letter-spacing:0.05em; }
+
+@media(max-width:640px){
+  .pc-grid{grid-template-columns:1fr;}
+  .vs-grid{grid-template-columns:1fr;}
+  .analogy-card{flex-direction:column;}
+  .def-box{flex-direction:column;}
+  .feat-table{font-size:0.78rem;}
+  .feat-table th,.feat-table td{padding:0.6rem 0.8rem;}
+  .mac-tbl-cols,.mac-tbl-row{grid-template-columns:1fr 1fr 0.5fr 0.8fr;font-size:0.72rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg-circles"><span></span><span></span><span></span></div>
+  <div class="hero-content">
+    <div class="hero-badge">🎓 IBDP · Computer Science · Network Devices</div>
+    <div style="margin:0 auto 0.8rem;animation:sway 4s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(74,222,128,0.5));position:relative;z-index:5;">
+      <svg width="90" height="56" viewBox="0 0 90 56" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">
+        <rect x="2" y="4" width="86" height="40" rx="7" fill="#1a3a2a" stroke="#4ade80" stroke-width="2.5"/>
+        <rect x="2" y="4" width="86" height="14" rx="7" fill="#2d6a4f" opacity="0.5"/>
+        <rect x="8"  y="10" width="9" height="7" rx="2" fill="#0d9488"/>
+        <rect x="20" y="10" width="9" height="7" rx="2" fill="#16a34a"/>
+        <rect x="32" y="10" width="9" height="7" rx="2" fill="#16a34a"/>
+        <rect x="44" y="10" width="9" height="7" rx="2" fill="#0d9488"/>
+        <rect x="56" y="10" width="9" height="7" rx="2" fill="#16a34a"/>
+        <rect x="68" y="10" width="9" height="7" rx="2" fill="#dc2626"/>
+        <rect x="8"  y="22" width="9" height="7" rx="2" fill="#16a34a"/>
+        <rect x="20" y="22" width="9" height="7" rx="2" fill="#0d9488"/>
+        <rect x="32" y="22" width="9" height="7" rx="2" fill="#16a34a"/>
+        <rect x="44" y="22" width="9" height="7" rx="2" fill="#16a34a"/>
+        <rect x="56" y="22" width="9" height="7" rx="2" fill="#0d9488"/>
+        <rect x="68" y="22" width="9" height="7" rx="2" fill="#16a34a"/>
+        <circle cx="12" cy="38" r="3" fill="#4ade80"><animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+        <circle cx="24" cy="38" r="3" fill="#4ade80"><animate attributeName="opacity" values="1;0.3;1" dur="0.9s" repeatCount="indefinite"/></circle>
+        <circle cx="36" cy="38" r="3" fill="#facc15"><animate attributeName="opacity" values="1;0.4;1" dur="1.5s" repeatCount="indefinite"/></circle>
+        <circle cx="48" cy="38" r="3" fill="#4ade80"><animate attributeName="opacity" values="1;0.3;1" dur="1.1s" repeatCount="indefinite"/></circle>
+        <circle cx="60" cy="38" r="3" fill="#4ade80"><animate attributeName="opacity" values="1;0.3;1" dur="0.8s" repeatCount="indefinite"/></circle>
+        <circle cx="72" cy="38" r="3" fill="#ef4444"><animate attributeName="opacity" values="1;0.2;1" dur="2s" repeatCount="indefinite"/></circle>
+        <text x="45" y="52" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="7" font-family="monospace" font-weight="bold">NETWORK SWITCH</text>
+      </svg>
+    </div>
+    <h1>The Switch</h1>
+    <p class="hero-sub">🎯 Sends data ONLY to the intended device — smart, fast, private!</p>
+    <div class="hero-chips">
+      <span class="chip">🌐 Networking</span>
+      <span class="chip">💻 Computer Science</span>
+      <span class="chip">🎮 Interactive</span>
+      <span class="chip">🏷️ MAC Addressing</span>
+    </div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,20 C400,60 1000,0 1440,20 L1440,60 L0,60 Z" fill="#f0fdf4"/>
+</svg>
+
+<div class="container">
+
+  <!-- 1. DEFINITION -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📖</span>
+      <h2 class="sec-title">What is a Switch?</h2>
+      <p class="sec-sub">A clear definition to start with</p>
+    </div>
+    <div class="def-box">
+      <div class="def-icon-wrap">📖</div>
+      <div>
+        <div class="def-label">Definition</div>
+        <p class="def-text">
+          A <strong>network switch</strong> is a hardware device that connects multiple devices within a
+          <strong>Local Area Network (LAN)</strong>. It uses each device's unique
+          <strong>MAC address</strong> to forward data frames <strong>only to the specific intended device</strong>,
+          rather than broadcasting to all — operating at <strong>Layer 2 (Data Link Layer)</strong>
+          of the OSI model. It builds and maintains a <strong>MAC Address Table</strong>
+          that maps each device to a physical port.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS — INTERACTIVE STEPPER -->
+  <section class="section" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:1rem;border:2px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,0.06);">
+    <div class="sec-head">
+      <span class="sec-emoji">🔄</span>
+      <h2 class="sec-title">How Does a Switch Work?</h2>
+      <p class="sec-sub">Press <strong>Next Step</strong> — watch exactly which devices receive the packet and which discard it 👇</p>
+    </div>
+
+    <!-- 4 step pills -->
+    <div class="hiw-progress">
+      <div class="hiw-pill active" id="pill0">1</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill1">2</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill2">3</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill3">4</div>
+    </div>
+
+    <!-- Star-topology SVG canvas -->
+    <div class="hiw-canvas-wrap">
+      <svg id="hiwSvg" viewBox="0 0 660 420" xmlns="http://www.w3.org/2000/svg"
+           style="width:100%;max-width:660px;display:block;margin:0 auto;">
+
+        <!-- ── CABLES (Switch centre 330,210) ── -->
+        <line x1="330" y1="210" x2="164" y2="88" stroke="#4ade80" stroke-width="2" stroke-dasharray="7,5" opacity="0.45" id="hiwCable0"/>
+        <line x1="330" y1="210" x2="496" y2="88" stroke="#4ade80" stroke-width="2" stroke-dasharray="7,5" opacity="0.45" id="hiwCable1"/>
+        <line x1="330" y1="210" x2="164" y2="332" stroke="#4ade80" stroke-width="2" stroke-dasharray="7,5" opacity="0.45" id="hiwCable2"/>
+        <line x1="330" y1="210" x2="496" y2="332" stroke="#4ade80" stroke-width="2" stroke-dasharray="7,5" opacity="0.45" id="hiwCable3"/>
+
+        <!-- PC-01 (sender) top-left -->
+        <g id="hiwDev0">
+          <rect x="84" y="30" width="112" height="116" rx="14" fill="#dbeafe" stroke="#93c5fd" stroke-width="2.5" id="hiwDevRect0"/>
+          <text x="140" y="72"  text-anchor="middle" font-size="28">💻</text>
+          <text x="140" y="96"  text-anchor="middle" font-size="9" font-weight="800" fill="#1e40af">PC-01</text>
+          <text x="140" y="109" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#2563eb">AA:11:22:33</text>
+          <text x="140" y="122" text-anchor="middle" font-size="7.5" fill="#6b7280">Port 1  ← SENDER</text>
+          <text x="140" y="137" text-anchor="middle" font-size="9" fill="#16a34a" id="hiwSt0" opacity="0"></text>
+        </g>
+
+        <!-- PC-02 top-right -->
+        <g id="hiwDev1">
+          <rect x="460" y="30" width="112" height="116" rx="14" fill="#fafaf9" stroke="#d6d3d1" stroke-width="2.5" id="hiwDevRect1"/>
+          <text x="516" y="72"  text-anchor="middle" font-size="28">🖥️</text>
+          <text x="516" y="96"  text-anchor="middle" font-size="9" font-weight="800" fill="#374151">PC-02</text>
+          <text x="516" y="109" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#6b7280">BB:44:55:66</text>
+          <text x="516" y="122" text-anchor="middle" font-size="7.5" fill="#6b7280">Port 2</text>
+          <text x="516" y="137" text-anchor="middle" font-size="9" id="hiwSt1" opacity="0"></text>
+        </g>
+
+        <!-- PC-03 bottom-left -->
+        <g id="hiwDev2">
+          <rect x="84" y="294" width="112" height="116" rx="14" fill="#fafaf9" stroke="#d6d3d1" stroke-width="2.5" id="hiwDevRect2"/>
+          <text x="140" y="336" text-anchor="middle" font-size="28">💻</text>
+          <text x="140" y="360" text-anchor="middle" font-size="9" font-weight="800" fill="#374151">PC-03</text>
+          <text x="140" y="373" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#6b7280">CC:77:88:99</text>
+          <text x="140" y="386" text-anchor="middle" font-size="7.5" fill="#6b7280">Port 3</text>
+          <text x="140" y="400" text-anchor="middle" font-size="9" id="hiwSt2" opacity="0"></text>
+        </g>
+
+        <!-- PRINTER bottom-right (TARGET) -->
+        <g id="hiwDev3">
+          <rect x="460" y="294" width="112" height="116" rx="14" fill="#dcfce7" stroke="#86efac" stroke-width="2.5" id="hiwDevRect3"/>
+          <text x="516" y="336" text-anchor="middle" font-size="28">🖨️</text>
+          <text x="516" y="360" text-anchor="middle" font-size="9" font-weight="800" fill="#166534">PRINTER</text>
+          <text x="516" y="373" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#16a34a">DD:AA:BB:CC</text>
+          <text x="516" y="386" text-anchor="middle" font-size="7.5" fill="#16a34a">Port 4 ← TARGET</text>
+          <text x="516" y="400" text-anchor="middle" font-size="9" id="hiwSt3" opacity="0"></text>
+        </g>
+
+        <!-- SWITCH centre -->
+        <g id="hiwSwitch">
+          <rect x="270" y="158" width="120" height="104" rx="14" fill="#064e3b" stroke="#34d399" stroke-width="3"/>
+          <rect x="278" y="166" width="104" height="32" rx="5" fill="#1a3a2a" stroke="#4ade80" stroke-width="1.2"/>
+          <rect x="284" y="171" width="7" height="5" rx="1.5" fill="#0d9488"/>
+          <rect x="294" y="171" width="7" height="5" rx="1.5" fill="#16a34a"/>
+          <rect x="304" y="171" width="7" height="5" rx="1.5" fill="#16a34a"/>
+          <rect x="314" y="171" width="7" height="5" rx="1.5" fill="#0d9488"/>
+          <rect x="324" y="171" width="7" height="5" rx="1.5" fill="#16a34a"/>
+          <rect x="334" y="171" width="7" height="5" rx="1.5" fill="#dc2626"/>
+          <rect x="284" y="179" width="7" height="5" rx="1.5" fill="#16a34a"/>
+          <rect x="294" y="179" width="7" height="5" rx="1.5" fill="#0d9488"/>
+          <rect x="304" y="179" width="7" height="5" rx="1.5" fill="#16a34a"/>
+          <rect x="314" y="179" width="7" height="5" rx="1.5" fill="#16a34a"/>
+          <circle cx="288" cy="192" r="2.5" fill="#4ade80"><animate attributeName="opacity" values="1;0.2;1" dur="0.9s" repeatCount="indefinite"/></circle>
+          <circle cx="298" cy="192" r="2.5" fill="#4ade80"><animate attributeName="opacity" values="1;0.2;1" dur="1.1s" repeatCount="indefinite"/></circle>
+          <circle cx="308" cy="192" r="2.5" fill="#facc15"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" repeatCount="indefinite"/></circle>
+          <circle cx="318" cy="192" r="2.5" fill="#4ade80"><animate attributeName="opacity" values="1;0.2;1" dur="0.8s" repeatCount="indefinite"/></circle>
+          <circle cx="328" cy="192" r="2.5" fill="#4ade80"><animate attributeName="opacity" values="1;0.3;1" dur="1.3s" repeatCount="indefinite"/></circle>
+          <circle cx="338" cy="192" r="2.5" fill="#ef4444"><animate attributeName="opacity" values="1;0.2;1" dur="2s" repeatCount="indefinite"/></circle>
+          <text x="330" y="218" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#a7f3d0">🖧 SWITCH</text>
+          <text x="330" y="230" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.4)">MAC Table</text>
+          <text x="330" y="252" text-anchor="middle" font-family="monospace" font-size="7" fill="#fbbf24" id="hiwSwitchLabel">STANDBY</text>
+        </g>
+
+        <!-- MAC LOOKUP POPUP (step 2) -->
+        <g id="hiwMacPopup" opacity="0">
+          <rect x="186" y="0" width="288" height="62" rx="10" fill="#052e16" stroke="#34d399" stroke-width="2"/>
+          <text x="330" y="17" text-anchor="middle" font-size="9" font-weight="800" fill="#fbbf24">📋 SWITCH MAC ADDRESS TABLE LOOKUP</text>
+          <text x="196" y="30" font-size="8" fill="#a7f3d0">Destination: DD:AA:BB:CC → Port 4 (Printer) ✅ MATCH</text>
+          <text x="196" y="42" font-size="8" fill="#fca5a5">BB:44:55:66 (Port 2) · CC:77:88:99 (Port 3) → ✗ SKIP</text>
+          <text x="196" y="54" font-size="7.5" fill="rgba(255,255,255,0.4)">Only Port 4 will receive this frame.</text>
+        </g>
+
+        <!-- FRAME PACKET (animated) -->
+        <g id="hiwFrame" opacity="0">
+          <rect x="-40" y="-12" width="80" height="24" rx="8" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="5" text-anchor="middle" font-size="8" font-weight="800" fill="#fff">📄 DD:AA:BB:CC</text>
+        </g>
+
+        <!-- DISCARD PACKETS -->
+        <g id="hiwRedPkt1" opacity="0">
+          <rect x="-36" y="-12" width="72" height="24" rx="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="5" text-anchor="middle" font-size="8" font-weight="800" fill="#fff">📄 ✗ Discard</text>
+        </g>
+        <g id="hiwRedPkt2" opacity="0">
+          <rect x="-36" y="-12" width="72" height="24" rx="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="5" text-anchor="middle" font-size="8" font-weight="800" fill="#fff">📄 ✗ Discard</text>
+        </g>
+
+        <!-- SUCCESS / DISCARD BADGES -->
+        <g id="hiwBadgePrinter" opacity="0">
+          <circle cx="572" cy="294" r="16" fill="#16a34a" stroke="#fff" stroke-width="2"/>
+          <text x="572" y="300" text-anchor="middle" font-size="16">✅</text>
+        </g>
+        <g id="hiwBadgePC02" opacity="0">
+          <circle cx="572" cy="30" r="16" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+          <text x="572" y="36" text-anchor="middle" font-size="15">✗</text>
+        </g>
+        <g id="hiwBadgePC03" opacity="0">
+          <circle cx="84" cy="294" r="16" fill="#dc2626" stroke="#fff" stroke-width="2"/>
+          <text x="84" y="300" text-anchor="middle" font-size="15">✗</text>
+        </g>
+
+      </svg>
+    </div>
+
+    <div class="hiw-explain" id="hiwExplain">
+      <div class="hiw-explain-icon" id="hiwIcon">💻</div>
+      <div>
+        <div class="hiw-explain-title" id="hiwTitle">Step 1 — PC-01 Creates an Addressed Frame</div>
+        <div class="hiw-explain-body" id="hiwBody">PC-01 wants to send a print job to the Printer. It creates a <strong>data frame</strong> 📄 — like writing an address on an envelope — stamping the <strong>destination MAC (DD:AA:BB:CC)</strong> and its own <strong>source MAC (AA:11:22:33)</strong>. The frame travels to the switch.</div>
+      </div>
+    </div>
+
+    <div class="hiw-controls">
+      <button class="hiw-btn secondary" id="hiwPrev" onclick="hiwStep(-1)" disabled>← Back</button>
+      <div class="hiw-step-label" id="hiwStepLabel">Step 1 of 4</div>
+      <button class="hiw-btn primary" id="hiwNext" onclick="hiwStep(1)">Next Step →</button>
+    </div>
+    <div style="text-align:center;margin-top:0.8rem;">
+      <button class="hiw-restart" id="hiwRestart" onclick="hiwReset()" style="display:none;">🔄 Replay from Start</button>
+    </div>
+  </section>
+
+  <!-- 2. ANALOGY -->
+  <section class="section" style="padding-top:0;">
+    <div class="sec-head">
+      <span class="sec-emoji">💡</span>
+      <h2 class="sec-title">Real-World Analogy</h2>
+      <p class="sec-sub">Connect the idea to something you already know 🧠</p>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-bounce">🎓</div>
+      <div>
+        <div class="analogy-title">🎓 Think of it like a Teacher handing back marked tests!</div>
+        <p class="analogy-body">
+          When a teacher hands back marked tests 📄, they don't throw every paper to everyone in the room — that would be chaos!
+          Instead, they walk directly to <strong>each student</strong> and hand them <em>only their own paper</em>.
+          Private, direct, and efficient!
+          <br><br>
+          A <strong>Switch</strong> works exactly the same way on a network 🌐.
+          When PC-01 wants to send data to the Printer, the switch doesn't send it to
+          PC-02, PC-03, and the Server too — that would waste everyone's time.
+          Instead, it checks its <strong>MAC Address Table</strong> 📋 (like a class register),
+          finds out exactly which port the Printer is connected to, and delivers
+          the data <strong>directly and only</strong> to that device. 🎯
+          <br><br>
+          Every other device on the network <strong>never even sees the data</strong> — it's like receiving a sealed envelope
+          addressed specifically to you, and nobody else. 📬
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 3. FEATURES -->
+<section style="background:white;padding:3rem 0;border-top:2px solid var(--border);border-bottom:2px solid var(--border);">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-emoji">⚙️</span>
+      <h2 class="sec-title">Key Features of a Switch</h2>
+      <p class="sec-sub">What a switch can do — explained in plain English 🔍</p>
+    </div>
+    <div class="feat-wrap">
+      <table class="feat-table">
+        <thead>
+          <tr><th>🔧 Feature</th><th>📝 What It Does — Simply Explained</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🏷️ MAC Address Learning</td>
+            <td>When a device first sends data, the switch records its <strong>MAC address and the port it is on</strong> in a MAC Address Table. It gets smarter with every packet — learning where every device lives.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🎯 Unicast Forwarding</td>
+            <td>Once a destination MAC is in the table, the switch sends the frame <strong>only to that specific port</strong> — directly to the intended device and nobody else. This is called unicast forwarding.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🏫 LAN Creation</td>
+            <td>Connects multiple devices (computers, printers, servers) into a single <strong>Local Area Network (LAN)</strong> — like wiring up every computer in a school lab so they can share files and resources.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Speed</span>⚡ Full-Duplex Links</td>
+            <td>Each port gets a <strong>dedicated, full-speed connection</strong> — devices can send and receive simultaneously without sharing bandwidth. A 1 Gbps switch gives every device 1 Gbps, not a share of it.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Scale</span>🔌 Multiple Ports</td>
+            <td>Switches come in many sizes: <strong>8, 24, or 48 ports</strong> — allowing schools and offices to connect dozens of devices through one central device. Multiple switches can also be connected together.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Advanced</span>🔒 VLANs (Managed)</td>
+            <td><strong>Managed switches</strong> support Virtual LANs (VLANs) — dividing one physical switch into separate logical networks. For example, separating student computers from teacher computers on the same hardware.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- 4. CHARACTERISTICS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🧬</span>
+      <h2 class="sec-title">Characteristics of a Switch</h2>
+      <p class="sec-sub">The key properties that define what a switch is 🔎</p>
+    </div>
+    <div class="chars-grid">
+      <div class="char-card">
+        <div class="char-icon-box">🔢</div>
+        <div>
+          <div class="char-title">Operates at Layer 2</div>
+          <p class="char-desc">Works at the <strong>Data Link Layer</strong> of the OSI model, using <strong>MAC addresses</strong> — not IP addresses. It does not understand routing between networks (that is the router's job).</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">📋</div>
+        <div>
+          <div class="char-title">Maintains a MAC Address Table</div>
+          <p class="char-desc">Builds and continuously updates a table that maps every device's <strong>MAC address to a port number</strong>. This is what allows it to send data directly rather than broadcasting.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🎯</div>
+        <div>
+          <div class="char-title">Intelligent Direct Delivery</div>
+          <p class="char-desc">Unlike an old hub (which broadcasts to all), a switch is <strong>smart</strong> — it reads the destination MAC address and forwards the frame <strong>only to the correct port</strong>.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🔌</div>
+        <div>
+          <div class="char-title">Wired (Ethernet) Only</div>
+          <p class="char-desc">A switch works with <strong>physical ethernet cables</strong> only. It has no wireless capability — for Wi-Fi you need a separate <strong>Wireless Access Point (WAP)</strong>.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🌐</div>
+        <div>
+          <div class="char-title">Needs a Router for the Internet</div>
+          <p class="char-desc">A switch creates a <strong>local network (LAN)</strong> but cannot connect to the internet on its own. A <strong>router</strong> must be connected to the switch to provide internet access.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🚦</div>
+        <div>
+          <div class="char-title">Reduces Network Congestion</div>
+          <p class="char-desc">By sending data only where it is needed, a switch <strong>dramatically reduces unnecessary traffic</strong> — keeping the network fast and free, even as more devices are added.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </section>
+
+</div>
+
+<!-- 7. SWITCH VS HUB -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚔️</span>
+      <h2 class="sec-title">Switch vs Old Hub</h2>
+      <p class="sec-sub">Why switches completely replaced hubs 🏆</p>
+    </div>
+    <div class="vs-grid">
+      <div class="vs-card hub">
+        <div class="vs-head">📢 Old Hub (Outdated)</div>
+        <div class="vs-item"><div class="vs-dot">✗</div><span class="vs-txt">Sends data to <strong>ALL devices</strong> — even if only one needs it. Everyone hears everything.</span></div>
+        <div class="vs-item"><div class="vs-dot">✗</div><span class="vs-txt"><strong>Wastes bandwidth</strong> — every device must process every packet, even ones not meant for it.</span></div>
+        <div class="vs-item"><div class="vs-dot">✗</div><span class="vs-txt"><strong>Privacy issue</strong> — any device can potentially see all other devices' data.</span></div>
+        <div class="vs-item"><div class="vs-dot">✗</div><span class="vs-txt"><strong>Slow under load</strong> — more devices = more collisions = slower network for everyone.</span></div>
+      </div>
+      <div class="vs-card sw">
+        <div class="vs-head">🎯 Modern Switch (Smart!)</div>
+        <div class="vs-item"><div class="vs-dot">✓</div><span class="vs-txt">Sends data <strong>only to the intended device</strong> — all other devices never see it.</span></div>
+        <div class="vs-item"><div class="vs-dot">✓</div><span class="vs-txt"><strong>Saves bandwidth</strong> — the network stays fast even with many devices connected.</span></div>
+        <div class="vs-item"><div class="vs-dot">✓</div><span class="vs-txt"><strong>More private</strong> — data goes only to the correct destination, sealed delivery.</span></div>
+        <div class="vs-item"><div class="vs-dot">✓</div><span class="vs-txt"><strong>No collisions</strong> — dedicated path per connection means full speed simultaneously.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. ADVANTAGES & DISADVANTAGES -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚖️</span>
+      <h2 class="sec-title">Advantages &amp; Disadvantages</h2>
+      <p class="sec-sub">Every device has strengths and weaknesses 🤔</p>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card pros">
+        <div class="pc-head">👍 Advantages</div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🎯 <strong>Efficient bandwidth use</strong> — data goes only to the device that needs it, freeing up the network for everyone else.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">📈 <strong>Scalable</strong> — need more connections? Just get a switch with more ports (8, 24, 48). Multiple switches can be linked together.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🔌 <strong>Plug and play</strong> — basic (unmanaged) switches work immediately with no configuration. Just plug in and go.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">⚡ <strong>Full speed for all</strong> — dedicated links mean every device gets its full connection speed simultaneously.</span></div>
+      </div>
+      <div class="pc-card cons">
+        <div class="pc-head">👎 Disadvantages</div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🌐 <strong>No internet alone</strong> — a switch creates a local network (LAN) but needs a separate router to reach the internet (WAN).</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🔌 <strong>Wired only</strong> — switches only support ethernet cables. Wi-Fi devices need a separate Wireless Access Point (WAP).</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🛡️ <strong>Basic security on unmanaged models</strong> — simple switches have no security features. Advanced features (VLANs, monitoring) require expensive managed switches.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">💰 <strong>Cost increases with features</strong> — managed switches with VLANs, QoS, and security monitoring are significantly more expensive than basic models.</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 9. QUIZ -->
+<section class="quiz-wrap">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quiz Time!</h2>
+    <p class="quiz-sub">Test your switch knowledge — 10 questions 🎯</p>
+    <div class="quiz-card">
+      <div class="q-num" id="qNum">Question 1 of 10</div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <div class="q-nav">
+        <div class="q-score">Score: <span id="qScore">0</span> / 10</div>
+        <button class="q-btn" id="qNext" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📝</span>
+      <h2 class="sec-title">Quick Summary</h2>
+      <p class="sec-sub">Key points to remember for your exam 🎓</p>
+    </div>
+    <div style="background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div class="summary-grid">
+        <div class="sum-card a"><strong>📌 Definition</strong><p>A device that connects multiple devices in a LAN, using MAC addresses to send data frames only to the intended recipient. Operates at Layer 2 (Data Link Layer).</p></div>
+        <div class="sum-card b"><strong>📌 Key Difference from Hub</strong><p>A hub broadcasts to ALL devices — wasteful and slow. A switch is smart — it uses MAC addresses to send data ONLY to the specific intended device.</p></div>
+        <div class="sum-card c"><strong>📌 Remember</strong><p>Switch = LAN only. Wired only. Needs a router for internet. Needs a WAP for Wi-Fi. Maintains a MAC Address Table to know which device is on which port.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>🖧 Network Switch — Computer Science &nbsp;·&nbsp; Network Devices Unit &nbsp;·&nbsp; IBDP Computer Science</footer>
+
+<script>
+// ══ HOW IT WORKS STEPPER ══
+function svgFade(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.style.transition = 'opacity 0.45s'; el.style.opacity = val; }
+}
+
+// Move a packet group by translating its internal rect+text
+function setPktPos(id, cx, cy) {
+  const g = document.getElementById(id);
+  if (!g) return;
+  g.setAttribute('transform', `translate(${cx},${cy})`);
+}
+
+function animPkt(id, fromX, fromY, toX, toY, delay, dur) {
+  const g = document.getElementById(id);
+  if (!g) return;
+  svgFade(id, 1);
+  setPktPos(id, fromX, fromY);
+  let start = null;
+  const d = dur || 600;
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / d, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    setPktPos(id, fromX + (toX - fromX) * e, fromY + (toY - fromY) * e);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  setTimeout(() => requestAnimationFrame(step), delay || 0);
+}
+
+function setDevStyle(rectId, fill, stroke) {
+  const r = document.getElementById(rectId);
+  if (r) { r.setAttribute('fill', fill); r.setAttribute('stroke', stroke); }
+}
+
+function setDevStatus(stId, text, color, visible) {
+  const el = document.getElementById(stId);
+  if (!el) return;
+  el.setAttribute('fill', color);
+  el.textContent = text;
+  el.style.transition = 'opacity 0.35s';
+  el.style.opacity = visible ? '1' : '0';
+}
+
+function highlightCable(id, color, opacity, width) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.setAttribute('stroke', color);
+  el.setAttribute('opacity', opacity);
+  el.setAttribute('stroke-width', width);
+}
+
+function resetHiwSvg() {
+  ['hiwFrame','hiwRedPkt1','hiwRedPkt2','hiwMacPopup',
+   'hiwBadgePrinter','hiwBadgePC02','hiwBadgePC03'].forEach(id => svgFade(id, 0));
+  // reset device styles
+  setDevStyle('hiwDevRect0', '#dbeafe', '#93c5fd');
+  setDevStyle('hiwDevRect1', '#fafaf9', '#d6d3d1');
+  setDevStyle('hiwDevRect2', '#fafaf9', '#d6d3d1');
+  setDevStyle('hiwDevRect3', '#dcfce7', '#86efac');
+  // reset status texts
+  ['hiwSt0','hiwSt1','hiwSt2','hiwSt3'].forEach(id => setDevStatus(id,'','',false));
+  // reset cables
+  ['hiwCable0','hiwCable1','hiwCable2','hiwCable3'].forEach(id => highlightCable(id,'#4ade80','0.45','2'));
+  document.getElementById('hiwSwitchLabel').textContent = 'STANDBY';
+}
+
+// Switch centre and device centres in viewBox coords
+const SW = { x:330, y:210 };
+const DEV = [
+  { x:140, y:88  },  // PC-01 top-left
+  { x:516, y:88  },  // PC-02 top-right
+  { x:140, y:352 },  // PC-03 bottom-left
+  { x:516, y:352 },  // Printer bottom-right
+];
+
+const hiwSteps = [
+  {
+    icon: '💻',
+    title: 'Step 1 — PC-01 Creates an Addressed Frame',
+    body: 'PC-01 wants to send a print job 📄 to the Printer. It creates a <strong>data frame</strong> and stamps the <strong>destination MAC (DD:AA:BB:CC)</strong> and its own <strong>source MAC (AA:11:22:33)</strong> on it — like writing addresses on an envelope. The frame travels along the cable to the switch.',
+    animate() {
+      setDevStyle('hiwDevRect0', '#bfdbfe', '#2563eb');
+      highlightCable('hiwCable0', '#2563eb', '1', '3');
+      setPktPos('hiwFrame', DEV[0].x, DEV[0].y);
+      animPkt('hiwFrame', DEV[0].x, DEV[0].y, SW.x, SW.y, 0, 600);
+    }
+  },
+  {
+    icon: '📋',
+    title: 'Step 2 — Switch Looks Up the MAC Address Table',
+    body: 'The switch receives the frame and reads the <strong>destination MAC: DD:AA:BB:CC</strong>. It searches its <strong>MAC Address Table</strong> 📋 and finds a match: <strong>DD:AA:BB:CC → Port 4 (Printer)</strong>. PC-02 (Port 2) and PC-03 (Port 3) do NOT match — they will be skipped entirely.',
+    animate() {
+      setDevStyle('hiwDevRect0', '#dbeafe', '#93c5fd');
+      highlightCable('hiwCable0', '#4ade80', '0.45', '2');
+      setPktPos('hiwFrame', SW.x, SW.y); svgFade('hiwFrame', 1);
+      document.getElementById('hiwSwitchLabel').textContent = 'LOOKING UP…';
+      svgFade('hiwMacPopup', 1);
+    }
+  },
+  {
+    icon: '🎯',
+    title: 'Step 3 — Frame Sent to Printer; Others Receive & Discard',
+    body: 'The switch forwards the frame to <strong>all non-source ports</strong>, but only the Printer\'s port (Port 4) has the matching MAC. Watch: 📄 the <strong>green packet</strong> flies to the Printer ✅ — while <strong>red discard packets</strong> fly to PC-02 and PC-03 which immediately check their MAC, see it doesn\'t match, and discard it ✗.',
+    animate() {
+      svgFade('hiwMacPopup', 0);
+      document.getElementById('hiwSwitchLabel').textContent = 'FORWARDING…';
+      svgFade('hiwFrame', 0);
+      // Green packet → Printer
+      setPktPos('hiwFrame', SW.x, SW.y);
+      highlightCable('hiwCable3', '#16a34a', '1', '3.5');
+      animPkt('hiwFrame', SW.x, SW.y, DEV[3].x, DEV[3].y, 0, 600);
+      // Red packet → PC-02
+      setPktPos('hiwRedPkt1', SW.x, SW.y);
+      highlightCable('hiwCable1', '#dc2626', '0.8', '2.5');
+      animPkt('hiwRedPkt1', SW.x, SW.y, DEV[1].x, DEV[1].y, 80, 600);
+      // Red packet → PC-03
+      setPktPos('hiwRedPkt2', SW.x, SW.y);
+      highlightCable('hiwCable2', '#dc2626', '0.8', '2.5');
+      animPkt('hiwRedPkt2', SW.x, SW.y, DEV[2].x, DEV[2].y, 160, 600);
+      // After arrival — show badges
+      setTimeout(() => {
+        svgFade('hiwBadgePrinter', 1);
+        svgFade('hiwBadgePC02', 1);
+        svgFade('hiwBadgePC03', 1);
+        setDevStyle('hiwDevRect3', '#bbf7d0', '#16a34a');
+        setDevStyle('hiwDevRect1', '#fee2e2', '#dc2626');
+        setDevStyle('hiwDevRect2', '#fee2e2', '#dc2626');
+        svgFade('hiwRedPkt1', 0);
+        svgFade('hiwRedPkt2', 0);
+      }, 750);
+    }
+  },
+  {
+    icon: '✅',
+    title: 'Step 4 — Printer Receives! PC-02 & PC-03 Discarded ✅',
+    body: '<strong>🖨️ Printer</strong> receives the print job perfectly — its MAC matched! <strong>🖥️ PC-02</strong> and <strong>💻 PC-03</strong> checked the destination MAC, found it didn\'t match their own, and <strong>immediately discarded</strong> the frame — they never process the data. This is what makes a switch private, efficient, and fast compared to an old hub! 🚀',
+    animate() {
+      svgFade('hiwFrame', 0);
+      svgFade('hiwRedPkt1', 0);
+      svgFade('hiwRedPkt2', 0);
+      svgFade('hiwBadgePrinter', 1);
+      svgFade('hiwBadgePC02', 1);
+      svgFade('hiwBadgePC03', 1);
+      setDevStyle('hiwDevRect3', '#bbf7d0', '#16a34a');
+      setDevStyle('hiwDevRect1', '#fee2e2', '#dc2626');
+      setDevStyle('hiwDevRect2', '#fee2e2', '#dc2626');
+      setDevStyle('hiwDevRect0', '#dbeafe', '#93c5fd');
+      document.getElementById('hiwSwitchLabel').textContent = 'DELIVERED ✓';
+      setDevStatus('hiwSt3', '✅ RECEIVED!',  '#16a34a', true);
+      setDevStatus('hiwSt1', '✗ DISCARDED',  '#dc2626', true);
+      setDevStatus('hiwSt2', '✗ DISCARDED',  '#dc2626', true);
+      // reset cables
+      highlightCable('hiwCable0', '#4ade80', '0.45', '2');
+      highlightCable('hiwCable1', '#dc2626', '0.6', '2');
+      highlightCable('hiwCable2', '#dc2626', '0.6', '2');
+      highlightCable('hiwCable3', '#16a34a', '1', '3');
+    }
+  }
+];
+
+let hiwCurrent = 0;
+function hiwUpdateUI() {
+  const s = hiwSteps[hiwCurrent];
+  document.getElementById('hiwIcon').textContent  = s.icon;
+  document.getElementById('hiwTitle').textContent = s.title;
+  document.getElementById('hiwBody').innerHTML    = s.body;
+  document.getElementById('hiwStepLabel').textContent = `Step ${hiwCurrent + 1} of ${hiwSteps.length}`;
+  hiwSteps.forEach((_, i) => {
+    const pill = document.getElementById('pill' + i);
+    const lines = document.querySelectorAll('.hiw-pill-line');
+    if (!pill) return;
+    pill.classList.remove('active','done');
+    if (i < hiwCurrent)        { pill.classList.add('done');   if (lines[i]) lines[i].classList.add('done'); }
+    else if (i === hiwCurrent) { pill.classList.add('active'); if (lines[i]) lines[i].classList.remove('done'); }
+    else                       { if (lines[i]) lines[i].classList.remove('done'); }
+  });
+  document.getElementById('hiwPrev').disabled = hiwCurrent === 0;
+  const isLast = hiwCurrent === hiwSteps.length - 1;
+  const nextBtn = document.getElementById('hiwNext');
+  nextBtn.disabled = isLast;
+  nextBtn.textContent = isLast ? 'Complete ✅' : 'Next Step →';
+  document.getElementById('hiwRestart').style.display = isLast ? 'inline-block' : 'none';
+  s.animate();
+}
+function hiwStep(dir) { hiwCurrent = Math.max(0, Math.min(hiwSteps.length - 1, hiwCurrent + dir)); hiwUpdateUI(); }
+function hiwReset() { hiwCurrent = 0; resetHiwSvg(); setTimeout(hiwUpdateUI, 100); }
+hiwUpdateUI();
+
+// ══ QUIZ ══
+const qs = [
+  { q:"What is the best analogy for a network switch? 🎓", opts:["A highway where all cars drive freely","A teacher handing assignments directly to each student — and only that student","A security guard blocking visitors at the entrance","A post box collecting and holding letters until collected"], ans:1, ex:"✅ Correct! Like a teacher giving each student only their own paper, a switch sends data only to the specific intended device." },
+  { q:"What unique identifier does a switch use to know where to send data? 🏷️", opts:["The device's IP address","The user's Wi-Fi password","The device's MAC address","The port number only"], ans:2, ex:"✅ Right! Every NIC has a unique MAC address — the switch reads the destination MAC on each frame and forwards it to the correct port." },
+  { q:"What is the BIG advantage of a switch over an old hub? 🎯", opts:["A switch is wireless, a hub is wired","A switch sends data only to the intended device; a hub broadcasts to all devices","A switch is cheaper to buy","A switch connects directly to the internet"], ans:1, ex:"✅ Spot on! A hub broadcasts every frame to all devices — wasteful and slow. A switch is smart and delivers directly, keeping the network fast." },
+  { q:"At which OSI layer does a switch operate? 🔢", opts:["Layer 1 — Physical Layer","Layer 3 — Network Layer (same as a router)","Layer 2 — Data Link Layer (using MAC addresses)","Layer 7 — Application Layer"], ans:2, ex:"✅ Correct! A switch operates at Layer 2 (Data Link Layer) — it works with MAC addresses and data frames. Routers (Layer 3) handle IP addresses." },
+  { q:"What happens when a switch receives a frame with a MAC address NOT in its table yet? 📋", opts:["It drops the frame completely","It broadcasts the frame to all ports until it finds the destination, then records the address","It asks the router for help","It sends an error back to the sender"], ans:1, ex:"✅ Right! When a MAC is unknown, the switch floods it to all ports (except the source) to find the device — then learns and records it for next time." },
+  { q:"Which of these is a DISADVANTAGE of a network switch? 👎", opts:["It sends data only to the intended device","It supports many ports for multiple connections","Basic switches have no built-in security features or Wi-Fi capability","It reduces network congestion"], ans:2, ex:"✅ Correct! Unmanaged switches have no security features. They are also wired-only — you need a separate WAP for wireless and a router for the internet." },
+  { q:"Can a switch connect a local network to the internet by itself? 🌐", opts:["Yes — it handles everything automatically","No — it needs a router to connect to the internet (WAN)","Yes, but only with the right settings","Only if a modem is also plugged in"], ans:1, ex:"✅ Right! A switch creates and manages a LAN (local network) but has no ability to connect to the internet. A router is needed to bridge the LAN to the WAN." },
+  { q:"What does a switch store in its MAC Address Table? 📋", opts:["The IP address, username, and password of every device","The MAC address of each device and the port number it is connected to","The websites each device has visited","The file sizes of data packets that have passed through"], ans:1, ex:"✅ Correct! The MAC Address Table maps each device's MAC address to the port it is physically connected to — this is how the switch knows where to send each frame." },
+  { q:"What is a VLAN and which type of switch supports it? 🔒", opts:["A type of wireless signal — supported by all switches","A Virtual LAN — divides one switch into separate logical networks — supported by managed switches","A type of ethernet cable — supported by basic switches","A virus detection system — supported by firewall switches"], ans:1, ex:"✅ Spot on! VLANs (Virtual LANs) let you logically divide one switch into separate networks — e.g. separating students from teachers. This requires a managed switch." },
+  { q:"Why does a switch offer better privacy than a hub? 🔐", opts:["A switch encrypts all data passing through it","A switch only sends data to the intended device — other devices never see it","A switch requires a password to connect","A switch uses a firewall to block unwanted traffic"], ans:1, ex:"✅ Perfect! Because a switch delivers each frame only to the correct device, all other devices on the network never even see the data — unlike a hub which broadcasts to everyone." },
+];
+
+let qi = 0, sc = 0, answered = false;
+function loadQ() {
+  const q = qs[qi];
+  document.getElementById('qNum').textContent = `Question ${qi + 1} of ${qs.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const o = document.getElementById('qOpts'); o.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'q-opt';
+    b.textContent = `${['A','B','C','D'][i]})  ${opt}`;
+    b.onclick = () => answerQ(i, q.ans, q.ex);
+    o.appendChild(b);
+  });
+  document.getElementById('qFb').className = 'q-fb';
+  document.getElementById('qFb').textContent = '';
+  document.getElementById('qNext').disabled = true;
+  answered = false;
+}
+function answerQ(c, a, ex) {
+  if (answered) return; answered = true;
+  const btns = document.getElementById('qOpts').querySelectorAll('.q-opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qFb');
+  if (c === a) {
+    btns[c].classList.add('correct'); sc++;
+    document.getElementById('qScore').textContent = sc;
+    fb.textContent = ex; fb.className = 'q-fb show good';
+  } else {
+    btns[c].classList.add('wrong'); btns[a].classList.add('correct');
+    fb.textContent = 'Not quite! ' + ex; fb.className = 'q-fb show bad';
+  }
+  document.getElementById('qNext').disabled = false;
+}
+document.getElementById('qNext').onclick = () => {
+  qi++;
+  if (qi < qs.length) { loadQ(); }
+  else {
+    const pct = Math.round(sc / qs.length * 100);
+    const medal = sc===10?'🏆':sc>=7?'🎉':sc>=5?'👍':'📚';
+    const msg = sc===10?'Perfect score! You know switches inside out! 🎓':sc>=7?'Great work! Review the ones you missed. 📖':sc>=5?'Good effort — re-read the features and characteristics. 💪':'Keep going — re-read the page and try again! 📚';
+    document.querySelector('.quiz-card').innerHTML = `<div style="text-align:center;padding:1rem 0;"><div style="font-size:4.5rem;margin-bottom:1rem;">${medal}</div><div style="font-family:var(--font-d);font-size:2.2rem;color:#fff;margin-bottom:0.5rem;">Score: ${sc} / ${qs.length}</div><div style="font-size:1rem;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:1.5rem;">${msg}</div><div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;"><div style="height:100%;width:${pct}%;background:${sc===10?'#16a34a':sc>=7?'#059669':'#dc2626'};border-radius:999px;transition:width 1s;"></div></div><button class="q-btn" onclick="location.reload()">🔄 Try Again</button></div>`;
+  }
+};
+loadQ();
+</script>
+</body>
+</html>

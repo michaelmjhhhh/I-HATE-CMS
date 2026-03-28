@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIC — IBDP Computer Science Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafff7;
+  --card: #ffffff;
+  --green: #16a34a;
+  --green2: #065f46;
+  --green-dark: #14532d;
+  --green-light: #dcfce7;
+  --emerald: #059669;
+  --emerald-light: #d1fae5;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --orange: #ea580c;
+  --orange-light: #fff7ed;
+  --yellow: #ca8a04;
+  --yellow-light: #fef9c3;
+  --navy: #052e16;
+  --text: #052e16;
+  --muted: #4b7a5a;
+  --border: #a7f3d0;
+  --font: 'Nunito', sans-serif;
+  --font-d: 'Fredoka One', cursive;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); overflow-x:hidden; }
+
+/* ══ HERO ══ */
+.hero {
+  background: linear-gradient(135deg, #052e16 0%, #065f46 35%, #047857 65%, #059669 100%);
+  position: relative; overflow: hidden;
+  min-height: 55vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.hero-bg-circles span {
+  position:absolute; border-radius:50%;
+  background:rgba(255,255,255,0.04); pointer-events:none;
+}
+.hero-bg-circles span:nth-child(1){width:420px;height:420px;top:-100px;right:-80px;}
+.hero-bg-circles span:nth-child(2){width:260px;height:260px;bottom:80px;left:-60px;}
+.hero-bg-circles span:nth-child(3){width:190px;height:190px;top:35%;left:28%;}
+/* PCB grid pattern */
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background: repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(255,255,255,0.02) 30px,rgba(255,255,255,0.02) 31px),
+              repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,255,255,0.02) 30px,rgba(255,255,255,0.02) 31px);
+}
+.hero-content { position:relative; z-index:10; padding:3rem 2rem 4rem; text-align:center; }
+.hero-badge { display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:rgba(255,255,255,0.92); font-size:0.74rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; padding:0.3rem 1.1rem; border-radius:999px; margin-bottom:1rem; backdrop-filter:blur(4px); }
+.hero h1 { font-family:var(--font-d); font-size:clamp(3rem,8vw,5.5rem); color:#fff; text-shadow:0 4px 24px rgba(0,0,0,0.4); margin-bottom:0.5rem; line-height:1; }
+.hero-sub { font-size:1.1rem; color:rgba(255,255,255,0.82); font-weight:700; margin-bottom:1.8rem; max-width:520px; margin-left:auto; margin-right:auto; }
+.hero-chips { display:flex; gap:0.6rem; justify-content:center; flex-wrap:wrap; }
+.chip { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); color:#fff; padding:0.3rem 1rem; border-radius:999px; font-size:0.78rem; font-weight:800; backdrop-filter:blur(4px); }
+
+svg.wave { display:block; width:100%; background:transparent; margin-top:-2px; }
+
+/* ══ LAYOUT ══ */
+.container { max-width:1080px; margin:0 auto; padding:0 1.5rem; }
+.section { padding:3rem 0; }
+.sec-head { text-align:center; margin-bottom:2rem; }
+.sec-emoji { font-size:2.4rem; display:block; margin-bottom:0.4rem; }
+.sec-title { font-family:var(--font-d); font-size:2rem; color:var(--navy); margin-bottom:0.3rem; }
+.sec-sub { color:var(--muted); font-size:0.95rem; font-weight:700; }
+
+/* ══ DEFINITION ══ */
+.def-box { background:linear-gradient(135deg,#14532d,#16a34a); border-radius:20px; padding:2rem 2.2rem; display:flex; gap:1.4rem; align-items:flex-start; box-shadow:0 10px 35px rgba(22,163,74,0.3); }
+.def-icon-wrap { width:58px; height:58px; border-radius:14px; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
+.def-label { font-family:var(--font-d); font-size:0.8rem; color:rgba(255,255,255,0.55); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:0.4rem; }
+.def-text { font-size:1.05rem; color:#fff; font-weight:700; line-height:1.75; }
+.def-text strong { color:#bbf7d0; }
+
+/* ══ ANALOGY ══ */
+.analogy-card { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; border-radius:20px; padding:2rem; display:flex; gap:1.6rem; align-items:flex-start; box-shadow:0 8px 28px rgba(22,163,74,0.15); }
+.analogy-bounce { font-size:4rem; flex-shrink:0; animation:bounce 3s ease-in-out infinite; line-height:1; }
+@keyframes bounce { 0%,100%{transform:translateY(0) rotate(-4deg);} 50%{transform:translateY(-10px) rotate(4deg);} }
+.analogy-title { font-family:var(--font-d); font-size:1.4rem; color:var(--green-dark); margin-bottom:0.5rem; }
+.analogy-body { font-size:0.97rem; color:#166534; line-height:1.8; font-weight:600; }
+.analogy-body strong { color:#14532d; }
+
+/* ══ FEATURES TABLE ══ */
+.feat-wrap { overflow-x:auto; border-radius:18px; box-shadow:0 6px 28px rgba(0,0,0,0.08); }
+.feat-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+.feat-table thead th { padding:1rem 1.3rem; text-align:left; font-family:var(--font-d); font-weight:400; font-size:1rem; }
+.feat-table thead th:first-child { background:var(--navy); color:#fff; width:32%; }
+.feat-table thead th:last-child { background:var(--green); color:#fff; }
+.feat-table td { padding:0.85rem 1.3rem; border-bottom:1px solid var(--border); font-weight:600; line-height:1.55; vertical-align:top; }
+.feat-table tr:last-child td { border-bottom:none; }
+.feat-table tbody tr:nth-child(even) td { background:#f0fdf4; }
+.feat-table tbody tr:hover td { background:var(--green-light); }
+.feat-name { font-weight:800; color:var(--navy); }
+.feat-tag { display:inline-block; font-size:0.65rem; font-weight:900; letter-spacing:0.07em; text-transform:uppercase; padding:1px 8px; border-radius:999px; background:var(--green-light); color:var(--green-dark); margin-right:0.4rem; vertical-align:middle; }
+
+/* ══ CHARACTERISTICS ══ */
+.chars-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.1rem; }
+.char-card { background:var(--card); border-radius:16px; padding:1.3rem; border:2px solid var(--border); display:flex; gap:0.9rem; align-items:flex-start; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:transform .25s, border-color .25s; }
+.char-card:hover { transform:translateY(-4px); border-color:var(--green); }
+.char-icon-box { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; background:var(--green-light); border:2px solid #86efac; }
+.char-title { font-family:var(--font-d); font-size:0.97rem; color:var(--navy); margin-bottom:0.2rem; }
+.char-desc { font-size:0.8rem; color:var(--muted); line-height:1.55; font-weight:600; }
+
+/* ══ HOW IT WORKS INTERACTIVE ══ */
+.hiw-progress { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:1.8rem; }
+.hiw-pill { width:34px; height:34px; border-radius:50%; background:#e7e5e4; color:var(--muted); display:flex; align-items:center; justify-content:center; font-family:var(--font-d); font-size:0.95rem; border:2px solid #d6d3d1; transition:all .35s; flex-shrink:0; }
+.hiw-pill.active { background:var(--green); color:#fff; border-color:var(--green); box-shadow:0 0 0 4px rgba(22,163,74,0.2); transform:scale(1.18); }
+.hiw-pill.done { background:var(--emerald); color:#fff; border-color:var(--emerald); }
+.hiw-pill-line { flex:1; height:3px; background:#e7e5e4; border-radius:999px; min-width:20px; max-width:80px; transition:background .35s; }
+.hiw-pill-line.done { background:var(--emerald); }
+.hiw-canvas-wrap { background:linear-gradient(180deg,#f0fdf4 0%,#dcfce7 100%); border-radius:16px; padding:1.2rem 0.5rem; border:2px solid var(--border); margin-bottom:1.5rem; overflow:hidden; }
+.hiw-explain { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; border-radius:16px; padding:1.4rem 1.6rem; display:flex; gap:1rem; align-items:flex-start; margin-bottom:1.5rem; min-height:100px; }
+.hiw-explain-icon { font-size:2.6rem; flex-shrink:0; animation:bounce 2s ease-in-out infinite; }
+.hiw-explain-title { font-family:var(--font-d); font-size:1.15rem; color:var(--green-dark); margin-bottom:0.4rem; }
+.hiw-explain-body { font-size:0.93rem; color:#166534; line-height:1.75; font-weight:600; }
+.hiw-controls { display:flex; align-items:center; justify-content:center; gap:1rem; }
+.hiw-step-label { font-family:var(--font-d); font-size:1rem; color:var(--muted); min-width:90px; text-align:center; }
+.hiw-btn { padding:0.6rem 1.5rem; border-radius:999px; font-size:0.9rem; font-weight:800; cursor:pointer; font-family:var(--font); border:2px solid transparent; transition:all .2s; }
+.hiw-btn.primary { background:var(--green); color:#fff; border-color:var(--green); }
+.hiw-btn.primary:hover { background:var(--green2); transform:scale(1.05); }
+.hiw-btn.secondary { background:#fff; color:var(--navy); border-color:var(--border); }
+.hiw-btn.secondary:hover:not(:disabled) { border-color:var(--green); color:var(--green); transform:scale(1.05); }
+.hiw-btn:disabled { opacity:0.35; cursor:default; transform:none; }
+.hiw-restart { background:none; border:2px solid var(--border); color:var(--muted); padding:0.4rem 1.2rem; border-radius:999px; font-size:0.82rem; font-weight:800; cursor:pointer; font-family:var(--font); transition:all .2s; }
+.hiw-restart:hover { border-color:var(--green); color:var(--green); }
+
+/* ══ PROS & CONS ══ */
+.pc-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.pc-card { border-radius:18px; padding:1.6rem; }
+.pc-card.pros { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; }
+.pc-card.cons { background:linear-gradient(135deg,#fff7ed,#ffedd5); border:2px solid #fdba74; }
+.pc-head { font-family:var(--font-d); font-size:1.25rem; margin-bottom:1rem; }
+.pc-card.pros .pc-head { color:#166534; }
+.pc-card.cons .pc-head { color:#9a3412; }
+.pc-item { display:flex; gap:0.6rem; margin-bottom:0.75rem; font-size:0.9rem; line-height:1.55; font-weight:600; }
+.pc-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.72rem; flex-shrink:0; margin-top:1px; font-weight:900; }
+.pc-card.pros .pc-dot { background:#bbf7d0; color:#166534; }
+.pc-card.cons .pc-dot { background:#fed7aa; color:#9a3412; }
+.pc-card.pros .pc-txt { color:#14532d; }
+.pc-card.cons .pc-txt { color:#7c2d12; }
+
+/* ══ QUIZ ══ */
+.quiz-wrap { background:linear-gradient(135deg,#052e16,#065f46,#059669); padding:3.5rem 0; position:relative; overflow:hidden; }
+.quiz-wrap::before { content:'💾'; position:absolute; font-size:18rem; top:-3rem; right:-2rem; opacity:0.05; pointer-events:none; }
+.quiz-title { font-family:var(--font-d); font-size:2rem; color:#fff; text-align:center; margin-bottom:0.3rem; }
+.quiz-sub { color:rgba(255,255,255,0.65); text-align:center; font-size:0.95rem; font-weight:700; margin-bottom:2rem; }
+.quiz-card { background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:2rem; max-width:700px; margin:0 auto; }
+.q-num { font-size:0.78rem; color:rgba(255,255,255,0.5); font-weight:700; margin-bottom:0.4rem; }
+.q-text { font-size:1.08rem; font-weight:800; color:#fff; margin-bottom:1.2rem; line-height:1.5; min-height:3rem; }
+.q-opts { display:flex; flex-direction:column; gap:0.55rem; margin-bottom:1rem; }
+.q-opt { background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.15); color:#fff; padding:0.72rem 1.2rem; border-radius:12px; font-size:0.88rem; font-weight:700; cursor:pointer; text-align:left; transition:all .2s; font-family:var(--font); }
+.q-opt:hover { background:rgba(255,255,255,0.18); transform:translateX(4px); }
+.q-opt.correct { background:rgba(22,163,74,0.35); border-color:#16a34a; }
+.q-opt.wrong { background:rgba(220,38,38,0.35); border-color:#dc2626; }
+.q-opt:disabled { cursor:default; }
+.q-opt.correct::after { content:'  ✓'; }
+.q-opt.wrong::after { content:'  ✗'; }
+.q-fb { min-height:2.5rem; border-radius:10px; padding:0.6rem 1rem; font-size:0.87rem; font-weight:700; text-align:center; opacity:0; transition:opacity .3s; }
+.q-fb.show { opacity:1; }
+.q-fb.good { background:rgba(22,163,74,0.25); color:#a7f3d0; }
+.q-fb.bad { background:rgba(220,38,38,0.25); color:#fca5a5; }
+.q-nav { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; }
+.q-btn { background:#fff; color:var(--navy); border:none; padding:0.6rem 1.5rem; border-radius:999px; font-size:0.88rem; font-weight:900; cursor:pointer; font-family:var(--font); transition:transform .15s,box-shadow .15s; }
+.q-btn:hover { transform:scale(1.05); box-shadow:0 4px 16px rgba(0,0,0,0.2); }
+.q-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+.q-score { font-family:var(--font-d); font-size:1rem; color:rgba(255,255,255,0.7); }
+
+/* ══ SUMMARY ══ */
+.summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; }
+.sum-card { padding:1.1rem 1.2rem; border-radius:14px; }
+.sum-card.a { background:var(--green-light); border-left:4px solid var(--green); }
+.sum-card.b { background:var(--blue-light); border-left:4px solid var(--blue); }
+.sum-card.c { background:var(--yellow-light); border-left:4px solid var(--yellow); }
+.sum-card strong { color:var(--navy); font-size:0.95rem; }
+.sum-card p { font-size:0.85rem; color:var(--muted); margin-top:0.3rem; font-weight:600; line-height:1.55; }
+
+footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:1.5rem; font-size:0.8rem; font-weight:700; letter-spacing:0.05em; }
+
+@media(max-width:640px){
+  .pc-grid { grid-template-columns:1fr; }
+  .analogy-card { flex-direction:column; }
+  .def-box { flex-direction:column; }
+  .feat-table { font-size:0.78rem; }
+  .feat-table th,.feat-table td { padding:0.6rem 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg-circles"><span></span><span></span><span></span></div>
+  <div class="hero-content">
+    <div class="hero-badge">🎓 IBDP · Computer Science · Network Devices</div>
+    <!-- Inline NIC SVG illustration -->
+    <div style="margin:0 auto 0.8rem;width:90px;height:90px;animation:bounce 4s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(74,222,128,0.5));position:relative;z-index:5;">
+      <svg width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="20" width="80" height="50" rx="4" fill="#1a3320" stroke="#4ade80" stroke-width="1.5"/>
+        <rect x="5" y="58" width="80" height="12" rx="2" fill="#1a3320" stroke="#fbbf24" stroke-width="1"/>
+        <rect x="10" y="60" width="8" height="8" rx="1" fill="#fbbf24" opacity="0.9"/>
+        <rect x="21" y="60" width="8" height="8" rx="1" fill="#fbbf24" opacity="0.9"/>
+        <rect x="32" y="60" width="8" height="8" rx="1" fill="#fbbf24" opacity="0.9"/>
+        <rect x="43" y="60" width="8" height="8" rx="1" fill="#fbbf24" opacity="0.9"/>
+        <rect x="54" y="60" width="8" height="8" rx="1" fill="#fbbf24" opacity="0.9"/>
+        <rect x="65" y="60" width="8" height="8" rx="1" fill="#fbbf24" opacity="0.9"/>
+        <rect x="20" y="28" width="28" height="22" rx="3" fill="#0d9488" stroke="#2dd4bf" stroke-width="1.5"/>
+        <text x="34" y="42" text-anchor="middle" fill="#fff" font-size="7" font-family="monospace" font-weight="bold">NIC</text>
+        <circle cx="60" cy="32" r="4" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+        <circle cx="72" cy="32" r="4" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+        <circle cx="60" cy="44" r="4" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+        <circle cx="72" cy="44" r="4" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+        <rect x="8" y="24" width="10" height="9" rx="1" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+        <circle cx="76" cy="55" r="2.5" fill="#4ade80"><animate attributeName="opacity" values="1;0.2;1" dur="1s" repeatCount="indefinite"/></circle>
+        <circle cx="82" cy="55" r="2.5" fill="#fbbf24"><animate attributeName="opacity" values="1;0.2;1" dur="0.7s" repeatCount="indefinite"/></circle>
+        <line x1="34" y1="50" x2="34" y2="58" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+        <line x1="44" y1="39" x2="56" y2="39" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+      </svg>
+    </div>
+    <h1>The NIC</h1>
+    <p class="hero-sub">🪪 Network Interface Card — every device's passport to the network!</p>
+    <div class="hero-chips">
+      <span class="chip">🌐 Networking</span>
+      <span class="chip">💻 Computer Science</span>
+      <span class="chip">🎮 Interactive</span>
+      <span class="chip">🏷️ MAC Address</span>
+    </div>
+  </div>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,20 C400,60 1000,0 1440,30 L1440,60 L0,60 Z" fill="#fafff7"/>
+</svg>
+
+<div class="container">
+
+  <!-- 1. DEFINITION -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📖</span>
+      <h2 class="sec-title">What is a NIC?</h2>
+      <p class="sec-sub">A clear definition to kick things off</p>
+    </div>
+    <div class="def-box">
+      <div class="def-icon-wrap">📖</div>
+      <div>
+        <div class="def-label">Definition</div>
+        <p class="def-text">
+          A <strong>Network Interface Card (NIC)</strong> is a hardware component built into a device that
+          allows it to <strong>connect to a network</strong>. It provides a <strong>unique MAC address</strong>
+          (a permanent hardware identity), the <strong>physical connection point</strong> (an RJ45 ethernet port
+          or wireless antenna), and handles all <strong>data transmission and reception</strong> independently —
+          operating at <strong>Layer 2 (Data Link Layer)</strong> of the OSI model.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. ANALOGY -->
+  <section class="section" style="padding-top:0;">
+    <div class="sec-head">
+      <span class="sec-emoji">💡</span>
+      <h2 class="sec-title">Real-World Analogy</h2>
+      <p class="sec-sub">Connect the idea to something you already know 🧠</p>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-bounce">🪪</div>
+      <div>
+        <div class="analogy-title">🪪 Think of it like your School ID Card!</div>
+        <p class="analogy-body">
+          Every student at school has a unique <strong>ID card</strong> 🎓 with their name, photo, and student number.
+          Without it, you can't swipe into the building 🚪, borrow library books 📚,
+          or be identified in the school's system. Your ID card is your <strong>identity on the school network</strong>.
+          <br><br>
+          A <strong>NIC</strong> works exactly like this for your computer! 💻
+          It's a small chip built into your device that gives it a <strong>permanent unique identity</strong>
+          called a <strong>MAC address</strong> (e.g. <code style="background:rgba(0,0,0,0.1);padding:1px 6px;border-radius:4px;">AA:BB:CC:DD:EE:FF</code>) —
+          like your student ID number, burned in at the factory and <strong>never changing</strong>.
+          <br><br>
+          It also provides the actual <strong>physical connection</strong> — either an ethernet port 🔌
+          or a Wi-Fi antenna 📡 — so the device can physically join the network.
+          Without a NIC, a device simply <strong>cannot communicate</strong> on any network. 🌐
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 3. FEATURES -->
+<section style="background:white;padding:3rem 0;border-top:2px solid var(--border);border-bottom:2px solid var(--border);">
+  <div class="container">
+    <div class="sec-head">
+      <span class="sec-emoji">⚙️</span>
+      <h2 class="sec-title">Key Features of a NIC</h2>
+      <p class="sec-sub">What a NIC can do — explained in plain English 🔍</p>
+    </div>
+    <div class="feat-wrap">
+      <table class="feat-table">
+        <thead>
+          <tr>
+            <th>🔧 Feature</th>
+            <th>📝 What It Does — Simply Explained</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🏷️ MAC Address</td>
+            <td>Every NIC has a <strong>unique 48-bit address</strong> (e.g. AA:BB:CC:DD:EE:FF) permanently burned into the chip at the factory. No two NICs in the world share the same MAC address — it is the device's permanent network identity.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>🔌 Physical Connection</td>
+            <td>Provides the actual connection point — either an <strong>RJ45 Ethernet port</strong> for wired connections (using a cable) or a <strong>Wi-Fi antenna</strong> for wireless. Many modern devices have both built in.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Core</span>📦 Frame Assembly</td>
+            <td>When sending data, the NIC wraps the data in a <strong>"frame"</strong> — adding the source MAC address and destination MAC address, like putting a letter in an addressed envelope before sending it.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Performance</span>🧠 CPU Offloading</td>
+            <td>Handles all network communication <strong>independently</strong>, so the CPU (processor) does not have to deal with it. This keeps your computer fast and free to run your applications without slowdown.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Speed</span>⚡ Speed Rating</td>
+            <td>NICs come in speed ratings: <strong>100 Mbps</strong> (Fast Ethernet), <strong>1 Gbps</strong> (Gigabit), or <strong>10 Gbps</strong> (10G). The NIC's rating determines the maximum data rate, regardless of the internet plan.</td>
+          </tr>
+          <tr>
+            <td class="feat-name"><span class="feat-tag">Layer</span>🔢 Layer 2 Operation</td>
+            <td>Operates at <strong>Layer 2 (Data Link Layer)</strong> of the OSI model — it works with MAC addresses and frames, not IP addresses. Switches use MAC addresses (from NICs) to forward frames within a LAN.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- 4. CHARACTERISTICS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">🧬</span>
+      <h2 class="sec-title">Characteristics of a NIC</h2>
+      <p class="sec-sub">The key properties that define what a NIC is 🔎</p>
+    </div>
+    <div class="chars-grid">
+      <div class="char-card">
+        <div class="char-icon-box">🏷️</div>
+        <div>
+          <div class="char-title">Globally Unique MAC Address</div>
+          <p class="char-desc">Every NIC has a <strong>permanent, unique MAC address</strong> assigned at manufacture. It never changes and no two NICs anywhere in the world share the same one.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🔢</div>
+        <div>
+          <div class="char-title">Operates at Layer 2</div>
+          <p class="char-desc">Works at the <strong>Data Link Layer</strong> of the OSI model — handling MAC addresses and data frames. It does not understand IP addresses (that is Layer 3, the router's job).</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🖥️</div>
+        <div>
+          <div class="char-title">Built into Every Device</div>
+          <p class="char-desc">Modern NICs are <strong>soldered directly onto the motherboard</strong> of every computer, phone, tablet, and smart TV. You almost never see them as separate expansion cards anymore.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">📡</div>
+        <div>
+          <div class="char-title">Wired and Wireless Types</div>
+          <p class="char-desc">A <strong>wired NIC</strong> uses an RJ45 ethernet port 🔌 and cable. A <strong>wireless NIC</strong> uses a radio antenna 📡 for Wi-Fi. Most laptops and phones have <em>both</em> built in.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">⚡</div>
+        <div>
+          <div class="char-title">Speed Bottleneck</div>
+          <p class="char-desc">The NIC's speed rating <strong>caps your maximum network speed</strong>. A 100 Mbps NIC limits you to 100 Mbps even if your internet plan is 1 Gbps — like a narrow pipe.</p>
+        </div>
+      </div>
+      <div class="char-card">
+        <div class="char-icon-box">🧠</div>
+        <div>
+          <div class="char-title">Independent Processing</div>
+          <p class="char-desc">The NIC has its own <strong>dedicated processor and buffer memory</strong> so it can handle sending and receiving data <strong>without interrupting the CPU</strong> — keeping the whole system fast.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. HOW IT WORKS — INTERACTIVE -->
+  <section class="section" id="howItWorksSection" style="background:white;border-radius:24px;padding:2.5rem;margin-bottom:1rem;border:2px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,0.06);">
+    <div class="sec-head">
+      <span class="sec-emoji">🔄</span>
+      <h2 class="sec-title">How Does a NIC Work?</h2>
+      <p class="sec-sub">Press <strong>Next Step</strong> to follow data from your app to the network 👇</p>
+    </div>
+
+    <!-- Progress pills -->
+    <div class="hiw-progress">
+      <div class="hiw-pill active" id="pill0">1</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill1">2</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill2">3</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill3">4</div>
+      <div class="hiw-pill-line"></div>
+      <div class="hiw-pill" id="pill4">5</div>
+    </div>
+
+    <!-- SVG canvas -->
+    <div class="hiw-canvas-wrap">
+      <svg id="hiwSvg" viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+
+        <!-- Data bus background -->
+        <rect x="0" y="95" width="700" height="40" rx="8" fill="#052e16"/>
+        <!-- Animated bus pulses -->
+        <line x1="0" y1="115" x2="700" y2="115" stroke="#4ade80" stroke-width="2.5" stroke-dasharray="18,14" opacity="0.5">
+          <animate attributeName="stroke-dashoffset" from="0" to="-64" dur="1.2s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- Node: CPU / App -->
+        <g id="nodeCPU">
+          <rect x="8" y="62" width="108" height="106" rx="14" fill="#dbeafe" stroke="#93c5fd" stroke-width="2.5"/>
+          <text x="62" y="98" text-anchor="middle" font-size="28">🧠</text>
+          <text x="62" y="122" text-anchor="middle" font-size="9" font-weight="800" fill="#1e40af">CPU / APP</text>
+          <text x="62" y="136" text-anchor="middle" font-size="8" fill="#6b7280">Your Computer</text>
+          <text x="62" y="155" text-anchor="middle" font-size="8" fill="#2563eb">Sends raw data</text>
+        </g>
+
+        <!-- Node: NIC (PCB-style box) -->
+        <g id="nodeNIC">
+          <rect x="290" y="55" width="120" height="120" rx="14" fill="#1a3320" stroke="#4ade80" stroke-width="3"/>
+          <!-- Gold fingers (connector) -->
+          <rect x="298" y="155" width="104" height="16" rx="3" fill="#1a3320" stroke="#fbbf24" stroke-width="1.2"/>
+          <rect x="302" y="157" width="14" height="12" rx="2" fill="#fbbf24" opacity="0.9"/>
+          <rect x="320" y="157" width="14" height="12" rx="2" fill="#fbbf24" opacity="0.9"/>
+          <rect x="338" y="157" width="14" height="12" rx="2" fill="#fbbf24" opacity="0.9"/>
+          <rect x="356" y="157" width="14" height="12" rx="2" fill="#fbbf24" opacity="0.9"/>
+          <rect x="374" y="157" width="14" height="12" rx="2" fill="#fbbf24" opacity="0.9"/>
+          <!-- NIC chip -->
+          <rect x="310" y="72" width="52" height="40" rx="5" fill="#0d9488" stroke="#2dd4bf" stroke-width="1.5"/>
+          <text x="336" y="96" text-anchor="middle" fill="#fff" font-size="8" font-family="monospace" font-weight="bold">NIC CHIP</text>
+          <!-- Capacitors -->
+          <circle cx="376" cy="78" r="6" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+          <circle cx="392" cy="78" r="6" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+          <circle cx="376" cy="95" r="6" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+          <circle cx="392" cy="95" r="6" fill="#374151" stroke="#6b7280" stroke-width="1"/>
+          <!-- RJ45 port -->
+          <rect x="296" y="70" width="12" height="14" rx="2" fill="#1e293b" stroke="#94a3b8" stroke-width="1"/>
+          <!-- LED activity -->
+          <circle cx="398" cy="122" r="4" fill="#4ade80" id="nicLed1"><animate attributeName="opacity" values="1;0.2;1" dur="0.9s" repeatCount="indefinite"/></circle>
+          <circle cx="398" cy="136" r="4" fill="#fbbf24" id="nicLed2"><animate attributeName="opacity" values="0.2;1;0.2" dur="1.3s" repeatCount="indefinite"/></circle>
+          <!-- MAC label inside -->
+          <rect x="298" y="118" width="92" height="30" rx="5" fill="rgba(0,0,0,0.4)" stroke="rgba(74,222,128,0.3)" stroke-width="1"/>
+          <text x="344" y="130" text-anchor="middle" font-size="7" font-family="monospace" fill="#4ade80">MAC:</text>
+          <text x="344" y="142" text-anchor="middle" font-size="7" font-family="monospace" fill="#4ade80">AA:BB:CC:DD:EE:FF</text>
+        </g>
+
+        <!-- Node: Network / Switch -->
+        <g id="nodeNet">
+          <rect x="582" y="62" width="110" height="106" rx="14" fill="#dcfce7" stroke="#86efac" stroke-width="2.5"/>
+          <text x="637" y="98" text-anchor="middle" font-size="28">🌐</text>
+          <text x="637" y="122" text-anchor="middle" font-size="9" font-weight="800" fill="#166534">NETWORK</text>
+          <text x="637" y="136" text-anchor="middle" font-size="8" fill="#6b7280">Switch / Hub</text>
+          <text x="637" y="155" text-anchor="middle" font-size="8" fill="#16a34a">Receives frame</text>
+        </g>
+
+        <!-- Frame envelope visual (hidden) -->
+        <g id="frameEnvelope" opacity="0">
+          <rect x="280" y="58" width="140" height="34" rx="8" fill="#fbbf24" stroke="#fff" stroke-width="1.5"/>
+          <text x="350" y="72" text-anchor="middle" font-size="8" font-weight="800" fill="#1c1917">📦 FRAME</text>
+          <text x="350" y="84" text-anchor="middle" font-size="7" fill="#1c1917">Src: AA:BB:CC | Dst: FF:EE:DD</text>
+        </g>
+
+        <!-- Moving data packet (CPU to NIC) -->
+        <g id="pktCPUtoNIC" opacity="0">
+          <rect x="-32" y="103" width="64" height="24" rx="8" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="120" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">📤 Data</text>
+        </g>
+
+        <!-- Moving frame packet (NIC to Network) -->
+        <g id="pktNICtoNet" opacity="0">
+          <rect x="-36" y="103" width="72" height="24" rx="8" fill="#16a34a" stroke="#fff" stroke-width="1.5"/>
+          <text x="0" y="120" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">📦 Frame</text>
+        </g>
+
+        <!-- Signal type label (step 3) -->
+        <g id="signalLabel" opacity="0">
+          <rect x="282" y="175" width="136" height="28" rx="8" fill="#052e16"/>
+          <text x="350" y="187" text-anchor="middle" font-size="8" font-weight="800" fill="#4ade80">⚡ Electrical Signal /</text>
+          <text x="350" y="198" text-anchor="middle" font-size="8" fill="#a7f3d0">📡 Radio Waves (Wi-Fi)</text>
+        </g>
+
+        <!-- CPU stays free indicator -->
+        <g id="cpuFree" opacity="0">
+          <rect x="8" y="175" width="108" height="28" rx="8" fill="#16a34a"/>
+          <text x="62" y="187" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">✅ CPU IS FREE</text>
+          <text x="62" y="198" text-anchor="middle" font-size="8" fill="#bbf7d0">NIC handled it!</text>
+        </g>
+
+        <!-- Success on network -->
+        <g id="successCheck" opacity="0">
+          <circle cx="637" cy="62" r="14" fill="#16a34a"/>
+          <text x="637" y="67" text-anchor="middle" font-size="14">✅</text>
+        </g>
+
+      </svg>
+    </div>
+
+    <!-- Explanation panel -->
+    <div class="hiw-explain" id="hiwExplain">
+      <div class="hiw-explain-icon" id="hiwIcon">💻</div>
+      <div>
+        <div class="hiw-explain-title" id="hiwTitle">Step 1 — App Sends Data to the NIC</div>
+        <div class="hiw-explain-body" id="hiwBody">You click <strong>"Send Email"</strong> in your app 📧. The operating system prepares the data and passes it <strong>down through the network stack</strong> to the NIC chip. The NIC receives this raw data and is ready to process it for transmission.</div>
+      </div>
+    </div>
+
+    <div class="hiw-controls">
+      <button class="hiw-btn secondary" id="hiwPrev" onclick="hiwStep(-1)" disabled>← Back</button>
+      <div class="hiw-step-label" id="hiwStepLabel">Step 1 of 5</div>
+      <button class="hiw-btn primary" id="hiwNext" onclick="hiwStep(1)">Next Step →</button>
+    </div>
+    <div style="text-align:center;margin-top:0.8rem;">
+      <button class="hiw-restart" id="hiwRestart" onclick="hiwReset()" style="display:none;">🔄 Replay from Start</button>
+    </div>
+  </section>
+
+  <!-- 6. ADVANTAGES & DISADVANTAGES -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">⚖️</span>
+      <h2 class="sec-title">Advantages &amp; Disadvantages</h2>
+      <p class="sec-sub">Every device has strengths and weaknesses 🤔</p>
+    </div>
+    <div class="pc-grid">
+      <div class="pc-card pros">
+        <div class="pc-head">👍 Advantages</div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🌐 <strong>Essential for connectivity</strong> — without a NIC, no device can connect to any network at all. It is the most fundamental network component in any device.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🧠 <strong>CPU offloading</strong> — the NIC handles all network tasks independently, freeing the CPU to run applications faster without being slowed by network activity.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">🏷️ <strong>Unique permanent identity</strong> — the MAC address gives every device a globally unique network identity that never changes, enabling precise identification.</span></div>
+        <div class="pc-item"><div class="pc-dot">✓</div><span class="pc-txt">📡 <strong>Wired and wireless options</strong> — modern devices have both a wired NIC (ethernet) and wireless NIC (Wi-Fi) built in, giving full flexibility for how to connect.</span></div>
+      </div>
+      <div class="pc-card cons">
+        <div class="pc-head">👎 Disadvantages</div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🐌 <strong>Speed limited by NIC</strong> — an old 100 Mbps NIC will bottleneck a 1 Gbps internet connection. The NIC's speed rating caps your maximum network throughput.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">💥 <strong>Failure means no network</strong> — if the NIC fails or is damaged, the device loses all network connectivity until the NIC is repaired or replaced.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">🔧 <strong>Hard to upgrade on modern devices</strong> — on laptops, phones, and tablets, NICs are soldered directly to the motherboard and cannot be swapped for a faster model.</span></div>
+        <div class="pc-item"><div class="pc-dot">✗</div><span class="pc-txt">📵 <strong>Wireless interference</strong> — wireless NICs are susceptible to interference from thick walls 🧱, microwave ovens, and nearby Wi-Fi networks, reducing signal quality.</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 7. QUIZ -->
+<section class="quiz-wrap">
+  <div class="container">
+    <h2 class="quiz-title">🧠 Quiz Time!</h2>
+    <p class="quiz-sub">Test your NIC knowledge — 10 questions 🎯</p>
+    <div class="quiz-card">
+      <div class="q-num" id="qNum">Question 1 of 10</div>
+      <div class="q-text" id="qText"></div>
+      <div class="q-opts" id="qOpts"></div>
+      <div class="q-fb" id="qFb"></div>
+      <div class="q-nav">
+        <div class="q-score">Score: <span id="qScore">0</span> / 10</div>
+        <button class="q-btn" id="qNext" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-emoji">📝</span>
+      <h2 class="sec-title">Quick Summary</h2>
+      <p class="sec-sub">Key points to remember for your exam 🎓</p>
+    </div>
+    <div style="background:var(--card);border-radius:20px;padding:2rem;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <div class="summary-grid">
+        <div class="sum-card a"><strong>📌 Definition</strong><p>A hardware component that allows a device to connect to a network. It provides a unique MAC address and the physical port (RJ45) or antenna (Wi-Fi) for connectivity. Operates at Layer 2.</p></div>
+        <div class="sum-card b"><strong>📌 MAC Address</strong><p>Every NIC has a permanent, unique MAC address (e.g. AA:BB:CC:DD:EE:FF) burned in at the factory. Used by switches to identify and deliver frames to the correct device on a LAN.</p></div>
+        <div class="sum-card c"><strong>📌 Key Benefit</strong><p>The NIC offloads all network tasks from the CPU — keeping the computer fast. It assembles frames, converts data to signals, and receives incoming data, all independently.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>💾 NIC (Network Interface Card) — Computer Science &nbsp;·&nbsp; Network Devices Unit &nbsp;·&nbsp; IBDP Computer Science</footer>
+
+<script>
+// ══ QUIZ ══
+const qs = [
+  { q:"What is the best analogy for a NIC? 🪪", opts:["A router directing traffic around a network","A school ID card that gives your device a unique identity on the network","A firewall blocking unwanted visitors","A switch connecting multiple devices together"], ans:1, ex:"✅ Correct! Just like your ID card identifies you in school, the NIC gives your device a unique MAC address identity on any network." },
+  { q:"What does NIC stand for? 💾", opts:["Network Internet Chip","Network Interface Card","New Internet Connection","Network Input Controller"], ans:1, ex:"✅ Right! NIC = Network Interface Card — the hardware card (or chip) that gives a device its network connection." },
+  { q:"What is a MAC address? 🏷️", opts:["A password for connecting to Wi-Fi","A type of Apple computer","A unique 48-bit address permanently burned into every NIC at the factory","An IP address assigned by the router"], ans:2, ex:"✅ Spot on! MAC = Media Access Control. It's a unique 12-character hex address (e.g. AA:BB:CC:DD:EE:FF) that never changes and identifies the device on the network." },
+  { q:"At which OSI layer does a NIC operate? 🔢", opts:["Layer 7 — Application Layer","Layer 3 — Network Layer (same as a router)","Layer 2 — Data Link Layer (using MAC addresses)","Layer 1 only — Physical Layer"], ans:2, ex:"✅ Correct! The NIC operates at Layer 2 (Data Link Layer) — it handles MAC addresses and data frames. IP addresses are Layer 3, which is the router's job." },
+  { q:"What is a key ADVANTAGE the NIC provides to the CPU? 🧠", opts:["It makes the screen resolution higher","It offloads all network tasks so the CPU stays free to run other programs faster","It provides additional storage space for files","It speeds up the graphics processing unit"], ans:1, ex:"✅ Perfect! The NIC handles all network communication independently — the CPU doesn't have to deal with it, so your computer stays fast and responsive." },
+  { q:"What is the purpose of 'framing' in a NIC? 📦", opts:["Making the data larger so it travels faster","Wrapping data in an addressed envelope by adding source and destination MAC addresses","Encrypting the data for security","Compressing the data to save bandwidth"], ans:1, ex:"✅ Right! Like putting a letter in an addressed envelope, the NIC wraps data in a 'frame' with a source MAC (your device) and destination MAC (the recipient device)." },
+  { q:"What happens to a device if its NIC fails? 💥", opts:["It connects more slowly than before","It can only use wireless, not wired","It loses all network connectivity completely until the NIC is fixed","The CPU handles networking instead"], ans:2, ex:"✅ Correct! The NIC is the only way a device connects to a network. If it fails, the device is completely offline — no wired or wireless connectivity." },
+  { q:"Which of these is a DISADVANTAGE of a NIC? 👎", opts:["It gives the device a unique MAC address","It handles network tasks independently of the CPU","An old 100 Mbps NIC bottlenecks a fast 1 Gbps internet connection","It provides an RJ45 port for wired connection"], ans:2, ex:"✅ Right! The NIC's speed rating caps your maximum network speed — like a narrow pipe. An old NIC will limit your speed even if your ISP plan is very fast." },
+  { q:"What type of NIC would a smartphone use for Wi-Fi? 📱", opts:["A wired NIC with an RJ45 port","A wireless NIC with a radio antenna","A fibre optic NIC","A Bluetooth NIC"], ans:1, ex:"✅ Correct! Smartphones use a wireless NIC with a built-in radio antenna to transmit and receive Wi-Fi (802.11) signals — no physical cable port." },
+  { q:"Why is it difficult to upgrade a NIC in a modern laptop? 🔧", opts:["NICs are too expensive to replace","Modern laptops don't need NICs","The NIC is soldered directly onto the motherboard and cannot be easily removed","NICs require a special operating system"], ans:2, ex:"✅ Spot on! In modern laptops, tablets, and phones, the NIC chip is soldered onto the motherboard — it is not a removable expansion card like in older desktop PCs." },
+];
+
+let qi = 0, sc = 0, answered = false;
+
+function loadQ() {
+  const q = qs[qi];
+  document.getElementById('qNum').textContent = `Question ${qi + 1} of ${qs.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const o = document.getElementById('qOpts');
+  o.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'q-opt';
+    b.textContent = `${['A','B','C','D'][i]})  ${opt}`;
+    b.onclick = () => answerQ(i, q.ans, q.ex);
+    o.appendChild(b);
+  });
+  document.getElementById('qFb').className = 'q-fb';
+  document.getElementById('qFb').textContent = '';
+  document.getElementById('qNext').disabled = true;
+  answered = false;
+}
+
+function answerQ(c, a, ex) {
+  if (answered) return;
+  answered = true;
+  const btns = document.getElementById('qOpts').querySelectorAll('.q-opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('qFb');
+  if (c === a) {
+    btns[c].classList.add('correct'); sc++;
+    document.getElementById('qScore').textContent = sc;
+    fb.textContent = ex; fb.className = 'q-fb show good';
+  } else {
+    btns[c].classList.add('wrong'); btns[a].classList.add('correct');
+    fb.textContent = 'Not quite! ' + ex; fb.className = 'q-fb show bad';
+  }
+  document.getElementById('qNext').disabled = false;
+}
+
+document.getElementById('qNext').onclick = () => {
+  qi++;
+  if (qi < qs.length) {
+    loadQ();
+  } else {
+    const pct = Math.round(sc / qs.length * 100);
+    const medal = sc===10?'🏆':sc>=7?'🎉':sc>=5?'👍':'📚';
+    const msg = sc===10?'Perfect score! You know NICs inside out! 🎓':sc>=7?'Great work! Review the ones you missed. 📖':sc>=5?'Good effort — re-read the features and characteristics. 💪':'Keep going — re-read the page and try again! 📚';
+    document.querySelector('.quiz-card').innerHTML = `<div style="text-align:center;padding:1rem 0;"><div style="font-size:4.5rem;margin-bottom:1rem;">${medal}</div><div style="font-family:var(--font-d);font-size:2.2rem;color:#fff;margin-bottom:0.5rem;">Score: ${sc} / ${qs.length}</div><div style="font-size:1rem;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:1.5rem;">${msg}</div><div style="background:rgba(255,255,255,0.15);border-radius:999px;height:14px;overflow:hidden;margin-bottom:1.5rem;"><div style="height:100%;width:${pct}%;background:${sc===10?'#16a34a':sc>=7?'#059669':'#dc2626'};border-radius:999px;transition:width 1s;"></div></div><button class="q-btn" onclick="location.reload()">🔄 Try Again</button></div>`;
+  }
+};
+
+loadQ();
+
+// ══ HOW IT WORKS — HELPERS ══
+function svgFade(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.style.transition = 'opacity 0.45s'; el.style.opacity = val; }
+}
+function highlightNode(id, fill, stroke) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const rect = el.querySelector('rect');
+  if (rect) { rect.setAttribute('fill', fill); rect.setAttribute('stroke', stroke); }
+}
+function movePkt(id, x, y) {
+  const pkt = document.getElementById(id);
+  if (!pkt) return;
+  const rect = pkt.querySelector('rect');
+  const txt  = pkt.querySelector('text');
+  if (rect) { rect.setAttribute('x', x - 32); rect.setAttribute('y', y - 12); }
+  if (txt)  { txt.setAttribute('x', x); txt.setAttribute('y', y + 5); }
+}
+function animatePkt(id, fromX, toX, y, delay) {
+  svgFade(id, 1);
+  let start = null;
+  const dur = 650;
+  function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    movePkt(id, fromX + (toX - fromX) * e, y);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  setTimeout(() => requestAnimationFrame(step), delay || 0);
+}
+function resetSvg() {
+  ['pktCPUtoNIC','pktNICtoNet','frameEnvelope','signalLabel','cpuFree','successCheck'].forEach(id => svgFade(id, 0));
+  highlightNode('nodeCPU', '#dbeafe', '#93c5fd');
+  highlightNode('nodeNIC', '#1a3320', '#4ade80');
+  highlightNode('nodeNet', '#dcfce7', '#86efac');
+}
+
+// ══ STEPS ══
+const hiwSteps = [
+  {
+    icon: '💻',
+    title: 'Step 1 — App Sends Data to the NIC',
+    body: 'You click <strong>"Send Email"</strong> 📧 in your app. The operating system prepares the data and passes it down through the network stack to the <strong>NIC chip</strong>. The NIC receives this raw data from the CPU and begins to process it for transmission onto the network.',
+    animate() {
+      highlightNode('nodeCPU', '#bfdbfe', '#2563eb');
+      movePkt('pktCPUtoNIC', 62, 115); svgFade('pktCPUtoNIC', 1);
+      animatePkt('pktCPUtoNIC', 62, 350, 115, 0);
+    }
+  },
+  {
+    icon: '📦',
+    title: 'Step 2 — NIC Builds a Frame',
+    body: 'The NIC wraps the raw data in a <strong>"frame"</strong> — like putting a letter in an addressed envelope 📦. It adds your device\'s <strong>MAC address</strong> (AA:BB:CC:DD:EE:FF) as the source, and the destination device\'s MAC address. This frame is what actually travels across the network.',
+    animate() {
+      svgFade('pktCPUtoNIC', 0);
+      highlightNode('nodeCPU', '#dbeafe', '#93c5fd');
+      highlightNode('nodeNIC', '#1a3320', '#fbbf24');
+      svgFade('frameEnvelope', 1);
+    }
+  },
+  {
+    icon: '⚡',
+    title: 'Step 3 — Frame Converted to Signal',
+    body: 'The NIC converts the digital frame into a <strong>physical signal</strong> that can travel along the medium. For <strong>wired (ethernet)</strong>: it becomes electrical signals ⚡. For <strong>wireless (Wi-Fi)</strong>: it becomes radio waves 📡. This signal is now ready to travel out of the device.',
+    animate() {
+      svgFade('frameEnvelope', 0);
+      highlightNode('nodeNIC', '#1a3320', '#4ade80');
+      svgFade('signalLabel', 1);
+    }
+  },
+  {
+    icon: '🌐',
+    title: 'Step 4 — Signal Sent to the Network',
+    body: 'The signal travels down the ethernet cable 🔌 (or through the air as radio waves 📡) to the network switch or access point. Watch the frame travel from the NIC to the network! The NIC did all the work — the CPU stayed completely free the entire time.',
+    animate() {
+      svgFade('signalLabel', 0);
+      highlightNode('nodeNet', '#bbf7d0', '#16a34a');
+      movePkt('pktNICtoNet', 350, 115); svgFade('pktNICtoNet', 1);
+      animatePkt('pktNICtoNet', 350, 637, 115, 0);
+      setTimeout(() => { svgFade('successCheck', 1); svgFade('pktNICtoNet', 0); }, 700);
+      setTimeout(() => svgFade('cpuFree', 1), 400);
+    }
+  },
+  {
+    icon: '✅',
+    title: 'Step 5 — CPU Was Free the Whole Time! ✅',
+    body: 'The network switch receives the frame and uses the <strong>destination MAC address</strong> to forward it to the right device. Meanwhile, your CPU was <strong>completely free</strong> the entire time — it handed the job to the NIC and went back to running your apps. That\'s the NIC\'s superpower! 🚀',
+    animate() {
+      svgFade('successCheck', 1);
+      svgFade('cpuFree', 1);
+      highlightNode('nodeNet', '#bbf7d0', '#16a34a');
+      highlightNode('nodeCPU', '#dcfce7', '#86efac');
+    }
+  }
+];
+
+let hiwCurrent = 0;
+
+function hiwUpdateUI() {
+  const s = hiwSteps[hiwCurrent];
+  document.getElementById('hiwIcon').textContent  = s.icon;
+  document.getElementById('hiwTitle').textContent = s.title;
+  document.getElementById('hiwBody').innerHTML    = s.body;
+  document.getElementById('hiwStepLabel').textContent = `Step ${hiwCurrent + 1} of ${hiwSteps.length}`;
+
+  hiwSteps.forEach((_, i) => {
+    const pill = document.getElementById('pill' + i);
+    const lines = document.querySelectorAll('.hiw-pill-line');
+    if (!pill) return;
+    pill.classList.remove('active','done');
+    if (i < hiwCurrent)        { pill.classList.add('done');   if (lines[i]) lines[i].classList.add('done'); }
+    else if (i === hiwCurrent) { pill.classList.add('active'); if (lines[i]) lines[i].classList.remove('done'); }
+    else                       { if (lines[i]) lines[i].classList.remove('done'); }
+  });
+
+  document.getElementById('hiwPrev').disabled = hiwCurrent === 0;
+  const isLast = hiwCurrent === hiwSteps.length - 1;
+  const nextBtn = document.getElementById('hiwNext');
+  nextBtn.disabled = isLast;
+  nextBtn.textContent = isLast ? 'Complete ✅' : 'Next Step →';
+  document.getElementById('hiwRestart').style.display = isLast ? 'inline-block' : 'none';
+
+  s.animate();
+}
+
+function hiwStep(dir) {
+  hiwCurrent = Math.max(0, Math.min(hiwSteps.length - 1, hiwCurrent + dir));
+  hiwUpdateUI();
+}
+
+function hiwReset() {
+  hiwCurrent = 0;
+  resetSvg();
+  setTimeout(hiwUpdateUI, 100);
+}
+
+hiwUpdateUI();
+</script>
+</body>
+</html>
