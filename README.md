@@ -3,7 +3,7 @@
 How to use it:
 
   - Recommended
-    - Using a editor that can render markdown file elegantly, I recommend **Typora**, **Obsidian**, **VS Code**, or **Neovim** with appropriate plugins.
+    - Using a editor that can render markdown file elegantly, I recommend ![**Typora**](https://typora.io/), **Obsidian**, **VS Code**, or **Neovim** with appropriate plugins.
     - You may use Typora to export the file into PDF format.
     - web is coming soon...
 
